@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Me — From Idea to Demo to Demand</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0b;
+            --bg-secondary: #111113;
+            --bg-tertiary: #1a1a1d;
+            --bg-card: #141416;
+            --text-primary: #fafafa;
+            --text-secondary: #a0a0a5;
+            --text-muted: #606065;
+            --accent: #ff6b35;
+            --accent-glow: rgba(255, 107, 53, 0.3);
+            --accent-secondary: #ffb347;
+            --border: #2a2a2d;
+            --success: #34d399;
+            --font-sans: 'Instrument Sans', -apple-system, sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 11, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: var(--font-sans);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #ff8555);
+            color: white;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card);
+            border-color: var(--text-muted);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-ghost:hover {
+            color: var(--text-primary);
+        }
+
+        /* Page sections */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .hero-badge span {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.6s ease-out 0.1s both;
+        }
+
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease-out 0.3s both;
+        }
+
+        /* Stats bar */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            animation: fadeInUp 0.6s ease-out 0.4s both;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* How it works */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .step {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .step:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .step-number {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .step h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .step p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Pricing */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .price-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .price-card.featured {
+            border-color: var(--accent);
+            background: linear-gradient(180deg, rgba(255, 107, 53, 0.1) 0%, var(--bg-card) 100%);
+        }
+
+        .price-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            letter-spacing: 1px;
+        }
+
+        .price-tier {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-amount {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-amount span {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .price-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .price-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .price-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .price-features li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .price-card .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Browse Ideas Page */
+        .browse-header {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .browse-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .browse-header p {
+            color: var(--text-secondary);
+        }
+
+        .browse-filters {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.25rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .ideas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            padding: 0 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .idea-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .idea-card:hover {
+            border-color: var(--text-muted);
+            transform: translateY(-2px);
+        }
+
+        .idea-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .idea-status {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.35rem 0.75rem;
+            border-radius: 100px;
+        }
+
+        .idea-status.validating {
+            background: rgba(255, 107, 53, 0.15);
+            color: var(--accent);
+        }
+
+        .idea-status.funded {
+            background: rgba(52, 211, 153, 0.15);
+            color: var(--success);
+        }
+
+        .idea-status.building {
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+        }
+
+        .idea-votes {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .idea-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .idea-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .idea-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.25rem;
+        }
+
+        .idea-tag {
+            font-size: 0.75rem;
+            padding: 0.3rem 0.6rem;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            color: var(--text-muted);
+        }
+
+        .idea-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .idea-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .author-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+        }
+
+        .idea-builders {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .idea-builders strong {
+            color: var(--success);
+        }
+
+        /* Submit Idea Page */
+        .submit-page {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .submit-page h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .submit-page > p {
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group label span {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .tier-select {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tier-option {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .tier-option:hover {
+            border-color: var(--text-muted);
+        }
+
+        .tier-option.selected {
+            border-color: var(--accent);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .tier-option h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .tier-option .price {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .tier-option p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn-container {
+            margin-top: 2.5rem;
+        }
+
+        .submit-btn-container .btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            justify-content: center;
+        }
+
+        /* Individual Idea Page */
+        .idea-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .idea-page-header {
+            margin-bottom: 3rem;
+        }
+
+        .idea-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .idea-back:hover {
+            color: var(--text-primary);
+        }
+
+        .idea-page-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 107, 53, 0.15);
+            color: var(--accent);
+            border-radius: 100px;
+            margin-bottom: 1.5rem;
+        }
+
+        .idea-page h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        .idea-page-meta {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .idea-page-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .idea-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .vote-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .vote-btn:hover {
+            border-color: var(--accent);
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .vote-btn.voted {
+            border-color: var(--accent);
+            background: rgba(255, 107, 53, 0.15);
+        }
+
+        .vote-btn svg {
+            color: var(--accent);
+        }
+
+        .vote-btn span {
+            font-family: var(--font-mono);
+            font-weight: 700;
+        }
+
+        /* Idea Content Sections */
+        .idea-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .idea-section h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .idea-section h2::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .idea-section p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .idea-section ul {
+            color: var(--text-secondary);
+            padding-left: 1.25rem;
+        }
+
+        .idea-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Demo mockup */
+        .demo-mockup {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .demo-browser {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .demo-browser-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .demo-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border);
+        }
+
+        .demo-url {
+            flex: 1;
+            margin-left: 0.5rem;
+            padding: 0.4rem 0.75rem;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .demo-content {
+            padding: 2rem;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .demo-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            max-width: 300px;
+        }
+
+        .demo-cta {
+            margin-top: 1.5rem;
+            padding: 0.75rem 2rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: default;
+        }
+
+        /* Market section */
+        .market-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .market-stat {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .market-stat-value {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .market-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Builders interested */
+        .builders-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .builders-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .builder-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border-radius: 100px;
+            font-size: 0.85rem;
+        }
+
+        .builder-chip-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+        }
+
+        footer a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 4rem 1.5rem 2rem;
+            }
+
+            .hero h1 {
+                font-size: 2.25rem;
+                letter-spacing: -1px;
+            }
+
+            .stats-bar {
+                gap: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .tier-select {
+                grid-template-columns: 1fr;
+            }
+
+            .ideas-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .market-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .idea-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="logo" onclick="showPage('home')">
+            <div class="logo-icon">⚡</div>
+            Build Me
+        </a>
+        <div class="nav-links">
+            <a href="#" class="active" onclick="showPage('home')" id="nav-home">Home</a>
+            <a href="#" onclick="showPage('browse')" id="nav-browse">Browse Ideas</a>
+            <a href="#" onclick="showPage('submit')" id="nav-submit">Submit Idea</a>
+            <button class="btn btn-primary" onclick="showPage('submit')">Submit Your Idea</button>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div class="page active" id="page-home">
+        <section class="hero">
+            <div class="hero-badge">
+                <span>●</span> Now validating 127 ideas
+            </div>
+            <h1>From idea to <span class="gradient">demo</span> to demand</h1>
+            <p>Submit your idea. We turn it into a pitch, prototype, and validation page. The best ones get built.</p>
+            <div class="hero-cta">
+                <button class="btn btn-primary" onclick="showPage('submit')">
+                    Submit Your Idea
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+                <button class="btn btn-secondary" onclick="showPage('browse')">Browse Ideas</button>
+            </div>
+            <div class="stats-bar">
+                <div class="stat">
+                    <div class="stat-value">2,847</div>
+                    <div class="stat-label">Ideas Submitted</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">34</div>
+                    <div class="stat-label">Now Building</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">$1.2M</div>
+                    <div class="stat-label">Pre-orders</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2>How it works</h2>
+                <p>From napkin sketch to validated product in days, not months.</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">01 — SUBMIT</div>
+                    <h3>Share your idea</h3>
+                    <p>Describe your concept in plain English. Who's it for? What problem does it solve? That's all we need.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">02 — TRANSFORM</div>
+                    <h3>We build the pitch</h3>
+                    <p>AI transforms your idea into a polished pitch page with features, market analysis, and demo mockups.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">03 — VALIDATE</div>
+                    <h3>The crowd decides</h3>
+                    <p>Your idea goes live. People vote, comment, and signal "I'd buy this" or "I'd build this."</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">04 — BUILD</div>
+                    <h3>Winners get built</h3>
+                    <p>Top ideas attract builders, funding, and pre-orders. We connect you with devs ready to execute.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2>Choose your tier</h2>
+                <p>Start free, or go pro for premium validation.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <div class="price-tier">Free</div>
+                    <div class="price-amount">$0</div>
+                    <div class="price-desc">Test the waters with a basic submission</div>
+                    <ul class="price-features">
+                        <li>Basic idea page</li>
+                        <li>Public voting</li>
+                        <li>Community comments</li>
+                        <li>Standard queue (7-day review)</li>
+                    </ul>
+                    <button class="btn btn-secondary" onclick="showPage('submit')">Get Started</button>
+                </div>
+                <div class="price-card featured">
+                    <div class="price-tier">Pro</div>
+                    <div class="price-amount">$49 <span>one-time</span></div>
+                    <div class="price-desc">Full validation package for serious founders</div>
+                    <ul class="price-features">
+                        <li>AI-generated pitch deck</li>
+                        <li>Demo mockups & screenshots</li>
+                        <li>Market size analysis</li>
+                        <li>Competitor breakdown</li>
+                        <li>Priority review (48 hours)</li>
+                        <li>Featured placement</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="showPage('submit')">Go Pro</button>
+                </div>
+                <div class="price-card">
+                    <div class="price-tier">Studio</div>
+                    <div class="price-amount">$199 <span>one-time</span></div>
+                    <div class="price-desc">For ideas ready to become startups</div>
+                    <ul class="price-features">
+                        <li>Everything in Pro</li>
+                        <li>Working landing page</li>
+                        <li>Email capture setup</li>
+                        <li>Builder matching</li>
+                        <li>1-on-1 strategy call</li>
+                        <li>Investor intro (if qualified)</li>
+                    </ul>
+                    <button class="btn btn-secondary" onclick="showPage('submit')">Go Studio</button>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2025 Build Me. <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
+        </footer>
+    </div>
+
+    <!-- Browse Ideas Page -->
+    <div class="page" id="page-browse">
+        <div class="browse-header">
+            <h1>Explore Ideas</h1>
+            <p>Vote for ideas you'd use, build, or invest in.</p>
+            <div class="browse-filters">
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">Validating</button>
+                <button class="filter-btn">Funded</button>
+                <button class="filter-btn">Building</button>
+                <button class="filter-btn">SaaS</button>
+                <button class="filter-btn">Consumer</button>
+                <button class="filter-btn">AI</button>
+            </div>
+        </div>
+
+        <div class="ideas-grid">
+            <div class="idea-card" onclick="showPage('idea')">
+                <div class="idea-card-header">
+                    <span class="idea-status validating">Validating</span>
+                    <div class="idea-votes">▲ 847</div>
+                </div>
+                <h3>AI Recipe Generator from Fridge Photos</h3>
+                <p>Snap a photo of your fridge, get instant recipe suggestions based on what you have. Reduces food waste and decision fatigue.</p>
+                <div class="idea-tags">
+                    <span class="idea-tag">Consumer</span>
+                    <span class="idea-tag">AI</span>
+                    <span class="idea-tag">Mobile</span>
+                </div>
+                <div class="idea-card-footer">
+                    <div class="idea-author">
+                        <div class="author-avatar"></div>
+                        Sarah K.
+                    </div>
+                    <div class="idea-builders"><strong>12</strong> want to build</div>
+                </div>
+            </div>
+
+            <div class="idea-card">
+                <div class="idea-card-header">
+                    <span class="idea-status funded">Funded</span>
+                    <div class="idea-votes">▲ 1,203</div>
+                </div>
+                <h3>Micro-SaaS for Freelancer Contracts</h3>
+                <p>One-click contract generator for freelancers. Fill in the blanks, send for e-signature, get paid tracking built in.</p>
+                <div class="idea-tags">
+                    <span class="idea-tag">SaaS</span>
+                    <span class="idea-tag">Legal</span>
+                    <span class="idea-tag">B2B</span>
+                </div>
+                <div class="idea-card-footer">
+                    <div class="idea-author">
+                        <div class="author-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
+                        Marcus T.
+                    </div>
+                    <div class="idea-builders"><strong>$24k</strong> pre-ordered</div>
+                </div>
+            </div>
+
+            <div class="idea-card">
+                <div class="idea-card-header">
+                    <span class="idea-status building">Building</span>
+                    <div class="idea-votes">▲ 634</div>
+                </div>
+                <h3>Neighborhood Tool Library App</h3>
+                <p>Borrow tools from neighbors instead of buying. Power drills, ladders, pressure washers — all shared within your community.</p>
+                <div class="idea-tags">
+                    <span class="idea-tag">Consumer</span>
+                    <span class="idea-tag">Marketplace</span>
+                    <span class="idea-tag">Local</span>
+                </div>
+                <div class="idea-card-footer">
+                    <div class="idea-author">
+                        <div class="author-avatar" style="background: linear-gradient(135deg, #6366f1, #a855f7);"></div>
+                        Jamie L.
+                    </div>
+                    <div class="idea-builders"><strong>3</strong> devs building</div>
+                </div>
+            </div>
+
+            <div class="idea-card">
+                <div class="idea-card-header">
+                    <span class="idea-status validating">Validating</span>
+                    <div class="idea-votes">▲ 412</div>
+                </div>
+                <h3>AI Meeting Summarizer for Parents</h3>
+                <p>Record school meetings, doctor visits, or IEP sessions. Get AI summaries with action items and follow-up reminders.</p>
+                <div class="idea-tags">
+                    <span class="idea-tag">Consumer</span>
+                    <span class="idea-tag">AI</span>
+                    <span class="idea-tag">Productivity</span>
+                </div>
+                <div class="idea-card-footer">
+                    <div class="idea-author">
+                        <div class="author-avatar" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);"></div>
+                        David R.
+                    </div>
+                    <div class="idea-builders"><strong>8</strong> want to build</div>
+                </div>
+            </div>
+
+            <div class="idea-card">
+                <div class="idea-card-header">
+                    <span class="idea-status validating">Validating</span>
+                    <div class="idea-votes">▲ 289</div>
+                </div>
+                <h3>Subscription Cancellation Concierge</h3>
+                <p>Connect your email, we find all your subscriptions and cancel the ones you don't want with one click. We handle the hold music.</p>
+                <div class="idea-tags">
+                    <span class="idea-tag">Consumer</span>
+                    <span class="idea-tag">Fintech</span>
+                    <span class="idea-tag">Automation</span>
+                </div>
+                <div class="idea-card-footer">
+                    <div class="idea-author">
+                        <div class="author-avatar" style="background: linear-gradient(135deg, #ec4899, #f472b6);"></div>
+                        Nina P.
+                    </div>
+                    <div class="idea-builders"><strong>15</strong> want to build</div>
+                </div>
+            </div>
+
+            <div class="idea-card">
+                <div class="idea-card-header">
+                    <span class="idea-status funded">Funded</span>
+                    <div class="idea-votes">▲ 956</div>
+                </div>
+                <h3>Sleep Training App for New Parents</h3>
+                <p>Personalized sleep schedules based on your baby's age and patterns. Daily adjustments, gentle methods only, progress tracking.</p>
+                <div class="idea-tags">
+                    <span class="idea-tag">Consumer</span>
+                    <span class="idea-tag">Health</span>
+                    <span class="idea-tag">Mobile</span>
+                </div>
+                <div class="idea-card-footer">
+                    <div class="idea-author">
+                        <div class="author-avatar" style="background: linear-gradient(135deg, #14b8a6, #5eead4);"></div>
+                        Alex M.
+                    </div>
+                    <div class="idea-builders"><strong>$18k</strong> pre-ordered</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 Build Me. <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
+        </footer>
+    </div>
+
+    <!-- Submit Idea Page -->
+    <div class="page" id="page-submit">
+        <div class="submit-page">
+            <h1>Submit your idea</h1>
+            <p>Tell us what you want to exist. We'll handle the rest.</p>
+
+            <form id="idea-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label>What's your idea? <span>(one sentence)</span></label>
+                    <input type="text" placeholder="An app that..." required>
+                    <div class="form-hint">The elevator pitch. Keep it tight.</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Who is this for?</label>
+                    <input type="text" placeholder="Busy parents, freelance designers, small restaurant owners...">
+                </div>
+
+                <div class="form-group">
+                    <label>What problem does it solve?</label>
+                    <textarea placeholder="Describe the pain point. What's broken today? What are people currently doing instead?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>How should it work? <span>(optional)</span></label>
+                    <textarea placeholder="Walk us through the experience. What does the user do first? What happens next?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+                    <select>
+                        <option value="">Select a category</option>
+                        <option>Consumer App</option>
+                        <option>SaaS / B2B</option>
+                        <option>Marketplace</option>
+                        <option>AI / ML Tool</option>
+                        <option>Fintech</option>
+                        <option>Health & Wellness</option>
+                        <option>Education</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Your email</label>
+                    <input type="email" placeholder="you@email.com" required>
+                    <div class="form-hint">We'll notify you when your idea page is ready.</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Choose your tier</label>
+                </div>
+                <div class="tier-select">
+                    <div class="tier-option" onclick="selectTier(this, 'free')">
+                        <h4>Free</h4>
+                        <div class="price">$0</div>
+                        <p>Basic page<br>7-day review</p>
+                    </div>
+                    <div class="tier-option selected" onclick="selectTier(this, 'pro')">
+                        <h4>Pro</h4>
+                        <div class="price">$49</div>
+                        <p>Full pitch + mockups<br>48hr review</p>
+                    </div>
+                    <div class="tier-option" onclick="selectTier(this, 'studio')">
+                        <h4>Studio</h4>
+                        <div class="price">$199</div>
+                        <p>Landing page + matching<br>24hr review</p>
+                    </div>
+                </div>
+
+                <div class="submit-btn-container">
+                    <button type="submit" class="btn btn-primary">
+                        Submit Idea
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <footer>
+            <p>© 2025 Build Me. <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
+        </footer>
+    </div>
+
+    <!-- Individual Idea Page -->
+    <div class="page" id="page-idea">
+        <div class="idea-page">
+            <div class="idea-page-header">
+                <div class="idea-back" onclick="showPage('browse')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    Back to ideas
+                </div>
+
+                <div class="idea-page-status">
+                    <span style="color: var(--success);">●</span> Validating — 847 votes
+                </div>
+
+                <h1>AI Recipe Generator from Fridge Photos</h1>
+
+                <div class="idea-page-meta">
+                    <span>
+                        <div class="author-avatar" style="width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-secondary));"></div>
+                        Sarah K.
+                    </span>
+                    <span>Submitted Dec 12, 2025</span>
+                    <span>Consumer · AI · Mobile</span>
+                </div>
+
+                <div class="idea-actions">
+                    <div class="vote-btn" onclick="this.classList.toggle('voted')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+                        <span>Upvote</span>
+                    </div>
+                    <button class="btn btn-primary">
+                        I'd Build This
+                    </button>
+                    <button class="btn btn-secondary">
+                        I'd Buy This
+                    </button>
+                </div>
+            </div>
+
+            <div class="idea-section">
+                <h2>The Problem</h2>
+                <p>Every day, millions of people open their fridge, stare at random ingredients, and have no idea what to make. They end up ordering takeout or letting food go to waste. Meal planning apps exist, but they require you to manually input ingredients and browse through hundreds of recipes that don't match what you actually have.</p>
+            </div>
+
+            <div class="idea-section">
+                <h2>The Solution</h2>
+                <p>Open the app, snap a photo of your fridge (or pantry), and get instant recipe suggestions based on exactly what's visible. The AI identifies ingredients, suggests 3-5 recipes ranked by how well they match your inventory, and highlights anything you might need to buy. One tap to start cooking with step-by-step instructions.</p>
+            </div>
+
+            <div class="idea-section">
+                <h2>Key Features</h2>
+                <ul>
+                    <li><strong>Photo Recognition</strong> — AI identifies ingredients from fridge/pantry photos</li>
+                    <li><strong>Smart Matching</strong> — Recipes ranked by ingredient coverage (90% match vs 60%)</li>
+                    <li><strong>Dietary Filters</strong> — Vegan, gluten-free, low-carb, kid-friendly</li>
+                    <li><strong>Waste Tracker</strong> — Alerts for ingredients about to expire</li>
+                    <li><strong>Shopping List</strong> — One tap to add missing ingredients</li>
+                    <li><strong>Cook Mode</strong> — Hands-free step-by-step with voice</li>
+                </ul>
+            </div>
+
+            <div class="idea-section">
+                <h2>Demo Preview</h2>
+                <p>This is what the app could look like:</p>
+                <div class="demo-mockup">
+                    <div class="demo-browser">
+                        <div class="demo-browser-bar">
+                            <div class="demo-dot"></div>
+                            <div class="demo-dot"></div>
+                            <div class="demo-dot"></div>
+                            <div class="demo-url">fridgechef.app</div>
+                        </div>
+                        <div class="demo-content">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📸🥗</div>
+                            <h3>FridgeChef</h3>
+                            <p>Snap your fridge. Get dinner ideas in seconds.</p>
+                            <button class="demo-cta">Take a Photo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="idea-section">
+                <h2>Market Opportunity</h2>
+                <p>The recipe and meal planning app market is valued at $1.2B and growing 12% annually. Key competitors like Mealime and Yummly have millions of users but lack real-time ingredient recognition. Food waste is a $400B problem in the US alone — this app directly addresses it.</p>
+                <div class="market-stats">
+                    <div class="market-stat">
+                        <div class="market-stat-value">$1.2B</div>
+                        <div class="market-stat-label">Market Size</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="market-stat-value">12%</div>
+                        <div class="market-stat-label">Annual Growth</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="market-stat-value">40M</div>
+                        <div class="market-stat-label">US App Users</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="idea-section">
+                <h2>Community Response</h2>
+                <p><strong>847 upvotes</strong> and <strong>12 builders</strong> interested in making this real.</p>
+                
+                <div class="builders-section">
+                    <h4 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem;">Builders interested:</h4>
+                    <div class="builders-list">
+                        <div class="builder-chip">
+                            <div class="builder-chip-avatar"></div>
+                            Mike R. · iOS Dev
+                        </div>
+                        <div class="builder-chip">
+                            <div class="builder-chip-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
+                            Priya S. · ML Engineer
+                        </div>
+                        <div class="builder-chip">
+                            <div class="builder-chip-avatar" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);"></div>
+                            Tom H. · Full Stack
+                        </div>
+                        <div class="builder-chip" style="background: var(--bg-tertiary); color: var(--text-muted);">
+                            +9 more
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 Build Me. <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
+        </footer>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById('page-' + pageId).classList.add('active');
+
+            // Update nav links
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            const navLink = document.getElementById('nav-' + pageId);
+            if (navLink) {
+                navLink.classList.add('active');
+            }
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function selectTier(element, tier) {
+            document.querySelectorAll('.tier-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('Idea submitted! (This is a demo — in production, this would process payment and create your idea page.)');
+        }
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
