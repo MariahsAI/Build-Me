@@ -88,6 +88,21 @@
             50% { top: 100%; opacity: 1; }
         }
 
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .animate-in {
             animation: fadeInUp 0.6s ease-out forwards;
             opacity: 0;
@@ -198,9 +213,76 @@
 
         .page.active { display: block; }
 
-        /* Hero */
+        /* ============== LIVE ACTIVITY TICKER ============== */
+        .activity-ticker {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .activity-ticker::before,
+        .activity-ticker::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .activity-ticker::before {
+            left: 0;
+            background: linear-gradient(90deg, var(--bg-secondary), transparent);
+        }
+
+        .activity-ticker::after {
+            right: 0;
+            background: linear-gradient(-90deg, var(--bg-secondary), transparent);
+        }
+
+        .ticker-track {
+            display: flex;
+            animation: ticker 30s linear infinite;
+            width: max-content;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0 2rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .ticker-item .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        .ticker-item .name {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .ticker-item .action {
+            color: var(--accent);
+        }
+
+        .ticker-item .time {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        /* ============== HERO ============== */
         .hero {
-            padding: 6rem 2rem 4rem;
+            padding: 5rem 2rem 3rem;
             max-width: 1200px;
             margin: 0 auto;
             text-align: center;
@@ -210,13 +292,13 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
+            top: -100px;
             left: 50%;
             transform: translateX(-50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            opacity: 0.4;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+            opacity: 0.3;
             pointer-events: none;
         }
 
@@ -233,6 +315,14 @@
             margin-bottom: 2rem;
         }
 
+        .hero-badge .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
         .hero-badge span {
             color: var(--accent);
             font-weight: 600;
@@ -244,6 +334,7 @@
             line-height: 1.1;
             letter-spacing: -2px;
             margin-bottom: 1.5rem;
+            position: relative;
         }
 
         .hero h1 .gradient {
@@ -253,11 +344,46 @@
             background-clip: text;
         }
 
-        .hero p {
+        .hero-tagline {
             font-size: 1.25rem;
             color: var(--text-secondary);
             max-width: 600px;
-            margin: 0 auto 2.5rem;
+            margin: 0 auto 1rem;
+            min-height: 1.5em;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.2em;
+            background: var(--accent);
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: blink 1s step-end infinite;
+        }
+
+        .hero-ideas {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-idea-chip {
+            padding: 0.4rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+
+        .hero-idea-chip.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(255, 107, 53, 0.1);
         }
 
         .hero-cta {
@@ -272,7 +398,7 @@
             justify-content: center;
             gap: 4rem;
             padding: 3rem 2rem;
-            margin-top: 4rem;
+            margin-top: 3rem;
             border-top: 1px solid var(--border);
         }
 
@@ -291,6 +417,493 @@
             margin-top: 0.25rem;
         }
 
+        /* ============== FEATURED IDEA SECTION ============== */
+        .featured-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .featured-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .featured-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .featured-header h2 .fire {
+            font-size: 1.25rem;
+        }
+
+        .featured-header a {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .featured-header a:hover {
+            text-decoration: underline;
+        }
+
+        .featured-card {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-tertiary));
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .featured-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .featured-content {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .featured-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: rgba(255, 107, 53, 0.15);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: fit-content;
+            margin-bottom: 1.5rem;
+        }
+
+        .featured-status .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .featured-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .featured-content h3 .highlight {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .featured-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .featured-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .featured-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+        }
+
+        .featured-meta-item .value {
+            font-family: var(--font-mono);
+            font-weight: 700;
+        }
+
+        .featured-meta-item .label {
+            color: var(--text-muted);
+        }
+
+        .featured-meta-item.votes .value { color: var(--accent); }
+        .featured-meta-item.builders .value { color: var(--purple); }
+        .featured-meta-item.buyers .value { color: var(--success); }
+
+        .featured-cta {
+            margin-top: auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .featured-cta .btn {
+            padding: 0.875rem 1.5rem;
+        }
+
+        /* Phone mockup in featured */
+        .featured-mockup {
+            background: linear-gradient(180deg, rgba(255, 107, 53, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-mockup::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            opacity: 0.5;
+        }
+
+        .phone-mockup {
+            width: 240px;
+            height: 480px;
+            background: #000;
+            border-radius: 36px;
+            padding: 10px;
+            box-shadow: 
+                0 0 0 2px #333,
+                0 25px 50px rgba(0, 0, 0, 0.5),
+                inset 0 0 0 2px #1a1a1a;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 24px;
+            background: #000;
+            border-radius: 0 0 16px 16px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            border-radius: 28px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .phone-app {
+            padding: 3rem 1rem 1rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-header {
+            text-align: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .app-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border-radius: 14px;
+            margin: 0 auto 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .app-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.15rem;
+        }
+
+        .app-subtitle {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .app-main {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 0.875rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-scan-area {
+            flex: 1;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-scan-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: scanLine 2s ease-in-out infinite;
+        }
+
+        .scan-icon {
+            font-size: 2rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .scan-text {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .app-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 700;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .recipe-preview {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.75rem;
+        }
+
+        .recipe-card-mini {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        .recipe-card-mini .emoji {
+            font-size: 1rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .recipe-card-mini .name {
+            font-size: 0.55rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .recipe-card-mini .match {
+            font-size: 0.5rem;
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        /* ============== TRANSFORMATION SECTION ============== */
+        .transform-section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .transform-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .transform-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+
+        .transform-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .transform-demo {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .transform-before {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .transform-before-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .transform-before-content {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .transform-before-content .highlight {
+            background: rgba(255, 107, 53, 0.2);
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+
+        .transform-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .transform-arrow-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px var(--accent-glow);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .transform-arrow-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .transform-after {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-tertiary));
+            border: 1px solid var(--accent);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .transform-after::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+        }
+
+        .transform-after-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .transform-after-card {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .transform-after-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .transform-after-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .transform-after-content p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .transform-after-stats {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .transform-stat {
+            font-size: 0.75rem;
+        }
+
+        .transform-stat .value {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .transform-stat .label {
+            color: var(--text-muted);
+        }
+
+        /* ============== HOW IT WORKS ============== */
         .section {
             padding: 5rem 2rem;
             max-width: 1200px;
@@ -353,7 +966,91 @@
             font-size: 0.95rem;
         }
 
-        /* Pricing */
+        /* ============== TESTIMONIALS ============== */
+        .testimonials-section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonials-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .testimonials-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .testimonial-content {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-content strong {
+            color: var(--text-primary);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .testimonial-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+        }
+
+        .testimonial-avatar.purple {
+            background: linear-gradient(135deg, var(--purple), #c084fc);
+        }
+
+        .testimonial-avatar.green {
+            background: linear-gradient(135deg, var(--success), #6ee7b7);
+        }
+
+        .testimonial-info {
+            flex: 1;
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .testimonial-result {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        /* ============== PRICING ============== */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -444,7 +1141,7 @@
             justify-content: center;
         }
 
-        /* Browse */
+        /* ============== BROWSE PAGE ============== */
         .browse-header {
             padding: 3rem 2rem;
             max-width: 1200px;
@@ -607,7 +1304,7 @@
 
         .idea-builders strong { color: var(--success); }
 
-        /* Submit */
+        /* ============== SUBMIT PAGE ============== */
         .submit-page {
             max-width: 700px;
             margin: 0 auto;
@@ -761,13 +1458,13 @@
             margin-bottom: 2rem;
         }
 
-        .idea-hero {
+        .idea-hero-inner {
             position: relative;
             padding: 3rem 0 4rem;
             margin-bottom: 3rem;
         }
 
-        .idea-hero::before {
+        .idea-hero-inner::before {
             content: '';
             position: absolute;
             top: -50px;
@@ -775,17 +1472,6 @@
             width: 500px;
             height: 500px;
             background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .idea-hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: -50px;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
             pointer-events: none;
         }
 
@@ -819,7 +1505,7 @@
             animation: pulse 2s ease-in-out infinite;
         }
 
-        .idea-hero h1 {
+        .idea-hero-inner h1 {
             font-size: clamp(2.5rem, 5vw, 3.5rem);
             font-weight: 700;
             letter-spacing: -2px;
@@ -828,7 +1514,7 @@
             max-width: 800px;
         }
 
-        .idea-hero h1 .highlight {
+        .idea-hero-inner h1 .highlight {
             background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -899,21 +1585,10 @@
             overflow: hidden;
         }
 
-        .vote-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
         .vote-btn:hover {
             border-color: var(--accent);
             transform: translateY(-2px);
         }
-
-        .vote-btn:hover::before { opacity: 0.1; }
 
         .vote-btn.voted {
             border-color: var(--accent);
@@ -922,29 +1597,22 @@
 
         .vote-btn.voted .vote-arrow {
             color: var(--accent);
-            transform: translateY(-2px);
         }
 
         .vote-arrow {
             font-size: 1.25rem;
             transition: all 0.3s;
-            position: relative;
-            z-index: 1;
         }
 
         .vote-count {
             font-family: var(--font-mono);
             font-size: 1.1rem;
             font-weight: 700;
-            position: relative;
-            z-index: 1;
         }
 
         .vote-label {
             font-size: 0.85rem;
             color: var(--text-muted);
-            position: relative;
-            z-index: 1;
         }
 
         .action-btn {
@@ -986,10 +1654,6 @@
             display: grid;
             grid-template-columns: 1fr 380px;
             gap: 2rem;
-        }
-
-        @media (max-width: 900px) {
-            .idea-content { grid-template-columns: 1fr; }
         }
 
         .idea-section {
@@ -1055,7 +1719,6 @@
 
         .idea-section li strong { color: var(--text-primary); }
 
-        /* Phone Mockup */
         .phone-mockup-container {
             padding: 1.5rem;
             background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
@@ -1063,7 +1726,7 @@
             margin-top: 1.5rem;
         }
 
-        .phone-mockup {
+        .phone-mockup-large {
             width: 280px;
             height: 560px;
             margin: 0 auto;
@@ -1078,151 +1741,6 @@
             animation: float 6s ease-in-out infinite;
         }
 
-        .phone-notch {
-            position: absolute;
-            top: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 28px;
-            background: #000;
-            border-radius: 0 0 20px 20px;
-            z-index: 10;
-        }
-
-        .phone-screen {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            border-radius: 32px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .phone-app {
-            padding: 3.5rem 1.25rem 1.25rem;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .app-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .app-logo {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-            border-radius: 16px;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
-        }
-
-        .app-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 0.25rem;
-        }
-
-        .app-subtitle {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .app-main {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .app-scan-area {
-            flex: 1;
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .app-scan-area::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            animation: scanLine 2s ease-in-out infinite;
-        }
-
-        .scan-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .scan-text {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .app-btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: default;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
-        }
-
-        .recipe-preview {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .recipe-card-mini {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            padding: 0.6rem;
-            text-align: center;
-        }
-
-        .recipe-card-mini .emoji {
-            font-size: 1.25rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .recipe-card-mini .name {
-            font-size: 0.6rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .recipe-card-mini .match {
-            font-size: 0.55rem;
-            color: var(--success);
-            font-weight: 700;
-        }
-
-        /* Sidebar */
         .idea-sidebar {
             position: sticky;
             top: 100px;
@@ -1432,8 +1950,6 @@
             font-weight: 600;
         }
 
-        .builders-more a:hover { text-decoration: underline; }
-
         footer {
             padding: 3rem 2rem;
             border-top: 1px solid var(--border);
@@ -1444,6 +1960,15 @@
 
         footer a { color: var(--text-secondary); }
         footer a:hover { color: var(--text-primary); }
+
+        /* ============== RESPONSIVE ============== */
+        @media (max-width: 900px) {
+            .idea-content { grid-template-columns: 1fr; }
+            .featured-card { grid-template-columns: 1fr; }
+            .featured-mockup { padding: 3rem 2rem; }
+            .transform-demo { grid-template-columns: 1fr; gap: 1.5rem; }
+            .transform-arrow { flex-direction: row; }
+        }
 
         @media (max-width: 768px) {
             nav { padding: 1rem; }
@@ -1456,8 +1981,10 @@
             .idea-actions { flex-direction: column; }
             .idea-actions .vote-btn,
             .idea-actions .action-btn { width: 100%; justify-content: center; }
-            .phone-mockup { transform: scale(0.85); }
+            .phone-mockup { transform: scale(0.9); }
             .traction-stats { grid-template-columns: 1fr; }
+            .featured-content { padding: 2rem; }
+            .featured-content h3 { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -1477,22 +2004,98 @@
 
     <!-- Home Page -->
     <div class="page active" id="page-home">
+        <!-- Live Activity Ticker -->
+        <div class="activity-ticker">
+            <div class="ticker-track">
+                <div class="ticker-item">
+                    <span class="dot"></span>
+                    <span class="name">Sarah K.</span> submitted <span class="action">FridgeChef</span>
+                    <span class="time">2m ago</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="dot"></span>
+                    <span class="name">Marcus T.</span> hit <span class="action">1,000 votes</span>
+                    <span class="time">5m ago</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="dot"></span>
+                    <span class="name">ToolShare</span> matched with <span class="action">3 builders</span>
+                    <span class="time">12m ago</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="dot"></span>
+                    <span class="name">ContractPro</span> received <span class="action">$2,400 pre-order</span>
+                    <span class="time">18m ago</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="dot"></span>
+                    <span class="name">Jamie L.</span> submitted <span class="action">MeetingMind</span>
+                    <span class="time">23m ago</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="dot"></span>
+                    <span class="name">SleepWell</span> started <span class="action">building phase</span>
+                    <span class="time">31m ago</span>
+                </div>
+                <!-- Duplicate for seamless loop -->
+                <div class="ticker-item">
+                    <span class="dot"></span>
+                    <span class="name">Sarah K.</span> submitted <span class="action">FridgeChef</span>
+                    <span class="time">2m ago</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="dot"></span>
+                    <span class="name">Marcus T.</span> hit <span class="action">1,000 votes</span>
+                    <span class="time">5m ago</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="dot"></span>
+                    <span class="name">ToolShare</span> matched with <span class="action">3 builders</span>
+                    <span class="time">12m ago</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="dot"></span>
+                    <span class="name">ContractPro</span> received <span class="action">$2,400 pre-order</span>
+                    <span class="time">18m ago</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="dot"></span>
+                    <span class="name">Jamie L.</span> submitted <span class="action">MeetingMind</span>
+                    <span class="time">23m ago</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="dot"></span>
+                    <span class="name">SleepWell</span> started <span class="action">building phase</span>
+                    <span class="time">31m ago</span>
+                </div>
+            </div>
+        </div>
+
         <section class="hero">
             <div class="hero-badge animate-in">
-                <span>●</span> Now validating 127 ideas
+                <span class="live-dot"></span>
+                <span>127</span> ideas validating right now
             </div>
             <h1 class="animate-in delay-1">From idea to <span class="gradient">demo</span> to demand</h1>
-            <p class="animate-in delay-2">Submit your idea. We turn it into a pitch, prototype, and validation page. The best ones get built.</p>
-            <div class="hero-cta animate-in delay-3">
+            <p class="hero-tagline animate-in delay-2">
+                <span id="typing-text"></span><span class="typing-cursor"></span>
+            </p>
+            <div class="hero-ideas animate-in delay-3">
+                <span class="hero-idea-chip" data-idea="An app that turns fridge photos into recipes">🍳 FridgeChef</span>
+                <span class="hero-idea-chip" data-idea="One-click contracts for freelancers">📝 ContractPro</span>
+                <span class="hero-idea-chip" data-idea="Borrow tools from your neighbors">🔧 ToolShare</span>
+                <span class="hero-idea-chip" data-idea="AI meeting notes for busy parents">🎙️ MeetingMind</span>
+            </div>
+            <div class="hero-cta animate-in delay-4">
                 <button class="btn btn-primary" onclick="showPage('submit')">
                     Submit Your Idea
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </button>
                 <button class="btn btn-secondary" onclick="showPage('browse')">Browse Ideas</button>
             </div>
-            <div class="stats-bar animate-in delay-4">
+            <div class="stats-bar animate-in delay-5">
                 <div class="stat">
-                    <div class="stat-value">2,847</div>
+                    <div class="stat-value" id="stat-ideas">2,847</div>
                     <div class="stat-label">Ideas Submitted</div>
                 </div>
                 <div class="stat">
@@ -1506,6 +2109,125 @@
             </div>
         </section>
 
+        <!-- Featured Idea Section -->
+        <section class="featured-section">
+            <div class="featured-header">
+                <h2><span class="fire">🔥</span> Trending Now</h2>
+                <a href="#" onclick="showPage('browse')">View all ideas →</a>
+            </div>
+            <div class="featured-card" onclick="showPage('idea')">
+                <div class="featured-content">
+                    <div class="featured-status">
+                        <span class="dot"></span>
+                        Live Validation
+                    </div>
+                    <h3><span class="highlight">FridgeChef</span> — AI Recipe Generator</h3>
+                    <p>Snap a photo of your fridge. Get dinner ideas in seconds. Stop wasting food, stop wasting time.</p>
+                    <div class="featured-meta">
+                        <div class="featured-meta-item votes">
+                            <span class="value">847</span>
+                            <span class="label">votes</span>
+                        </div>
+                        <div class="featured-meta-item builders">
+                            <span class="value">12</span>
+                            <span class="label">builders</span>
+                        </div>
+                        <div class="featured-meta-item buyers">
+                            <span class="value">234</span>
+                            <span class="label">would buy</span>
+                        </div>
+                    </div>
+                    <div class="featured-cta">
+                        <button class="btn btn-primary">View Full Pitch</button>
+                        <button class="btn btn-secondary">▲ Upvote</button>
+                    </div>
+                </div>
+                <div class="featured-mockup">
+                    <div class="phone-mockup">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <div class="phone-app">
+                                <div class="app-header">
+                                    <div class="app-logo">🍳</div>
+                                    <div class="app-title">FridgeChef</div>
+                                    <div class="app-subtitle">What's for dinner?</div>
+                                </div>
+                                <div class="app-main">
+                                    <div class="app-scan-area">
+                                        <div class="scan-icon">📷</div>
+                                        <div class="scan-text">Tap to scan your fridge</div>
+                                    </div>
+                                    <button class="app-btn">Take Photo</button>
+                                    <div class="recipe-preview">
+                                        <div class="recipe-card-mini">
+                                            <div class="emoji">🍝</div>
+                                            <div class="name">Pasta</div>
+                                            <div class="match">92%</div>
+                                        </div>
+                                        <div class="recipe-card-mini">
+                                            <div class="emoji">🥗</div>
+                                            <div class="name">Salad</div>
+                                            <div class="match">87%</div>
+                                        </div>
+                                        <div class="recipe-card-mini">
+                                            <div class="emoji">🍳</div>
+                                            <div class="name">Omelet</div>
+                                            <div class="match">78%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Transformation Section -->
+        <section class="transform-section">
+            <div class="transform-header">
+                <h2>See the transformation</h2>
+                <p>This is what happens to your idea in 48 hours.</p>
+            </div>
+            <div class="transform-demo">
+                <div class="transform-before">
+                    <div class="transform-before-label">You submit this</div>
+                    <div class="transform-before-content">
+                        "An app that <span class="highlight">takes a photo of your fridge</span> and tells you <span class="highlight">what you can cook</span> based on what's inside. For <span class="highlight">busy people who hate food waste</span>."
+                    </div>
+                </div>
+                <div class="transform-arrow">
+                    <div class="transform-arrow-icon">⚡</div>
+                    <div class="transform-arrow-text">48 hours</div>
+                </div>
+                <div class="transform-after">
+                    <div class="transform-after-label">We generate this</div>
+                    <div class="transform-after-card">
+                        <div class="transform-after-icon">🍳</div>
+                        <div class="transform-after-content">
+                            <h4>FridgeChef</h4>
+                            <p>Full pitch page with mockups, market analysis, and feature breakdown</p>
+                            <div class="transform-after-stats">
+                                <div class="transform-stat">
+                                    <span class="value">6</span>
+                                    <span class="label"> sections</span>
+                                </div>
+                                <div class="transform-stat">
+                                    <span class="value">3</span>
+                                    <span class="label"> mockups</span>
+                                </div>
+                                <div class="transform-stat">
+                                    <span class="value">$1.2B</span>
+                                    <span class="label"> TAM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it Works -->
         <section class="section">
             <div class="section-header">
                 <h2>How it works</h2>
@@ -1535,6 +2257,55 @@
             </div>
         </section>
 
+        <!-- Testimonials -->
+        <section class="testimonials-section">
+            <div class="testimonials-header">
+                <h2>From idea to traction</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "I submitted on Monday. By Friday, I had <strong>12 developers in my inbox</strong> wanting to build it. We're now in beta with 400 users."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar"></div>
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Sarah K.</div>
+                            <div class="testimonial-role">FridgeChef founder</div>
+                        </div>
+                        <div class="testimonial-result">847 votes</div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "The pitch page they generated was <strong>better than what I paid an agency $5k for</strong> last year. Seriously."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar purple"></div>
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Marcus T.</div>
+                            <div class="testimonial-role">ContractPro founder</div>
+                        </div>
+                        <div class="testimonial-result">$24k pre-orders</div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "I've had this idea for 3 years. Never knew if anyone wanted it. <strong>Got validation in 72 hours.</strong> Now I know it's worth building."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar green"></div>
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Jamie L.</div>
+                            <div class="testimonial-role">ToolShare founder</div>
+                        </div>
+                        <div class="testimonial-result">634 votes</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
         <section class="section">
             <div class="section-header">
                 <h2>Choose your tier</h2>
@@ -1835,7 +2606,7 @@
                 AI-Generated Pitch • Pro Tier
             </div>
 
-            <div class="idea-hero">
+            <div class="idea-hero-inner">
                 <div class="idea-hero-content">
                     <div class="idea-live-badge animate-in delay-2">
                         <span class="live-dot"></span>
@@ -1913,7 +2684,7 @@
                         <p>Here's what the app experience could look like:</p>
                         
                         <div class="phone-mockup-container">
-                            <div class="phone-mockup">
+                            <div class="phone-mockup-large">
                                 <div class="phone-notch"></div>
                                 <div class="phone-screen">
                                     <div class="phone-app">
@@ -2051,6 +2822,58 @@
     </div>
 
     <script>
+        // Typing effect
+        const ideas = [
+            "An app that turns fridge photos into recipes.",
+            "One-click contracts for freelancers.",
+            "Borrow tools from your neighbors.",
+            "AI meeting notes for busy parents.",
+            "Cancel subscriptions with one click."
+        ];
+        let ideaIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 50;
+
+        function typeText() {
+            const typingEl = document.getElementById('typing-text');
+            if (!typingEl) return;
+
+            const currentIdea = ideas[ideaIndex];
+            
+            if (isDeleting) {
+                typingEl.textContent = currentIdea.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 30;
+            } else {
+                typingEl.textContent = currentIdea.substring(0, charIndex + 1);
+                charIndex++;
+                typingSpeed = 50;
+            }
+
+            if (!isDeleting && charIndex === currentIdea.length) {
+                isDeleting = true;
+                typingSpeed = 2000; // Pause at end
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                ideaIndex = (ideaIndex + 1) % ideas.length;
+                typingSpeed = 500; // Pause before typing next
+                
+                // Update active chip
+                document.querySelectorAll('.hero-idea-chip').forEach((chip, idx) => {
+                    chip.classList.toggle('active', idx === ideaIndex);
+                });
+            }
+
+            setTimeout(typeText, typingSpeed);
+        }
+
+        // Start typing effect
+        setTimeout(typeText, 1000);
+
+        // Initialize first chip as active
+        document.querySelector('.hero-idea-chip')?.classList.add('active');
+
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
@@ -2156,6 +2979,17 @@
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
+            });
+        });
+
+        // Chip click handler
+        document.querySelectorAll('.hero-idea-chip').forEach((chip, idx) => {
+            chip.addEventListener('click', () => {
+                ideaIndex = idx;
+                charIndex = 0;
+                isDeleting = false;
+                document.querySelectorAll('.hero-idea-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
             });
         });
     </script>
