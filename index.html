@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Build Me — From Idea to Demo to Demand</title>
+    <title>Build Me — Predict the Future of Ideas</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -20,22 +20,17 @@
             --accent-glow: rgba(255, 107, 53, 0.3);
             --accent-secondary: #ffb347;
             --border: #2a2a2d;
-            --success: #34d399;
+            --yes: #10b981;
+            --yes-glow: rgba(16, 185, 129, 0.3);
+            --no: #ef4444;
+            --no-glow: rgba(239, 68, 68, 0.3);
             --purple: #a855f7;
             --blue: #3b82f6;
             --font-sans: 'Instrument Sans', -apple-system, sans-serif;
             --font-mono: 'Space Mono', monospace;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: var(--font-sans);
@@ -48,20 +43,15 @@
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
             opacity: 0.03;
             pointer-events: none;
             z-index: 1000;
         }
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+        a { color: inherit; text-decoration: none; }
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
@@ -69,23 +59,13 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes glowPulse {
-            0%, 100% { box-shadow: 0 0 20px var(--accent-glow), 0 0 40px rgba(255, 107, 53, 0.1); }
-            50% { box-shadow: 0 0 30px var(--accent-glow), 0 0 60px rgba(255, 107, 53, 0.2); }
-        }
-
-        @keyframes scanLine {
-            0%, 100% { top: 0; opacity: 0; }
-            50% { top: 100%; opacity: 1; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         @keyframes ticker {
@@ -93,14 +73,13 @@
             100% { transform: translateX(-50%); }
         }
 
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fillBar {
+            from { width: 0; }
         }
 
         .animate-in {
@@ -113,21 +92,17 @@
         .delay-3 { animation-delay: 0.3s; }
         .delay-4 { animation-delay: 0.4s; }
         .delay-5 { animation-delay: 0.5s; }
-        .delay-6 { animation-delay: 0.6s; }
-        .delay-7 { animation-delay: 0.7s; }
-        .delay-8 { animation-delay: 0.8s; }
 
+        /* Navigation */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 100;
-            padding: 1.25rem 2rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(10, 10, 11, 0.8);
+            background: rgba(10, 10, 11, 0.9);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
         }
@@ -136,15 +111,14 @@
             font-family: var(--font-mono);
             font-size: 1.25rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            cursor: pointer;
         }
 
         .logo-icon {
-            width: 32px;
-            height: 32px;
+            width: 32px; height: 32px;
             background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
             border-radius: 8px;
             display: flex;
@@ -155,7 +129,7 @@
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
             align-items: center;
         }
 
@@ -164,10 +138,27 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: color 0.2s;
+            cursor: pointer;
         }
 
         .nav-links a:hover { color: var(--text-primary); }
         .nav-links a.active { color: var(--accent); }
+
+        .nav-balance {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--bg-tertiary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .nav-balance-amount {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--yes);
+        }
 
         .btn {
             display: inline-flex;
@@ -194,93 +185,82 @@
             box-shadow: 0 6px 30px var(--accent-glow);
         }
 
+        .btn-yes {
+            background: linear-gradient(135deg, var(--yes), #34d399);
+            color: white;
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, var(--no), #f87171);
+            color: white;
+        }
+
         .btn-secondary {
             background: var(--bg-tertiary);
             color: var(--text-primary);
             border: 1px solid var(--border);
         }
 
-        .btn-secondary:hover {
-            background: var(--bg-card);
-            border-color: var(--text-muted);
+        .btn-purple {
+            background: linear-gradient(135deg, var(--purple), #c084fc);
+            color: white;
         }
 
         .page {
             display: none;
             min-height: 100vh;
-            padding-top: 80px;
+            padding-top: 70px;
         }
 
         .page.active { display: block; }
 
-        /* ============== LIVE ACTIVITY TICKER ============== */
-        .activity-ticker {
-            background: var(--bg-secondary);
+        /* Live Ticker */
+        .live-ticker {
+            background: linear-gradient(90deg, var(--bg-secondary), var(--bg-tertiary), var(--bg-secondary));
             border-bottom: 1px solid var(--border);
             padding: 0.75rem 0;
             overflow: hidden;
-            position: relative;
-        }
-
-        .activity-ticker::before,
-        .activity-ticker::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100px;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .activity-ticker::before {
-            left: 0;
-            background: linear-gradient(90deg, var(--bg-secondary), transparent);
-        }
-
-        .activity-ticker::after {
-            right: 0;
-            background: linear-gradient(-90deg, var(--bg-secondary), transparent);
         }
 
         .ticker-track {
             display: flex;
-            animation: ticker 30s linear infinite;
+            animation: ticker 60s linear infinite;
             width: max-content;
         }
 
         .ticker-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0 2rem;
+            gap: 1rem;
+            padding: 0 2.5rem;
+            white-space: nowrap;
+            border-right: 1px solid var(--border);
+        }
+
+        .ticker-question {
             font-size: 0.85rem;
             color: var(--text-secondary);
-            white-space: nowrap;
         }
 
-        .ticker-item .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--success);
+        .ticker-odds-yes, .ticker-odds-no {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
         }
 
-        .ticker-item .name {
-            color: var(--text-primary);
-            font-weight: 500;
+        .ticker-odds-yes {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--yes);
         }
 
-        .ticker-item .action {
-            color: var(--accent);
+        .ticker-odds-no {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--no);
         }
 
-        .ticker-item .time {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-        }
-
-        /* ============== HERO ============== */
+        /* Hero */
         .hero {
             padding: 5rem 2rem 3rem;
             max-width: 1200px;
@@ -307,83 +287,40 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.5rem 1rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
             border-radius: 100px;
             font-size: 0.85rem;
-            color: var(--text-secondary);
+            color: var(--yes);
             margin-bottom: 2rem;
         }
 
         .hero-badge .live-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--success);
+            width: 8px; height: 8px;
+            background: var(--yes);
             border-radius: 50%;
             animation: pulse 2s ease-in-out infinite;
         }
 
-        .hero-badge span {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
         .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 700;
             line-height: 1.1;
             letter-spacing: -2px;
             margin-bottom: 1.5rem;
-            position: relative;
         }
 
         .hero h1 .gradient {
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            background: linear-gradient(135deg, var(--yes), #34d399);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
-        .hero-tagline {
+        .hero p {
             font-size: 1.25rem;
             color: var(--text-secondary);
             max-width: 600px;
-            margin: 0 auto 1rem;
-            min-height: 1.5em;
-        }
-
-        .typing-cursor {
-            display: inline-block;
-            width: 3px;
-            height: 1.2em;
-            background: var(--accent);
-            margin-left: 2px;
-            vertical-align: text-bottom;
-            animation: blink 1s step-end infinite;
-        }
-
-        .hero-ideas {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-            flex-wrap: wrap;
-        }
-
-        .hero-idea-chip {
-            padding: 0.4rem 1rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            transition: all 0.3s;
-        }
-
-        .hero-idea-chip.active {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: rgba(255, 107, 53, 0.1);
+            margin: 0 auto 2.5rem;
         }
 
         .hero-cta {
@@ -393,7 +330,7 @@
             flex-wrap: wrap;
         }
 
-        .stats-bar {
+        .hero-stats {
             display: flex;
             justify-content: center;
             gap: 4rem;
@@ -402,55 +339,48 @@
             border-top: 1px solid var(--border);
         }
 
-        .stat { text-align: center; }
+        .hero-stat { text-align: center; }
 
-        .stat-value {
+        .hero-stat-value {
             font-family: var(--font-mono);
             font-size: 2rem;
             font-weight: 700;
             color: var(--accent);
         }
 
-        .stat-label {
+        .hero-stat-label {
             font-size: 0.85rem;
             color: var(--text-muted);
             margin-top: 0.25rem;
         }
 
-        /* ============== FEATURED IDEA SECTION ============== */
-        .featured-section {
-            padding: 4rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .featured-header {
+        /* Section Headers */
+        .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
-        .featured-header h2 {
+        .section-header h2 {
             font-size: 1.5rem;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
-        .featured-header h2 .fire {
-            font-size: 1.25rem;
-        }
-
-        .featured-header a {
+        .section-header a {
             color: var(--accent);
             font-size: 0.9rem;
-            font-weight: 500;
+            cursor: pointer;
         }
 
-        .featured-header a:hover {
-            text-decoration: underline;
+        /* Featured Market */
+        .featured-section {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .featured-card {
@@ -459,8 +389,7 @@
             border-radius: 24px;
             overflow: hidden;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
+            grid-template-columns: 1fr 400px;
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -471,696 +400,156 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .featured-content {
-            padding: 3rem;
-            display: flex;
-            flex-direction: column;
-        }
+        .featured-content { padding: 2.5rem; }
 
-        .featured-status {
+        .featured-idea-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             padding: 0.4rem 1rem;
-            background: rgba(255, 107, 53, 0.15);
+            background: var(--bg-tertiary);
             border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            width: fit-content;
+            font-size: 0.8rem;
             margin-bottom: 1.5rem;
-        }
-
-        .featured-status .dot {
-            width: 6px;
-            height: 6px;
-            background: var(--success);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
         }
 
         .featured-content h3 {
-            font-size: 2rem;
+            font-size: 1.75rem;
             font-weight: 700;
-            letter-spacing: -1px;
-            margin-bottom: 0.75rem;
-            line-height: 1.2;
-        }
-
-        .featured-content h3 .highlight {
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .featured-content p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
+            line-height: 1.3;
+            margin-bottom: 1rem;
         }
 
         .featured-meta {
             display: flex;
             gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .featured-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
+            margin-bottom: 1.5rem;
             font-size: 0.85rem;
-        }
-
-        .featured-meta-item .value {
-            font-family: var(--font-mono);
-            font-weight: 700;
-        }
-
-        .featured-meta-item .label {
             color: var(--text-muted);
         }
 
-        .featured-meta-item.votes .value { color: var(--accent); }
-        .featured-meta-item.builders .value { color: var(--purple); }
-        .featured-meta-item.buyers .value { color: var(--success); }
-
-        .featured-cta {
-            margin-top: auto;
-            display: flex;
-            gap: 1rem;
-        }
-
-        .featured-cta .btn {
-            padding: 0.875rem 1.5rem;
-        }
-
-        /* Phone mockup in featured */
-        .featured-mockup {
-            background: linear-gradient(180deg, rgba(255, 107, 53, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .featured-mockup::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            opacity: 0.5;
-        }
-
-        .phone-mockup {
-            width: 240px;
-            height: 480px;
-            background: #000;
-            border-radius: 36px;
-            padding: 10px;
-            box-shadow: 
-                0 0 0 2px #333,
-                0 25px 50px rgba(0, 0, 0, 0.5),
-                inset 0 0 0 2px #1a1a1a;
-            position: relative;
-            animation: float 6s ease-in-out infinite;
-            z-index: 1;
-        }
-
-        .phone-notch {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 24px;
-            background: #000;
-            border-radius: 0 0 16px 16px;
-            z-index: 10;
-        }
-
-        .phone-screen {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            border-radius: 28px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .phone-app {
-            padding: 3rem 1rem 1rem;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .app-header {
-            text-align: center;
-            margin-bottom: 1.25rem;
-        }
-
-        .app-logo {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-            border-radius: 14px;
-            margin: 0 auto 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
-        }
-
-        .app-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 0.15rem;
-        }
-
-        .app-subtitle {
-            font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .app-main {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 0.875rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .app-scan-area {
-            flex: 1;
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 0.75rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .app-scan-area::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            animation: scanLine 2s ease-in-out infinite;
-        }
-
-        .scan-icon {
-            font-size: 2rem;
-            margin-bottom: 0.4rem;
-        }
-
-        .scan-text {
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .app-btn {
-            width: 100%;
-            padding: 0.75rem;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-weight: 700;
-            font-size: 0.8rem;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
-        }
-
-        .recipe-preview {
-            display: flex;
-            gap: 0.4rem;
-            margin-top: 0.75rem;
-        }
-
-        .recipe-card-mini {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
-            padding: 0.5rem;
-            text-align: center;
-        }
-
-        .recipe-card-mini .emoji {
-            font-size: 1rem;
-            margin-bottom: 0.15rem;
-        }
-
-        .recipe-card-mini .name {
-            font-size: 0.55rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .recipe-card-mini .match {
-            font-size: 0.5rem;
-            color: var(--success);
-            font-weight: 700;
-        }
-
-        /* ============== TRANSFORMATION SECTION ============== */
-        .transform-section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .transform-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .transform-header h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin-bottom: 1rem;
-        }
-
-        .transform-header p {
+        .featured-meta-item span {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .transform-demo {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .transform-before {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-        }
-
-        .transform-before-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-
-        .transform-before-content {
             font-family: var(--font-mono);
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        .transform-before-content .highlight {
-            background: rgba(255, 107, 53, 0.2);
-            padding: 0.1rem 0.3rem;
-            border-radius: 3px;
-        }
-
-        .transform-arrow {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .transform-arrow-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 20px var(--accent-glow);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .transform-arrow-text {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .transform-after {
-            background: linear-gradient(135deg, var(--bg-card), var(--bg-tertiary));
-            border: 1px solid var(--accent);
-            border-radius: 16px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .transform-after::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
-        }
-
-        .transform-after-label {
-            font-size: 0.75rem;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent);
-            margin-bottom: 1rem;
         }
 
-        .transform-after-card {
-            display: flex;
-            gap: 1rem;
-        }
+        .featured-probability { margin-bottom: 2rem; }
 
-        .transform-after-icon {
-            width: 48px;
+        .probability-bar-container {
             height: 48px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            background: var(--bg-secondary);
             border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .probability-yes {
+            background: linear-gradient(90deg, var(--yes), #34d399);
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .transform-after-content h4 {
+            font-family: var(--font-mono);
+            font-weight: 700;
             font-size: 1.1rem;
-            margin-bottom: 0.25rem;
+            color: white;
+            transition: width 0.5s ease;
+            animation: fillBar 1s ease-out;
         }
 
-        .transform-after-content p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.75rem;
+        .probability-no {
+            background: linear-gradient(90deg, #dc2626, var(--no));
+            height: 100%;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
         }
 
-        .transform-after-stats {
+        .probability-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .featured-actions {
             display: flex;
             gap: 1rem;
         }
 
-        .transform-stat {
-            font-size: 0.75rem;
-        }
-
-        .transform-stat .value {
-            font-family: var(--font-mono);
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .transform-stat .label {
-            color: var(--text-muted);
-        }
-
-        /* ============== HOW IT WORKS ============== */
-        .section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-header h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin-bottom: 1rem;
-        }
-
-        .section-header p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .step {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: all 0.3s;
-        }
-
-        .step:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-        }
-
-        .step-number {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-            letter-spacing: 2px;
-        }
-
-        .step h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .step p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        /* ============== TESTIMONIALS ============== */
-        .testimonials-section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .testimonials-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .testimonials-header h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -1px;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .testimonial-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-        }
-
-        .testimonial-content {
+        .featured-actions .btn {
+            flex: 1;
+            justify-content: center;
+            padding: 1rem;
             font-size: 1rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
+        }
+
+        .featured-sidebar {
+            background: var(--bg-secondary);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-sidebar h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .resolution-criteria {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 1.25rem;
             margin-bottom: 1.5rem;
         }
 
-        .testimonial-content strong {
-            color: var(--text-primary);
+        .resolution-criteria p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
 
-        .testimonial-author {
+        .resolution-date {
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            padding: 1rem;
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 12px;
         }
 
-        .testimonial-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-        }
+        .resolution-date-icon { font-size: 1.5rem; }
+        .resolution-date-text { font-size: 0.85rem; }
 
-        .testimonial-avatar.purple {
-            background: linear-gradient(135deg, var(--purple), #c084fc);
-        }
-
-        .testimonial-avatar.green {
-            background: linear-gradient(135deg, var(--success), #6ee7b7);
-        }
-
-        .testimonial-info {
-            flex: 1;
-        }
-
-        .testimonial-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .testimonial-role {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .testimonial-result {
+        .resolution-date-text strong {
+            display: block;
+            color: var(--accent);
             font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: var(--success);
-            font-weight: 700;
         }
 
-        /* ============== PRICING ============== */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .price-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2.5rem;
-            position: relative;
-            transition: all 0.3s;
-        }
-
-        .price-card.featured {
-            border-color: var(--accent);
-            background: linear-gradient(180deg, rgba(255, 107, 53, 0.1) 0%, var(--bg-card) 100%);
-        }
-
-        .price-card.featured::before {
-            content: 'MOST POPULAR';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 0.4rem 1rem;
-            border-radius: 100px;
-            letter-spacing: 1px;
-        }
-
-        .price-tier {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
-        }
-
-        .price-amount {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .price-amount span {
-            font-size: 1rem;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        .price-desc {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .price-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .price-features li {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.75rem;
-        }
-
-        .price-features li::before {
-            content: '✓';
-            color: var(--success);
-            font-weight: 700;
-        }
-
-        .price-card .btn {
-            width: 100%;
-            justify-content: center;
-        }
-
-        /* ============== BROWSE PAGE ============== */
-        .browse-header {
-            padding: 3rem 2rem;
+        /* Markets Grid */
+        .markets-section {
+            padding: 2rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        .browse-header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin-bottom: 0.5rem;
-        }
-
-        .browse-header p { color: var(--text-secondary); }
-
-        .browse-filters {
+        .markets-filters {
             display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
 
@@ -1178,358 +567,603 @@
         .filter-btn:hover, .filter-btn.active {
             border-color: var(--accent);
             color: var(--accent);
+            background: rgba(255, 107, 53, 0.1);
         }
 
-        .ideas-grid {
+        .markets-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 1.5rem;
-            padding: 0 2rem 4rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.25rem;
         }
 
-        .idea-card {
+        .market-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 1.75rem;
+            padding: 1.5rem;
             cursor: pointer;
             transition: all 0.3s;
         }
 
-        .idea-card:hover {
+        .market-card:hover {
             border-color: var(--text-muted);
             transform: translateY(-2px);
         }
 
-        .idea-card-header {
+        .market-card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 1rem;
         }
 
-        .idea-status {
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 0.35rem 0.75rem;
-            border-radius: 100px;
-        }
-
-        .idea-status.validating {
-            background: rgba(255, 107, 53, 0.15);
-            color: var(--accent);
-        }
-
-        .idea-status.funded {
-            background: rgba(52, 211, 153, 0.15);
-            color: var(--success);
-        }
-
-        .idea-status.building {
-            background: rgba(99, 102, 241, 0.15);
-            color: #818cf8;
-        }
-
-        .idea-votes {
+        .market-idea {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .idea-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-        }
-
-        .idea-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 1.25rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .idea-tags {
-            display: flex;
             gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.25rem;
-        }
-
-        .idea-tag {
-            font-size: 0.75rem;
-            padding: 0.3rem 0.6rem;
-            background: var(--bg-tertiary);
-            border-radius: 4px;
+            font-size: 0.8rem;
             color: var(--text-muted);
         }
 
-        .idea-card-footer {
+        .market-idea-icon {
+            width: 24px; height: 24px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        .market-volume {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .market-volume span { color: var(--text-secondary); }
+
+        .market-card h3 {
+            font-size: 1.1rem;
+            line-height: 1.4;
+            margin-bottom: 1.25rem;
+        }
+
+        .market-probability { margin-bottom: 1rem; }
+
+        .market-prob-bar {
+            height: 32px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .market-prob-yes {
+            background: linear-gradient(90deg, var(--yes), #34d399);
+            display: flex;
+            align-items: center;
+            padding-left: 0.75rem;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .market-prob-no {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.75rem;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--no);
+        }
+
+        .market-card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 1.25rem;
+            padding-top: 1rem;
             border-top: 1px solid var(--border);
         }
 
-        .idea-author {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
+        .market-predictors {
+            font-size: 0.8rem;
             color: var(--text-muted);
         }
 
-        .author-avatar {
-            width: 24px;
-            height: 24px;
+        .market-ends {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .market-ends span {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* ============== PREDICTION PAGE ============== */
+        .prediction-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 4rem;
+        }
+
+        .prediction-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .prediction-back:hover { color: var(--text-primary); }
+
+        /* Tab Navigation */
+        .page-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0;
+        }
+
+        .page-tab {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: -1px;
+        }
+
+        .page-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .page-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .page-tab svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .prediction-header h1 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            margin-bottom: 1.5rem;
+            max-width: 700px;
+        }
+
+        .prediction-stats {
+            display: flex;
+            gap: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .prediction-stat .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .prediction-stat .value {
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        /* Main Grid */
+        .prediction-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 1.5rem;
+        }
+
+        /* Probability Card */
+        .prob-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), var(--bg-card));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .prob-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .prob-value {
+            font-family: var(--font-mono);
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--yes);
+            line-height: 1;
+        }
+
+        .prob-change {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--yes);
+            margin-top: 0.5rem;
+        }
+
+        /* Chart Card */
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-header h3 {
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-tab {
+            padding: 0.4rem 0.75rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chart-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .chart-container {
+            height: 200px;
+            position: relative;
+            background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, transparent 100%);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chart-svg { width: 100%; height: 100%; }
+
+        .chart-line {
+            fill: none;
+            stroke: var(--yes);
+            stroke-width: 2.5;
+        }
+
+        .chart-area { fill: url(#probGradient); }
+
+        .chart-reference {
+            stroke: var(--text-muted);
+            stroke-dasharray: 4;
+            opacity: 0.3;
+        }
+
+        .chart-reference-label {
+            fill: var(--text-muted);
+            font-size: 10px;
+            font-family: var(--font-mono);
+        }
+
+        /* Activity Card */
+        .activity-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.5rem;
+        }
+
+        .activity-card h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+        }
+
+        .activity-avatar {
+            width: 36px; height: 36px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
         }
 
-        .idea-builders {
-            font-size: 0.85rem;
+        .activity-content { flex: 1; }
+
+        .activity-text { font-size: 0.9rem; }
+        .activity-text strong { color: var(--text-primary); }
+        .activity-text .yes { color: var(--yes); font-weight: 600; }
+        .activity-text .no { color: var(--no); font-weight: 600; }
+
+        .activity-time {
+            font-size: 0.75rem;
             color: var(--text-muted);
         }
 
-        .idea-builders strong { color: var(--success); }
-
-        /* ============== SUBMIT PAGE ============== */
-        .submit-page {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-
-        .submit-page h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin-bottom: 0.5rem;
-        }
-
-        .submit-page > p {
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-        }
-
-        .form-group { margin-bottom: 1.75rem; }
-
-        .form-group label {
-            display: block;
+        .activity-amount {
+            font-family: var(--font-mono);
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
         }
 
-        .form-group label span {
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 1rem;
-            background: var(--bg-secondary);
+        /* Sidebar Cards */
+        .sidebar-card {
+            background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-family: var(--font-sans);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-card h3 {
             font-size: 1rem;
-            transition: border-color 0.2s;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
+        .sidebar-card h3.green { color: var(--yes); }
 
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: var(--text-muted);
-        }
-
-        .form-hint {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-        }
-
-        .tier-select {
+        /* Position Grid */
+        .position-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
         }
 
-        .tier-option {
-            background: var(--bg-secondary);
-            border: 2px solid var(--border);
-            border-radius: 12px;
+        .position-stat {
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .position-stat .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .position-stat .value {
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .position-stat .value.yes { color: var(--yes); }
+
+        /* Bet Selector */
+        .bet-selector {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .bet-option {
+            flex: 1;
             padding: 1.25rem;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            background: var(--bg-secondary);
             cursor: pointer;
             transition: all 0.2s;
             text-align: center;
         }
 
-        .tier-option:hover { border-color: var(--text-muted); }
+        .bet-option:hover { border-color: var(--text-muted); }
 
-        .tier-option.selected {
-            border-color: var(--accent);
-            background: rgba(255, 107, 53, 0.05);
+        .bet-option.yes.active {
+            border-color: var(--yes);
+            background: rgba(16, 185, 129, 0.1);
         }
 
-        .tier-option h4 {
-            font-size: 0.9rem;
+        .bet-option.no.active {
+            border-color: var(--no);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .bet-option .outcome {
+            font-size: 1.5rem;
+            font-weight: 700;
             margin-bottom: 0.25rem;
         }
 
-        .tier-option .price {
+        .bet-option.yes .outcome { color: var(--yes); }
+        .bet-option.no .outcome { color: var(--no); }
+
+        .bet-option .price {
             font-family: var(--font-mono);
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .bet-input-group {
+            margin-bottom: 1rem;
+        }
+
+        .bet-input-group label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .bet-input-wrapper {
+            position: relative;
+        }
+
+        .bet-input {
+            width: 100%;
+            padding: 1rem;
+            padding-left: 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+        }
+
+        .bet-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .bet-prefix {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .quick-bets {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .quick-bet {
+            flex: 1;
+            padding: 0.6rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-bet:hover {
+            border-color: var(--accent);
             color: var(--accent);
         }
 
-        .tier-option p {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-        }
-
-        .submit-btn-container { margin-top: 2.5rem; }
-
-        .submit-btn-container .btn {
+        .place-bet-btn {
             width: 100%;
             padding: 1rem;
             font-size: 1rem;
             justify-content: center;
         }
 
-        /* ============== IDEA PAGE ============== */
-        .idea-page {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 2rem 2rem 4rem;
+        .place-bet-btn.yes {
+            background: linear-gradient(135deg, var(--yes), #34d399);
         }
 
-        .idea-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-            cursor: pointer;
-            transition: color 0.2s;
+        .place-bet-btn.no {
+            background: linear-gradient(135deg, var(--no), #f87171);
         }
 
-        .idea-back:hover { color: var(--text-primary); }
-
-        .ai-generated-tag {
+        /* ============== ABOUT PRODUCT PAGE ============== */
+        .ai-tag {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             padding: 0.5rem 1rem;
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(59, 130, 246, 0.1));
-            border: 1px solid rgba(168, 85, 247, 0.2);
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
             border-radius: 100px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--purple);
             margin-bottom: 2rem;
         }
 
-        .idea-hero-inner {
+        .idea-hero {
+            margin-bottom: 2rem;
             position: relative;
-            padding: 3rem 0 4rem;
-            margin-bottom: 3rem;
         }
 
-        .idea-hero-inner::before {
+        .idea-hero::before {
             content: '';
             position: absolute;
             top: -50px;
-            left: -100px;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+            opacity: 0.4;
             pointer-events: none;
         }
 
-        .idea-hero-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .idea-live-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.6rem 1.25rem;
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(255, 179, 71, 0.1));
-            border: 1px solid rgba(255, 107, 53, 0.3);
-            border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-            animation: glowPulse 3s ease-in-out infinite;
-        }
-
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--success);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .idea-hero-inner h1 {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
+        .idea-hero h1 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
             font-weight: 700;
-            letter-spacing: -2px;
-            line-height: 1.1;
-            margin-bottom: 1.25rem;
-            max-width: 800px;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
         }
 
-        .idea-hero-inner h1 .highlight {
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+        .idea-hero h1 .highlight { color: var(--accent); }
 
         .idea-tagline {
-            font-size: 1.35rem;
+            font-size: 1.25rem;
             color: var(--text-secondary);
-            max-width: 600px;
-            margin-bottom: 2rem;
-            line-height: 1.5;
+            margin-bottom: 1.5rem;
         }
 
-        .idea-meta {
+        .idea-meta-row {
             display: flex;
             align-items: center;
             gap: 1.5rem;
@@ -1546,21 +1180,15 @@
         }
 
         .meta-avatar {
-            width: 24px;
-            height: 24px;
+            width: 28px; height: 28px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-        }
-
-        .meta-tags {
-            display: flex;
-            gap: 0.5rem;
         }
 
         .meta-tag {
             padding: 0.3rem 0.75rem;
             background: var(--bg-tertiary);
-            border-radius: 100px;
+            border-radius: 4px;
             font-size: 0.8rem;
             color: var(--text-secondary);
         }
@@ -1575,97 +1203,38 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 1rem 1.75rem;
-            background: var(--bg-card);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .vote-btn:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .vote-btn.voted {
-            border-color: var(--accent);
-            background: rgba(255, 107, 53, 0.1);
-        }
-
-        .vote-btn.voted .vote-arrow {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--accent);
+            border-radius: 10px;
             color: var(--accent);
-        }
-
-        .vote-arrow {
-            font-size: 1.25rem;
-            transition: all 0.3s;
-        }
-
-        .vote-count {
-            font-family: var(--font-mono);
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-
-        .vote-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .action-btn {
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.95rem;
             cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            transition: all 0.2s;
         }
 
-        .action-btn.build {
-            background: linear-gradient(135deg, var(--purple), #c084fc);
+        .vote-btn:hover, .vote-btn.voted {
+            background: var(--accent);
             color: white;
-            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
         }
 
-        .action-btn.build:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(168, 85, 247, 0.4);
-        }
+        .vote-arrow { font-size: 1.25rem; }
+        .vote-count { font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem; }
 
-        .action-btn.buy {
-            background: linear-gradient(135deg, var(--success), #6ee7b7);
-            color: #0a0a0b;
-            box-shadow: 0 4px 20px rgba(52, 211, 153, 0.3);
-        }
-
-        .action-btn.buy:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(52, 211, 153, 0.4);
-        }
-
-        .idea-content {
+        /* About Grid */
+        .about-grid {
             display: grid;
             grid-template-columns: 1fr 380px;
             gap: 2rem;
         }
 
+        /* Content Sections */
         .idea-section {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 20px;
             padding: 2rem;
             margin-bottom: 1.5rem;
-            transition: all 0.3s;
         }
-
-        .idea-section:hover { border-color: var(--text-muted); }
 
         .idea-section h2 {
             font-size: 0.8rem;
@@ -1673,30 +1242,26 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--accent);
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
         .idea-section h2::before {
             content: '';
             width: 4px;
-            height: 16px;
-            background: linear-gradient(180deg, var(--accent), var(--accent-secondary));
+            height: 20px;
+            background: var(--accent);
             border-radius: 2px;
         }
 
         .idea-section p {
             color: var(--text-secondary);
             line-height: 1.8;
-            font-size: 1.05rem;
         }
 
-        .idea-section ul {
-            list-style: none;
-            padding: 0;
-        }
+        .idea-section ul { list-style: none; }
 
         .idea-section li {
             position: relative;
@@ -1719,73 +1284,141 @@
 
         .idea-section li strong { color: var(--text-primary); }
 
+        /* Phone Mockup */
         .phone-mockup-container {
-            padding: 1.5rem;
+            padding: 2rem;
             background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
             border-radius: 16px;
-            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
         }
 
-        .phone-mockup-large {
+        .phone-mockup {
             width: 280px;
             height: 560px;
-            margin: 0 auto;
             background: #000;
             border-radius: 40px;
             padding: 12px;
-            box-shadow: 
-                0 0 0 2px #333,
-                0 20px 50px rgba(0, 0, 0, 0.5),
-                inset 0 0 0 2px #1a1a1a;
+            box-shadow: 0 0 0 2px #333, 0 20px 50px rgba(0, 0, 0, 0.5);
             position: relative;
             animation: float 6s ease-in-out infinite;
         }
 
-        .idea-sidebar {
-            position: sticky;
-            top: 100px;
-            align-self: start;
+        .phone-notch {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 25px;
+            background: #000;
+            border-radius: 0 0 15px 15px;
+            z-index: 10;
         }
 
-        .traction-card {
-            background: linear-gradient(135deg, var(--bg-card), var(--bg-tertiary));
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 30px;
+            overflow: hidden;
         }
 
-        .traction-header {
+        .phone-app {
+            padding: 3rem 1.25rem 1.25rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-header { text-align: center; margin-bottom: 1.5rem; }
+
+        .app-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 0.5rem;
         }
 
-        .traction-header h3 {
-            font-size: 1rem;
+        .app-title { font-weight: 700; font-size: 1.25rem; }
+        .app-subtitle { font-size: 0.8rem; color: var(--text-muted); }
+
+        .app-scan-area {
+            border: 2px dashed var(--text-muted);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .scan-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .scan-text { font-size: 0.8rem; color: var(--text-muted); }
+
+        .app-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border: none;
+            border-radius: 8px;
+            color: white;
             font-weight: 600;
+            margin-bottom: 1rem;
         }
 
-        .traction-live {
+        .recipe-preview { display: flex; gap: 0.5rem; }
+
+        .recipe-card-mini {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        .recipe-card-mini .emoji { font-size: 1.5rem; }
+        .recipe-card-mini .name { font-size: 0.7rem; }
+        .recipe-card-mini .match { font-size: 0.65rem; color: var(--yes); font-family: var(--font-mono); }
+
+        /* Traction & Market Cards */
+        .traction-card h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .updating-badge {
             display: flex;
             align-items: center;
             gap: 0.4rem;
             font-size: 0.75rem;
-            color: var(--success);
+            color: var(--yes);
             font-weight: 600;
         }
 
-        .traction-stats {
+        .updating-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--yes);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .traction-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .traction-stat {
             background: var(--bg-primary);
             border-radius: 12px;
-            padding: 1.25rem;
+            padding: 1rem;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -1794,24 +1427,14 @@
         .traction-stat::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+            background: var(--accent);
         }
 
-        .traction-stat.purple::before {
-            background: linear-gradient(90deg, var(--purple), #c084fc);
-        }
-
-        .traction-stat.green::before {
-            background: linear-gradient(90deg, var(--success), #6ee7b7);
-        }
-
-        .traction-stat.blue::before {
-            background: linear-gradient(90deg, var(--blue), #60a5fa);
-        }
+        .traction-stat:nth-child(2)::before { background: var(--purple); }
+        .traction-stat:nth-child(3)::before { background: var(--yes); }
+        .traction-stat:nth-child(4)::before { background: var(--blue); }
 
         .traction-value {
             font-family: var(--font-mono);
@@ -1822,29 +1445,17 @@
 
         .traction-stat:nth-child(1) .traction-value { color: var(--accent); }
         .traction-stat:nth-child(2) .traction-value { color: var(--purple); }
-        .traction-stat:nth-child(3) .traction-value { color: var(--success); }
+        .traction-stat:nth-child(3) .traction-value { color: var(--yes); }
         .traction-stat:nth-child(4) .traction-value { color: var(--blue); }
 
-        .traction-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
+        .traction-label { font-size: 0.75rem; color: var(--text-muted); }
 
-        .market-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .market-card h3 {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .market-analysis h3 {
             color: var(--accent);
-            margin-bottom: 1.5rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
         }
 
         .market-item {
@@ -1856,100 +1467,61 @@
         }
 
         .market-item:last-child { border-bottom: none; }
-
-        .market-item-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .market-item-value {
-            font-family: var(--font-mono);
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .builders-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-        }
+        .market-item-label { font-size: 0.9rem; color: var(--text-secondary); }
+        .market-item-value { font-family: var(--font-mono); font-weight: 700; }
 
         .builders-card h3 {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
             color: var(--purple);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .builders-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
         }
 
         .builder-item {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0.75rem;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            transition: all 0.2s;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
         }
 
-        .builder-item:hover { background: var(--bg-tertiary); }
+        .builder-item:last-child { border-bottom: none; }
 
         .builder-avatar {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--purple), #c084fc);
         }
 
-        .builder-avatar.green { background: linear-gradient(135deg, var(--success), #6ee7b7); }
+        .builder-avatar.green { background: linear-gradient(135deg, var(--yes), #34d399); }
         .builder-avatar.orange { background: linear-gradient(135deg, var(--accent), var(--accent-secondary)); }
 
         .builder-info { flex: 1; }
-
-        .builder-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 0.1rem;
-        }
-
-        .builder-role {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
+        .builder-name { font-weight: 600; font-size: 0.9rem; }
+        .builder-role { font-size: 0.8rem; color: var(--text-muted); }
 
         .builder-badge {
-            padding: 0.3rem 0.6rem;
-            background: rgba(168, 85, 247, 0.15);
-            color: var(--purple);
             font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--yes);
+            border-radius: 4px;
             font-weight: 600;
-            border-radius: 100px;
         }
 
         .builders-more {
+            margin-top: 1rem;
             text-align: center;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-            margin-top: 0.75rem;
         }
 
         .builders-more a {
+            color: var(--purple);
             font-size: 0.85rem;
-            color: var(--accent);
-            font-weight: 600;
+            cursor: pointer;
         }
 
+        /* Footer */
         footer {
             padding: 3rem 2rem;
             border-top: 1px solid var(--border);
@@ -1958,742 +1530,508 @@
             font-size: 0.85rem;
         }
 
-        footer a { color: var(--text-secondary); }
-        footer a:hover { color: var(--text-primary); }
-
-        /* ============== RESPONSIVE ============== */
-        @media (max-width: 900px) {
-            .idea-content { grid-template-columns: 1fr; }
+        /* Responsive */
+        @media (max-width: 1000px) {
+            .prediction-grid, .about-grid { grid-template-columns: 1fr; }
             .featured-card { grid-template-columns: 1fr; }
-            .featured-mockup { padding: 3rem 2rem; }
-            .transform-demo { grid-template-columns: 1fr; gap: 1.5rem; }
-            .transform-arrow { flex-direction: row; }
         }
 
         @media (max-width: 768px) {
             nav { padding: 1rem; }
             .nav-links { display: none; }
-            .hero { padding: 4rem 1.5rem 2rem; }
-            .hero h1 { font-size: 2.25rem; letter-spacing: -1px; }
-            .stats-bar { gap: 2rem; flex-wrap: wrap; }
-            .tier-select { grid-template-columns: 1fr; }
-            .ideas-grid { grid-template-columns: 1fr; }
-            .idea-actions { flex-direction: column; }
-            .idea-actions .vote-btn,
-            .idea-actions .action-btn { width: 100%; justify-content: center; }
-            .phone-mockup { transform: scale(0.9); }
-            .traction-stats { grid-template-columns: 1fr; }
-            .featured-content { padding: 2rem; }
-            .featured-content h3 { font-size: 1.5rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero-stats { gap: 2rem; flex-wrap: wrap; }
+            .markets-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <nav>
-        <a href="#" class="logo" onclick="showPage('home')">
-            <div class="logo-icon">⚡</div>
+        <div class="logo" onclick="showPage('home')">
+            <div class="logo-icon">🎯</div>
             Build Me
-        </a>
+        </div>
         <div class="nav-links">
-            <a href="#" class="active" onclick="showPage('home')" id="nav-home">Home</a>
-            <a href="#" onclick="showPage('browse')" id="nav-browse">Browse Ideas</a>
-            <a href="#" onclick="showPage('submit')" id="nav-submit">Submit Idea</a>
-            <button class="btn btn-primary" onclick="showPage('submit')">Submit Your Idea</button>
+            <a class="active" onclick="showPage('home')" id="nav-home">Markets</a>
+            <a onclick="showPage('browse')" id="nav-browse">Browse Ideas</a>
+            <a onclick="showPage('submit')" id="nav-submit">Submit Idea</a>
+            <div class="nav-balance">
+                <span>Balance:</span>
+                <span class="nav-balance-amount">$1,247.00</span>
+            </div>
+            <button class="btn btn-primary" onclick="showPage('submit')">Submit Idea</button>
         </div>
     </nav>
 
-    <!-- Home Page -->
-    <div class="page active" id="page-home">
-        <!-- Live Activity Ticker -->
-        <div class="activity-ticker">
-            <div class="ticker-track">
-                <div class="ticker-item">
-                    <span class="dot"></span>
-                    <span class="name">Sarah K.</span> submitted <span class="action">FridgeChef</span>
-                    <span class="time">2m ago</span>
-                </div>
-                <div class="ticker-item">
-                    <span class="dot"></span>
-                    <span class="name">Marcus T.</span> hit <span class="action">1,000 votes</span>
-                    <span class="time">5m ago</span>
-                </div>
-                <div class="ticker-item">
-                    <span class="dot"></span>
-                    <span class="name">ToolShare</span> matched with <span class="action">3 builders</span>
-                    <span class="time">12m ago</span>
-                </div>
-                <div class="ticker-item">
-                    <span class="dot"></span>
-                    <span class="name">ContractPro</span> received <span class="action">$2,400 pre-order</span>
-                    <span class="time">18m ago</span>
-                </div>
-                <div class="ticker-item">
-                    <span class="dot"></span>
-                    <span class="name">Jamie L.</span> submitted <span class="action">MeetingMind</span>
-                    <span class="time">23m ago</span>
-                </div>
-                <div class="ticker-item">
-                    <span class="dot"></span>
-                    <span class="name">SleepWell</span> started <span class="action">building phase</span>
-                    <span class="time">31m ago</span>
-                </div>
-                <!-- Duplicate for seamless loop -->
-                <div class="ticker-item">
-                    <span class="dot"></span>
-                    <span class="name">Sarah K.</span> submitted <span class="action">FridgeChef</span>
-                    <span class="time">2m ago</span>
-                </div>
-                <div class="ticker-item">
-                    <span class="dot"></span>
-                    <span class="name">Marcus T.</span> hit <span class="action">1,000 votes</span>
-                    <span class="time">5m ago</span>
-                </div>
-                <div class="ticker-item">
-                    <span class="dot"></span>
-                    <span class="name">ToolShare</span> matched with <span class="action">3 builders</span>
-                    <span class="time">12m ago</span>
-                </div>
-                <div class="ticker-item">
-                    <span class="dot"></span>
-                    <span class="name">ContractPro</span> received <span class="action">$2,400 pre-order</span>
-                    <span class="time">18m ago</span>
-                </div>
-                <div class="ticker-item">
-                    <span class="dot"></span>
-                    <span class="name">Jamie L.</span> submitted <span class="action">MeetingMind</span>
-                    <span class="time">23m ago</span>
-                </div>
-                <div class="ticker-item">
-                    <span class="dot"></span>
-                    <span class="name">SleepWell</span> started <span class="action">building phase</span>
-                    <span class="time">31m ago</span>
-                </div>
+    <!-- Live Ticker -->
+    <div class="live-ticker">
+        <div class="ticker-track">
+            <div class="ticker-item">
+                <span class="ticker-question">Will FridgeChef ship MVP by March?</span>
+                <span class="ticker-odds-yes">73% YES</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-question">ContractPro: 1000 users in 30 days?</span>
+                <span class="ticker-odds-yes">54% YES</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-question">Will ToolShare raise seed funding?</span>
+                <span class="ticker-odds-no">38% YES</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-question">UnsubMe: $50k revenue in year 1?</span>
+                <span class="ticker-odds-yes">61% YES</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-question">Will FridgeChef ship MVP by March?</span>
+                <span class="ticker-odds-yes">73% YES</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-question">ContractPro: 1000 users in 30 days?</span>
+                <span class="ticker-odds-yes">54% YES</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-question">Will ToolShare raise seed funding?</span>
+                <span class="ticker-odds-no">38% YES</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-question">UnsubMe: $50k revenue in year 1?</span>
+                <span class="ticker-odds-yes">61% YES</span>
             </div>
         </div>
+    </div>
 
+    <!-- ============== HOME PAGE ============== -->
+    <div class="page active" id="page-home">
         <section class="hero">
             <div class="hero-badge animate-in">
                 <span class="live-dot"></span>
-                <span>127</span> ideas validating right now
+                127 active prediction markets
             </div>
-            <h1 class="animate-in delay-1">From idea to <span class="gradient">demo</span> to demand</h1>
-            <p class="hero-tagline animate-in delay-2">
-                <span id="typing-text"></span><span class="typing-cursor"></span>
-            </p>
-            <div class="hero-ideas animate-in delay-3">
-                <span class="hero-idea-chip" data-idea="An app that turns fridge photos into recipes">🍳 FridgeChef</span>
-                <span class="hero-idea-chip" data-idea="One-click contracts for freelancers">📝 ContractPro</span>
-                <span class="hero-idea-chip" data-idea="Borrow tools from your neighbors">🔧 ToolShare</span>
-                <span class="hero-idea-chip" data-idea="AI meeting notes for busy parents">🎙️ MeetingMind</span>
-            </div>
-            <div class="hero-cta animate-in delay-4">
-                <button class="btn btn-primary" onclick="showPage('submit')">
-                    Submit Your Idea
+            <h1 class="animate-in delay-1">Predict the <span class="gradient">future</span> of ideas</h1>
+            <p class="animate-in delay-2">Bet on whether startups will ship, scale, or fail. Earn money by being right. Help founders get real signal.</p>
+            <div class="hero-cta animate-in delay-3">
+                <button class="btn btn-primary" onclick="showPage('prediction')">
+                    Start Predicting
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </button>
-                <button class="btn btn-secondary" onclick="showPage('browse')">Browse Ideas</button>
+                <button class="btn btn-secondary" onclick="showPage('submit')">Submit Your Idea</button>
             </div>
-            <div class="stats-bar animate-in delay-5">
-                <div class="stat">
-                    <div class="stat-value" id="stat-ideas">2,847</div>
-                    <div class="stat-label">Ideas Submitted</div>
+            <div class="hero-stats animate-in delay-4">
+                <div class="hero-stat">
+                    <div class="hero-stat-value">$847K</div>
+                    <div class="hero-stat-label">Total Volume</div>
                 </div>
-                <div class="stat">
-                    <div class="stat-value">34</div>
-                    <div class="stat-label">Now Building</div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">12,847</div>
+                    <div class="hero-stat-label">Predictions Made</div>
                 </div>
-                <div class="stat">
-                    <div class="stat-value">$1.2M</div>
-                    <div class="stat-label">Pre-orders</div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">73%</div>
+                    <div class="hero-stat-label">Avg Accuracy (Top 10)</div>
                 </div>
             </div>
         </section>
 
-        <!-- Featured Idea Section -->
         <section class="featured-section">
-            <div class="featured-header">
-                <h2><span class="fire">🔥</span> Trending Now</h2>
-                <a href="#" onclick="showPage('browse')">View all ideas →</a>
+            <div class="section-header">
+                <h2>🔥 Featured Market</h2>
             </div>
-            <div class="featured-card" onclick="showPage('idea')">
+            <div class="featured-card animate-in" onclick="showPage('prediction')">
                 <div class="featured-content">
-                    <div class="featured-status">
-                        <span class="dot"></span>
-                        Live Validation
+                    <div class="featured-idea-badge">
+                        <span>🍳</span>
+                        <span>FridgeChef</span>
                     </div>
-                    <h3><span class="highlight">FridgeChef</span> — AI Recipe Generator</h3>
-                    <p>Snap a photo of your fridge. Get dinner ideas in seconds. Stop wasting food, stop wasting time.</p>
+                    <h3>Will FridgeChef ship a working MVP by March 31, 2025?</h3>
                     <div class="featured-meta">
-                        <div class="featured-meta-item votes">
-                            <span class="value">847</span>
-                            <span class="label">votes</span>
+                        <div class="featured-meta-item"><span>$24.7K</span> volume</div>
+                        <div class="featured-meta-item"><span>847</span> predictors</div>
+                        <div class="featured-meta-item"><span>43 days</span> left</div>
+                    </div>
+                    <div class="featured-probability">
+                        <div class="probability-bar-container">
+                            <div class="probability-yes" style="width: 73%;">73% YES</div>
+                            <div class="probability-no">27% NO</div>
                         </div>
-                        <div class="featured-meta-item builders">
-                            <span class="value">12</span>
-                            <span class="label">builders</span>
-                        </div>
-                        <div class="featured-meta-item buyers">
-                            <span class="value">234</span>
-                            <span class="label">would buy</span>
+                        <div class="probability-labels">
+                            <span>Community thinks this will happen</span>
+                            <span>+8% this week</span>
                         </div>
                     </div>
-                    <div class="featured-cta">
-                        <button class="btn btn-primary">View Full Pitch</button>
-                        <button class="btn btn-secondary">▲ Upvote</button>
+                    <div class="featured-actions">
+                        <button class="btn btn-yes">Bet YES @ 73¢</button>
+                        <button class="btn btn-no">Bet NO @ 27¢</button>
                     </div>
                 </div>
-                <div class="featured-mockup">
-                    <div class="phone-mockup">
-                        <div class="phone-notch"></div>
-                        <div class="phone-screen">
-                            <div class="phone-app">
-                                <div class="app-header">
-                                    <div class="app-logo">🍳</div>
-                                    <div class="app-title">FridgeChef</div>
-                                    <div class="app-subtitle">What's for dinner?</div>
-                                </div>
-                                <div class="app-main">
-                                    <div class="app-scan-area">
-                                        <div class="scan-icon">📷</div>
-                                        <div class="scan-text">Tap to scan your fridge</div>
-                                    </div>
-                                    <button class="app-btn">Take Photo</button>
-                                    <div class="recipe-preview">
-                                        <div class="recipe-card-mini">
-                                            <div class="emoji">🍝</div>
-                                            <div class="name">Pasta</div>
-                                            <div class="match">92%</div>
-                                        </div>
-                                        <div class="recipe-card-mini">
-                                            <div class="emoji">🥗</div>
-                                            <div class="name">Salad</div>
-                                            <div class="match">87%</div>
-                                        </div>
-                                        <div class="recipe-card-mini">
-                                            <div class="emoji">🍳</div>
-                                            <div class="name">Omelet</div>
-                                            <div class="match">78%</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="featured-sidebar">
+                    <h4>Resolution Criteria</h4>
+                    <div class="resolution-criteria">
+                        <p>Resolves YES if FridgeChef releases a functional app (iOS or Android) that can identify ingredients from photos and suggest recipes.</p>
+                    </div>
+                    <div class="resolution-date">
+                        <div class="resolution-date-icon">📅</div>
+                        <div class="resolution-date-text">
+                            Resolves on
+                            <strong>March 31, 2025</strong>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Transformation Section -->
-        <section class="transform-section">
-            <div class="transform-header">
-                <h2>See the transformation</h2>
-                <p>This is what happens to your idea in 48 hours.</p>
-            </div>
-            <div class="transform-demo">
-                <div class="transform-before">
-                    <div class="transform-before-label">You submit this</div>
-                    <div class="transform-before-content">
-                        "An app that <span class="highlight">takes a photo of your fridge</span> and tells you <span class="highlight">what you can cook</span> based on what's inside. For <span class="highlight">busy people who hate food waste</span>."
-                    </div>
-                </div>
-                <div class="transform-arrow">
-                    <div class="transform-arrow-icon">⚡</div>
-                    <div class="transform-arrow-text">48 hours</div>
-                </div>
-                <div class="transform-after">
-                    <div class="transform-after-label">We generate this</div>
-                    <div class="transform-after-card">
-                        <div class="transform-after-icon">🍳</div>
-                        <div class="transform-after-content">
-                            <h4>FridgeChef</h4>
-                            <p>Full pitch page with mockups, market analysis, and feature breakdown</p>
-                            <div class="transform-after-stats">
-                                <div class="transform-stat">
-                                    <span class="value">6</span>
-                                    <span class="label"> sections</span>
-                                </div>
-                                <div class="transform-stat">
-                                    <span class="value">3</span>
-                                    <span class="label"> mockups</span>
-                                </div>
-                                <div class="transform-stat">
-                                    <span class="value">$1.2B</span>
-                                    <span class="label"> TAM</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- How it Works -->
-        <section class="section">
+        <section class="markets-section">
             <div class="section-header">
-                <h2>How it works</h2>
-                <p>From napkin sketch to validated product in days, not months.</p>
+                <h2>🎯 Active Markets</h2>
+                <a>View all →</a>
             </div>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">01 — SUBMIT</div>
-                    <h3>Share your idea</h3>
-                    <p>Describe your concept in plain English. Who's it for? What problem does it solve? That's all we need.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">02 — TRANSFORM</div>
-                    <h3>We build the pitch</h3>
-                    <p>AI transforms your idea into a polished pitch page with features, market analysis, and demo mockups.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">03 — VALIDATE</div>
-                    <h3>The crowd decides</h3>
-                    <p>Your idea goes live. People vote, comment, and signal "I'd buy this" or "I'd build this."</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">04 — BUILD</div>
-                    <h3>Winners get built</h3>
-                    <p>Top ideas attract builders, funding, and pre-orders. We connect you with devs ready to execute.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials -->
-        <section class="testimonials-section">
-            <div class="testimonials-header">
-                <h2>From idea to traction</h2>
-            </div>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        "I submitted on Monday. By Friday, I had <strong>12 developers in my inbox</strong> wanting to build it. We're now in beta with 400 users."
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar"></div>
-                        <div class="testimonial-info">
-                            <div class="testimonial-name">Sarah K.</div>
-                            <div class="testimonial-role">FridgeChef founder</div>
-                        </div>
-                        <div class="testimonial-result">847 votes</div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        "The pitch page they generated was <strong>better than what I paid an agency $5k for</strong> last year. Seriously."
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar purple"></div>
-                        <div class="testimonial-info">
-                            <div class="testimonial-name">Marcus T.</div>
-                            <div class="testimonial-role">ContractPro founder</div>
-                        </div>
-                        <div class="testimonial-result">$24k pre-orders</div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        "I've had this idea for 3 years. Never knew if anyone wanted it. <strong>Got validation in 72 hours.</strong> Now I know it's worth building."
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar green"></div>
-                        <div class="testimonial-info">
-                            <div class="testimonial-name">Jamie L.</div>
-                            <div class="testimonial-role">ToolShare founder</div>
-                        </div>
-                        <div class="testimonial-result">634 votes</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pricing -->
-        <section class="section">
-            <div class="section-header">
-                <h2>Choose your tier</h2>
-                <p>Start free, or go pro for premium validation.</p>
-            </div>
-            <div class="pricing-grid">
-                <div class="price-card">
-                    <div class="price-tier">Free</div>
-                    <div class="price-amount">$0</div>
-                    <div class="price-desc">Test the waters with a basic submission</div>
-                    <ul class="price-features">
-                        <li>Basic idea page</li>
-                        <li>Public voting</li>
-                        <li>Community comments</li>
-                        <li>Standard queue (7-day review)</li>
-                    </ul>
-                    <button class="btn btn-secondary" onclick="showPage('submit')">Get Started</button>
-                </div>
-                <div class="price-card featured">
-                    <div class="price-tier">Pro</div>
-                    <div class="price-amount">$49 <span>one-time</span></div>
-                    <div class="price-desc">Full validation package for serious founders</div>
-                    <ul class="price-features">
-                        <li>AI-generated pitch deck</li>
-                        <li>Demo mockups & screenshots</li>
-                        <li>Market size analysis</li>
-                        <li>Competitor breakdown</li>
-                        <li>Priority review (48 hours)</li>
-                        <li>Featured placement</li>
-                    </ul>
-                    <button class="btn btn-primary" onclick="showPage('submit')">Go Pro</button>
-                </div>
-                <div class="price-card">
-                    <div class="price-tier">Studio</div>
-                    <div class="price-amount">$199 <span>one-time</span></div>
-                    <div class="price-desc">For ideas ready to become startups</div>
-                    <ul class="price-features">
-                        <li>Everything in Pro</li>
-                        <li>Working landing page</li>
-                        <li>Email capture setup</li>
-                        <li>Builder matching</li>
-                        <li>1-on-1 strategy call</li>
-                        <li>Investor intro (if qualified)</li>
-                    </ul>
-                    <button class="btn btn-secondary" onclick="showPage('submit')">Go Studio</button>
-                </div>
-            </div>
-        </section>
-
-        <footer>
-            <p>© 2025 Build Me. <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
-        </footer>
-    </div>
-
-    <!-- Browse Ideas Page -->
-    <div class="page" id="page-browse">
-        <div class="browse-header">
-            <h1>Explore Ideas</h1>
-            <p>Vote for ideas you'd use, build, or invest in.</p>
-            <div class="browse-filters">
+            <div class="markets-filters">
                 <button class="filter-btn active">All</button>
-                <button class="filter-btn">Validating</button>
-                <button class="filter-btn">Funded</button>
-                <button class="filter-btn">Building</button>
-                <button class="filter-btn">SaaS</button>
-                <button class="filter-btn">Consumer</button>
-                <button class="filter-btn">AI</button>
+                <button class="filter-btn">🔥 Trending</button>
+                <button class="filter-btn">⏰ Ending Soon</button>
+                <button class="filter-btn">💰 High Volume</button>
             </div>
-        </div>
-
-        <div class="ideas-grid">
-            <div class="idea-card" onclick="showPage('idea')">
-                <div class="idea-card-header">
-                    <span class="idea-status validating">Validating</span>
-                    <div class="idea-votes">▲ 847</div>
-                </div>
-                <h3>AI Recipe Generator from Fridge Photos</h3>
-                <p>Snap a photo of your fridge, get instant recipe suggestions based on what you have. Reduces food waste and decision fatigue.</p>
-                <div class="idea-tags">
-                    <span class="idea-tag">Consumer</span>
-                    <span class="idea-tag">AI</span>
-                    <span class="idea-tag">Mobile</span>
-                </div>
-                <div class="idea-card-footer">
-                    <div class="idea-author">
-                        <div class="author-avatar"></div>
-                        Sarah K.
+            <div class="markets-grid">
+                <div class="market-card" onclick="showPage('prediction')">
+                    <div class="market-card-header">
+                        <div class="market-idea">
+                            <div class="market-idea-icon">📝</div>
+                            ContractPro
+                        </div>
+                        <div class="market-volume">Vol: <span>$18.2K</span></div>
                     </div>
-                    <div class="idea-builders"><strong>12</strong> want to build</div>
-                </div>
-            </div>
-
-            <div class="idea-card">
-                <div class="idea-card-header">
-                    <span class="idea-status funded">Funded</span>
-                    <div class="idea-votes">▲ 1,203</div>
-                </div>
-                <h3>Micro-SaaS for Freelancer Contracts</h3>
-                <p>One-click contract generator for freelancers. Fill in the blanks, send for e-signature, get paid tracking built in.</p>
-                <div class="idea-tags">
-                    <span class="idea-tag">SaaS</span>
-                    <span class="idea-tag">Legal</span>
-                    <span class="idea-tag">B2B</span>
-                </div>
-                <div class="idea-card-footer">
-                    <div class="idea-author">
-                        <div class="author-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
-                        Marcus T.
+                    <h3>Will ContractPro hit 1,000 paying users within 30 days of launch?</h3>
+                    <div class="market-probability">
+                        <div class="market-prob-bar">
+                            <div class="market-prob-yes" style="width: 54%;">54%</div>
+                            <div class="market-prob-no">46%</div>
+                        </div>
                     </div>
-                    <div class="idea-builders"><strong>$24k</strong> pre-ordered</div>
-                </div>
-            </div>
-
-            <div class="idea-card">
-                <div class="idea-card-header">
-                    <span class="idea-status building">Building</span>
-                    <div class="idea-votes">▲ 634</div>
-                </div>
-                <h3>Neighborhood Tool Library App</h3>
-                <p>Borrow tools from neighbors instead of buying. Power drills, ladders, pressure washers — all shared within your community.</p>
-                <div class="idea-tags">
-                    <span class="idea-tag">Consumer</span>
-                    <span class="idea-tag">Marketplace</span>
-                    <span class="idea-tag">Local</span>
-                </div>
-                <div class="idea-card-footer">
-                    <div class="idea-author">
-                        <div class="author-avatar" style="background: linear-gradient(135deg, #6366f1, #a855f7);"></div>
-                        Jamie L.
+                    <div class="market-card-footer">
+                        <div class="market-predictors">634 predictors</div>
+                        <div class="market-ends">Ends <span>Feb 28</span></div>
                     </div>
-                    <div class="idea-builders"><strong>3</strong> devs building</div>
                 </div>
-            </div>
 
-            <div class="idea-card">
-                <div class="idea-card-header">
-                    <span class="idea-status validating">Validating</span>
-                    <div class="idea-votes">▲ 412</div>
-                </div>
-                <h3>AI Meeting Summarizer for Parents</h3>
-                <p>Record school meetings, doctor visits, or IEP sessions. Get AI summaries with action items and follow-up reminders.</p>
-                <div class="idea-tags">
-                    <span class="idea-tag">Consumer</span>
-                    <span class="idea-tag">AI</span>
-                    <span class="idea-tag">Productivity</span>
-                </div>
-                <div class="idea-card-footer">
-                    <div class="idea-author">
-                        <div class="author-avatar" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);"></div>
-                        David R.
+                <div class="market-card" onclick="showPage('prediction')">
+                    <div class="market-card-header">
+                        <div class="market-idea">
+                            <div class="market-idea-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">🔧</div>
+                            ToolShare
+                        </div>
+                        <div class="market-volume">Vol: <span>$12.4K</span></div>
                     </div>
-                    <div class="idea-builders"><strong>8</strong> want to build</div>
+                    <h3>Will ToolShare raise a seed round of $500K+ by June 2025?</h3>
+                    <div class="market-probability">
+                        <div class="market-prob-bar">
+                            <div class="market-prob-yes" style="width: 38%;">38%</div>
+                            <div class="market-prob-no">62%</div>
+                        </div>
+                    </div>
+                    <div class="market-card-footer">
+                        <div class="market-predictors">421 predictors</div>
+                        <div class="market-ends">Ends <span>Jun 30</span></div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="idea-card">
-                <div class="idea-card-header">
-                    <span class="idea-status validating">Validating</span>
-                    <div class="idea-votes">▲ 289</div>
-                </div>
-                <h3>Subscription Cancellation Concierge</h3>
-                <p>Connect your email, we find all your subscriptions and cancel the ones you don't want with one click. We handle the hold music.</p>
-                <div class="idea-tags">
-                    <span class="idea-tag">Consumer</span>
-                    <span class="idea-tag">Fintech</span>
-                    <span class="idea-tag">Automation</span>
-                </div>
-                <div class="idea-card-footer">
-                    <div class="idea-author">
-                        <div class="author-avatar" style="background: linear-gradient(135deg, #ec4899, #f472b6);"></div>
-                        Nina P.
+                <div class="market-card" onclick="showPage('prediction')">
+                    <div class="market-card-header">
+                        <div class="market-idea">
+                            <div class="market-idea-icon" style="background: linear-gradient(135deg, #ec4899, #f472b6);">❌</div>
+                            UnsubMe
+                        </div>
+                        <div class="market-volume">Vol: <span>$8.7K</span></div>
                     </div>
-                    <div class="idea-builders"><strong>15</strong> want to build</div>
+                    <h3>Will UnsubMe generate $50K revenue in its first year?</h3>
+                    <div class="market-probability">
+                        <div class="market-prob-bar">
+                            <div class="market-prob-yes" style="width: 61%;">61%</div>
+                            <div class="market-prob-no">39%</div>
+                        </div>
+                    </div>
+                    <div class="market-card-footer">
+                        <div class="market-predictors">298 predictors</div>
+                        <div class="market-ends">Ends <span>Dec 31</span></div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="idea-card">
-                <div class="idea-card-header">
-                    <span class="idea-status funded">Funded</span>
-                    <div class="idea-votes">▲ 956</div>
-                </div>
-                <h3>Sleep Training App for New Parents</h3>
-                <p>Personalized sleep schedules based on your baby's age and patterns. Daily adjustments, gentle methods only, progress tracking.</p>
-                <div class="idea-tags">
-                    <span class="idea-tag">Consumer</span>
-                    <span class="idea-tag">Health</span>
-                    <span class="idea-tag">Mobile</span>
-                </div>
-                <div class="idea-card-footer">
-                    <div class="idea-author">
-                        <div class="author-avatar" style="background: linear-gradient(135deg, #14b8a6, #5eead4);"></div>
-                        Alex M.
+                <div class="market-card" onclick="showPage('prediction')">
+                    <div class="market-card-header">
+                        <div class="market-idea">
+                            <div class="market-idea-icon">🍳</div>
+                            FridgeChef
+                        </div>
+                        <div class="market-volume">Vol: <span>$9.1K</span></div>
                     </div>
-                    <div class="idea-builders"><strong>$18k</strong> pre-ordered</div>
+                    <h3>Will FridgeChef reach 10,000 users within first month of launch?</h3>
+                    <div class="market-probability">
+                        <div class="market-prob-bar">
+                            <div class="market-prob-yes" style="width: 41%;">41%</div>
+                            <div class="market-prob-no">59%</div>
+                        </div>
+                    </div>
+                    <div class="market-card-footer">
+                        <div class="market-predictors">394 predictors</div>
+                        <div class="market-ends">Ends <span>Apr 30</span></div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
         <footer>
-            <p>© 2025 Build Me. <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
+            <p>© 2025 Build Me. <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">How it Works</a></p>
         </footer>
     </div>
 
-    <!-- Submit Idea Page -->
-    <div class="page" id="page-submit">
-        <div class="submit-page">
-            <h1>Submit your idea</h1>
-            <p>Tell us what you want to exist. We'll handle the rest.</p>
-
-            <form id="idea-form" onsubmit="handleSubmit(event)">
-                <div class="form-group">
-                    <label>What's your idea? <span>(one sentence)</span></label>
-                    <input type="text" placeholder="An app that..." required>
-                    <div class="form-hint">The elevator pitch. Keep it tight.</div>
-                </div>
-
-                <div class="form-group">
-                    <label>Who is this for?</label>
-                    <input type="text" placeholder="Busy parents, freelance designers, small restaurant owners...">
-                </div>
-
-                <div class="form-group">
-                    <label>What problem does it solve?</label>
-                    <textarea placeholder="Describe the pain point. What's broken today? What are people currently doing instead?"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>How should it work? <span>(optional)</span></label>
-                    <textarea placeholder="Walk us through the experience. What does the user do first? What happens next?"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Category</label>
-                    <select>
-                        <option value="">Select a category</option>
-                        <option>Consumer App</option>
-                        <option>SaaS / B2B</option>
-                        <option>Marketplace</option>
-                        <option>AI / ML Tool</option>
-                        <option>Fintech</option>
-                        <option>Health & Wellness</option>
-                        <option>Education</option>
-                        <option>Other</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Your email</label>
-                    <input type="email" placeholder="you@email.com" required>
-                    <div class="form-hint">We'll notify you when your idea page is ready.</div>
-                </div>
-
-                <div class="form-group">
-                    <label>Choose your tier</label>
-                </div>
-                <div class="tier-select">
-                    <div class="tier-option" onclick="selectTier(this, 'free')">
-                        <h4>Free</h4>
-                        <div class="price">$0</div>
-                        <p>Basic page<br>7-day review</p>
-                    </div>
-                    <div class="tier-option selected" onclick="selectTier(this, 'pro')">
-                        <h4>Pro</h4>
-                        <div class="price">$49</div>
-                        <p>Full pitch + mockups<br>48hr review</p>
-                    </div>
-                    <div class="tier-option" onclick="selectTier(this, 'studio')">
-                        <h4>Studio</h4>
-                        <div class="price">$199</div>
-                        <p>Landing page + matching<br>24hr review</p>
-                    </div>
-                </div>
-
-                <div class="submit-btn-container">
-                    <button type="submit" class="btn btn-primary">
-                        Submit Idea
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <footer>
-            <p>© 2025 Build Me. <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
-        </footer>
-    </div>
-
-    <!-- Individual Idea Page -->
-    <div class="page" id="page-idea">
-        <div class="idea-page">
-            <div class="idea-back animate-in" onclick="showPage('browse')">
+    <!-- ============== PREDICTION PAGE ============== -->
+    <div class="page" id="page-prediction">
+        <div class="prediction-page">
+            <div class="prediction-back animate-in" onclick="showPage('home')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                Back to ideas
+                Back to markets
             </div>
 
-            <div class="ai-generated-tag animate-in delay-1">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                AI-Generated Pitch • Pro Tier
+            <!-- Tab Navigation -->
+            <div class="page-tabs animate-in">
+                <button class="page-tab active" onclick="showSubPage('market')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                    Prediction Market
+                </button>
+                <button class="page-tab" onclick="showSubPage('about')">
+                    <span>🍳</span>
+                    About FridgeChef
+                </button>
             </div>
 
-            <div class="idea-hero-inner">
-                <div class="idea-hero-content">
-                    <div class="idea-live-badge animate-in delay-2">
-                        <span class="live-dot"></span>
-                        Live Validation • 847 votes
+            <!-- MARKET SUB-PAGE -->
+            <div id="subpage-market">
+                <div class="prediction-header animate-in delay-1">
+                    <h1>Will FridgeChef ship a working MVP by March 31, 2025?</h1>
+                    <div class="prediction-stats">
+                        <div class="prediction-stat">
+                            <div class="label">Volume</div>
+                            <div class="value">$24,732</div>
+                        </div>
+                        <div class="prediction-stat">
+                            <div class="label">Predictors</div>
+                            <div class="value">847</div>
+                        </div>
+                        <div class="prediction-stat">
+                            <div class="label">Ends In</div>
+                            <div class="value">43 days</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="prediction-grid">
+                    <div class="prediction-main">
+                        <div class="chart-card animate-in delay-2">
+                            <div class="chart-header">
+                                <h3>📈 Probability History</h3>
+                                <div class="chart-tabs">
+                                    <button class="chart-tab">1D</button>
+                                    <button class="chart-tab active">1W</button>
+                                    <button class="chart-tab">1M</button>
+                                    <button class="chart-tab">ALL</button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <svg class="chart-svg" viewBox="0 0 800 200" preserveAspectRatio="none">
+                                    <defs>
+                                        <linearGradient id="probGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" style="stop-color: #10b981; stop-opacity: 0.4" />
+                                            <stop offset="100%" style="stop-color: #10b981; stop-opacity: 0" />
+                                        </linearGradient>
+                                    </defs>
+                                    <line x1="0" y1="100" x2="800" y2="100" class="chart-reference" />
+                                    <text x="10" y="95" class="chart-reference-label">50%</text>
+                                    <path class="chart-area" d="M0,180 C80,170 160,150 240,140 C320,130 400,120 480,100 C560,80 640,70 720,60 L800,54 L800,200 L0,200 Z" />
+                                    <path class="chart-line" d="M0,180 C80,170 160,150 240,140 C320,130 400,120 480,100 C560,80 640,70 720,60 L800,54" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="activity-card animate-in delay-3">
+                            <h3>⚡ Recent Activity</h3>
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-avatar"></div>
+                                    <div class="activity-content">
+                                        <div class="activity-text"><strong>alex_m</strong> predicted <span class="yes">YES</span></div>
+                                        <div class="activity-time">2 minutes ago</div>
+                                    </div>
+                                    <div class="activity-amount">$50</div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-avatar" style="background: linear-gradient(135deg, #8b5cf6, #a855f7);"></div>
+                                    <div class="activity-content">
+                                        <div class="activity-text"><strong>sarah_k</strong> predicted <span class="yes">YES</span></div>
+                                        <div class="activity-time">8 minutes ago</div>
+                                    </div>
+                                    <div class="activity-amount">$120</div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-avatar" style="background: linear-gradient(135deg, #ef4444, #f87171);"></div>
+                                    <div class="activity-content">
+                                        <div class="activity-text"><strong>crypto_dan</strong> predicted <span class="no">NO</span></div>
+                                        <div class="activity-time">15 minutes ago</div>
+                                    </div>
+                                    <div class="activity-amount">$200</div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
+                                    <div class="activity-content">
+                                        <div class="activity-text"><strong>jenny_w</strong> predicted <span class="yes">YES</span></div>
+                                        <div class="activity-time">23 minutes ago</div>
+                                    </div>
+                                    <div class="activity-amount">$75</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <h1 class="animate-in delay-3">
-                        <span class="highlight">FridgeChef</span> — AI Recipe Generator from Fridge Photos
-                    </h1>
+                    <div class="prediction-sidebar">
+                        <div class="prob-card animate-in delay-1">
+                            <div class="prob-label">Current Probability</div>
+                            <div class="prob-value" id="live-odds">73%</div>
+                            <div class="prob-change">▲ +8% this week</div>
+                        </div>
 
-                    <p class="idea-tagline animate-in delay-4">
-                        Snap a photo of your fridge. Get dinner ideas in seconds. Stop wasting food, stop wasting time.
-                    </p>
+                        <div class="sidebar-card animate-in delay-2" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), var(--bg-card)); border-color: rgba(16, 185, 129, 0.3);">
+                            <h3 class="green">📊 Your Position</h3>
+                            <div class="position-grid">
+                                <div class="position-stat">
+                                    <div class="label">Prediction</div>
+                                    <div class="value yes">YES</div>
+                                </div>
+                                <div class="position-stat">
+                                    <div class="label">Amount</div>
+                                    <div class="value">$150</div>
+                                </div>
+                                <div class="position-stat">
+                                    <div class="label">Avg Price</div>
+                                    <div class="value">65¢</div>
+                                </div>
+                                <div class="position-stat">
+                                    <div class="label">Potential Win</div>
+                                    <div class="value yes">$230.77</div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="idea-meta animate-in delay-5">
+                        <div class="sidebar-card animate-in delay-3">
+                            <h3>🎯 Make a Prediction</h3>
+                            <div class="bet-selector">
+                                <div class="bet-option yes active" onclick="selectBet('yes')">
+                                    <div class="outcome">YES</div>
+                                    <div class="price">Buy @ 73¢</div>
+                                </div>
+                                <div class="bet-option no" onclick="selectBet('no')">
+                                    <div class="outcome">NO</div>
+                                    <div class="price">Buy @ 27¢</div>
+                                </div>
+                            </div>
+                            <div class="bet-input-group">
+                                <label>
+                                    Amount
+                                    <span>Balance: $1,247.00</span>
+                                </label>
+                                <div class="bet-input-wrapper">
+                                    <span class="bet-prefix">$</span>
+                                    <input type="number" class="bet-input" placeholder="0" id="bet-amount">
+                                </div>
+                            </div>
+                            <div class="quick-bets">
+                                <button class="quick-bet" onclick="setBetAmount(10)">$10</button>
+                                <button class="quick-bet" onclick="setBetAmount(25)">$25</button>
+                                <button class="quick-bet" onclick="setBetAmount(50)">$50</button>
+                                <button class="quick-bet" onclick="setBetAmount(100)">$100</button>
+                            </div>
+                            <button class="btn place-bet-btn yes" onclick="placeBet()">Predict YES</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ABOUT SUB-PAGE -->
+            <div id="subpage-about" style="display: none;">
+                <div class="ai-tag animate-in">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    AI-Generated Pitch • Pro Tier
+                </div>
+
+                <div class="idea-hero animate-in delay-1">
+                    <h1><span class="highlight">FridgeChef</span> — AI Recipe Generator from Fridge Photos</h1>
+                    <p class="idea-tagline">Snap a photo of your fridge. Get dinner ideas in seconds. Stop wasting food, stop wasting time.</p>
+                    
+                    <div class="idea-meta-row">
                         <div class="idea-meta-item">
                             <div class="meta-avatar"></div>
                             Sarah K.
                         </div>
                         <div class="idea-meta-item">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                             Dec 12, 2025
                         </div>
-                        <div class="meta-tags">
-                            <span class="meta-tag">Consumer</span>
-                            <span class="meta-tag">AI</span>
-                            <span class="meta-tag">Mobile</span>
-                        </div>
+                        <span class="meta-tag">Consumer</span>
+                        <span class="meta-tag">AI</span>
+                        <span class="meta-tag">Mobile</span>
                     </div>
 
-                    <div class="idea-actions animate-in delay-6">
+                    <div class="idea-actions">
                         <div class="vote-btn" onclick="handleVote(this)">
                             <span class="vote-arrow">▲</span>
-                            <span class="vote-count" id="vote-count">847</span>
-                            <span class="vote-label">Upvote</span>
+                            <span class="vote-count" id="vote-count">848</span>
+                            <span>Upvote</span>
                         </div>
-                        <button class="action-btn build">
+                        <button class="btn btn-purple">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
                             I'd Build This
                         </button>
-                        <button class="action-btn buy">
+                        <button class="btn btn-yes">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                             I'd Buy This
                         </button>
                     </div>
                 </div>
-            </div>
 
-            <div class="idea-content">
-                <div class="idea-main">
-                    <div class="idea-section animate-in delay-6">
-                        <h2>The Problem</h2>
-                        <p>Every day, 40% of food in American homes goes to waste — $1,500 per household annually. Meanwhile, people spend 30+ minutes deciding what to cook, often giving up and ordering takeout instead. Existing recipe apps require manual ingredient input and return hundreds of irrelevant results. The disconnect between what's actually in your kitchen and what you can make is costing people time, money, and sanity.</p>
-                    </div>
+                <div class="about-grid">
+                    <div class="about-main">
+                        <div class="idea-section animate-in delay-2">
+                            <h2>The Problem</h2>
+                            <p>Every day, 40% of food in American homes goes to waste — $1,500 per household annually. Meanwhile, people spend 30+ minutes deciding what to cook, often giving up and ordering takeout instead. Existing recipe apps require manual ingredient input and return hundreds of irrelevant results. The disconnect between what's actually in your kitchen and what you can make is costing people time, money, and sanity.</p>
+                        </div>
 
-                    <div class="idea-section animate-in delay-7">
-                        <h2>The Solution</h2>
-                        <p>FridgeChef uses computer vision to instantly identify ingredients from a single photo. Point your phone at your fridge, snap, and get 5 personalized recipe suggestions in under 3 seconds — ranked by how well they match what you have. No typing. No scrolling. No wasted food.</p>
-                    </div>
+                        <div class="idea-section animate-in delay-3">
+                            <h2>The Solution</h2>
+                            <p>FridgeChef uses computer vision to instantly identify ingredients from a single photo. Point your phone at your fridge, snap, and get 5 personalized recipe suggestions in under 3 seconds — ranked by how well they match what you have. No typing. No scrolling. No wasted food.</p>
+                        </div>
 
-                    <div class="idea-section animate-in delay-8">
-                        <h2>Key Features</h2>
-                        <ul>
-                            <li><strong>Instant Photo Recognition</strong> — AI identifies 500+ ingredients from fridge/pantry photos with 94% accuracy</li>
-                            <li><strong>Smart Recipe Matching</strong> — Recipes ranked by ingredient coverage (shows "92% match" vs "67% match")</li>
-                            <li><strong>Dietary Intelligence</strong> — Remembers your preferences: vegan, gluten-free, kid-friendly, low-carb</li>
-                            <li><strong>Expiration Alerts</strong> — Flags ingredients going bad soon and prioritizes recipes using them</li>
-                            <li><strong>One-Tap Shopping</strong> — Missing one ingredient? Add it to your list or order via Instacart</li>
-                            <li><strong>Hands-Free Cook Mode</strong> — Step-by-step voice guidance while you cook</li>
-                        </ul>
-                    </div>
+                        <div class="idea-section animate-in delay-4">
+                            <h2>Key Features</h2>
+                            <ul>
+                                <li><strong>Instant Photo Recognition</strong> — AI identifies 500+ ingredients from fridge/pantry photos with 94% accuracy</li>
+                                <li><strong>Smart Recipe Matching</strong> — Recipes ranked by ingredient coverage (shows "92% match" vs "67% match")</li>
+                                <li><strong>Dietary Intelligence</strong> — Remembers your preferences: vegan, gluten-free, kid-friendly, low-carb</li>
+                                <li><strong>Expiration Alerts</strong> — Flags ingredients going bad soon and prioritizes recipes using them</li>
+                                <li><strong>One-Tap Shopping</strong> — Missing one ingredient? Add it to your list or order via Instacart</li>
+                                <li><strong>Hands-Free Cook Mode</strong> — Step-by-step voice guidance while you cook</li>
+                            </ul>
+                        </div>
 
-                    <div class="idea-section animate-in delay-8">
-                        <h2>Demo Preview</h2>
-                        <p>Here's what the app experience could look like:</p>
-                        
-                        <div class="phone-mockup-container">
-                            <div class="phone-mockup-large">
-                                <div class="phone-notch"></div>
-                                <div class="phone-screen">
-                                    <div class="phone-app">
-                                        <div class="app-header">
-                                            <div class="app-logo">🍳</div>
-                                            <div class="app-title">FridgeChef</div>
-                                            <div class="app-subtitle">What's for dinner?</div>
-                                        </div>
-                                        <div class="app-main">
+                        <div class="idea-section animate-in delay-5">
+                            <h2>Demo Preview</h2>
+                            <p>Here's what the app experience could look like:</p>
+                            <div class="phone-mockup-container">
+                                <div class="phone-mockup">
+                                    <div class="phone-notch"></div>
+                                    <div class="phone-screen">
+                                        <div class="phone-app">
+                                            <div class="app-header">
+                                                <div class="app-logo">🔍</div>
+                                                <div class="app-title">FridgeChef</div>
+                                                <div class="app-subtitle">What's for dinner?</div>
+                                            </div>
                                             <div class="app-scan-area">
                                                 <div class="scan-icon">📷</div>
                                                 <div class="scan-text">Tap to scan your fridge</div>
@@ -2722,67 +2060,59 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="idea-sidebar">
-                    <div class="traction-card animate-in delay-5">
-                        <div class="traction-header">
-                            <h3>Live Traction</h3>
-                            <div class="traction-live">
-                                <span class="live-dot"></span>
-                                Updating
+                    <div class="about-sidebar">
+                        <div class="sidebar-card traction-card animate-in delay-2">
+                            <h3>
+                                Live Traction
+                                <span class="updating-badge">Updating</span>
+                            </h3>
+                            <div class="traction-grid">
+                                <div class="traction-stat">
+                                    <div class="traction-value">847</div>
+                                    <div class="traction-label">Upvotes</div>
+                                </div>
+                                <div class="traction-stat">
+                                    <div class="traction-value">12</div>
+                                    <div class="traction-label">Builders</div>
+                                </div>
+                                <div class="traction-stat">
+                                    <div class="traction-value">234</div>
+                                    <div class="traction-label">Would Buy</div>
+                                </div>
+                                <div class="traction-stat">
+                                    <div class="traction-value">89</div>
+                                    <div class="traction-label">Comments</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="traction-stats">
-                            <div class="traction-stat">
-                                <div class="traction-value">847</div>
-                                <div class="traction-label">Upvotes</div>
-                            </div>
-                            <div class="traction-stat purple">
-                                <div class="traction-value">12</div>
-                                <div class="traction-label">Builders</div>
-                            </div>
-                            <div class="traction-stat green">
-                                <div class="traction-value">234</div>
-                                <div class="traction-label">Would Buy</div>
-                            </div>
-                            <div class="traction-stat blue">
-                                <div class="traction-value">89</div>
-                                <div class="traction-label">Comments</div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="market-card animate-in delay-6">
-                        <h3>Market Analysis</h3>
-                        <div class="market-item">
-                            <span class="market-item-label">Market Size</span>
-                            <span class="market-item-value">$1.2B</span>
+                        <div class="sidebar-card market-analysis animate-in delay-3">
+                            <h3>Market Analysis</h3>
+                            <div class="market-item">
+                                <span class="market-item-label">Market Size</span>
+                                <span class="market-item-value">$1.2B</span>
+                            </div>
+                            <div class="market-item">
+                                <span class="market-item-label">Annual Growth</span>
+                                <span class="market-item-value">12.4%</span>
+                            </div>
+                            <div class="market-item">
+                                <span class="market-item-label">Target Users (US)</span>
+                                <span class="market-item-value">40M</span>
+                            </div>
+                            <div class="market-item">
+                                <span class="market-item-label">Avg Food Waste/Home</span>
+                                <span class="market-item-value">$1,500/yr</span>
+                            </div>
+                            <div class="market-item">
+                                <span class="market-item-label">Top Competitor</span>
+                                <span class="market-item-value">Yummly</span>
+                            </div>
                         </div>
-                        <div class="market-item">
-                            <span class="market-item-label">Annual Growth</span>
-                            <span class="market-item-value">12.4%</span>
-                        </div>
-                        <div class="market-item">
-                            <span class="market-item-label">Target Users (US)</span>
-                            <span class="market-item-value">40M</span>
-                        </div>
-                        <div class="market-item">
-                            <span class="market-item-label">Avg Food Waste/Home</span>
-                            <span class="market-item-value">$1,500/yr</span>
-                        </div>
-                        <div class="market-item">
-                            <span class="market-item-label">Top Competitor</span>
-                            <span class="market-item-value">Yummly</span>
-                        </div>
-                    </div>
 
-                    <div class="builders-card animate-in delay-7">
-                        <h3>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                            Interested Builders
-                        </h3>
-                        <div class="builders-list">
+                        <div class="sidebar-card builders-card animate-in delay-4">
+                            <h3>Interested Builders</h3>
                             <div class="builder-item">
                                 <div class="builder-avatar"></div>
                                 <div class="builder-info">
@@ -2807,9 +2137,9 @@
                                 </div>
                                 <span class="builder-badge">Applied</span>
                             </div>
-                        </div>
-                        <div class="builders-more">
-                            <a href="#">View all 12 builders →</a>
+                            <div class="builders-more">
+                                <a>View all 12 builders →</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2817,181 +2147,260 @@
         </div>
 
         <footer>
-            <p>© 2025 Build Me. <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact</a></p>
+            <p>© 2025 Build Me. <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">How it Works</a></p>
+        </footer>
+    </div>
+
+    <!-- ============== BROWSE IDEAS PAGE ============== -->
+    <div class="page" id="page-browse">
+        <div class="markets-section">
+            <div class="section-header animate-in">
+                <h2>Browse Ideas</h2>
+            </div>
+            <p class="animate-in" style="color: var(--text-secondary); margin-bottom: 2rem;">Discover ideas being validated. Vote, build, or invest.</p>
+            
+            <div class="markets-filters animate-in delay-1">
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">Validating</button>
+                <button class="filter-btn">Funded</button>
+                <button class="filter-btn">Building</button>
+            </div>
+
+            <div class="markets-grid animate-in delay-2">
+                <div class="market-card" onclick="showPage('prediction')">
+                    <div class="market-card-header">
+                        <div class="market-idea">
+                            <div class="market-idea-icon">🍳</div>
+                            FridgeChef
+                        </div>
+                        <div class="market-volume">▲ <span>847</span></div>
+                    </div>
+                    <h3>AI Recipe Generator from Fridge Photos</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Snap a photo of your fridge, get instant recipe suggestions.</p>
+                    <div class="market-card-footer">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Sarah K.</span>
+                        <span style="font-size: 0.8rem; color: var(--yes);">12 builders interested</span>
+                    </div>
+                </div>
+
+                <div class="market-card" onclick="showPage('prediction')">
+                    <div class="market-card-header">
+                        <div class="market-idea">
+                            <div class="market-idea-icon" style="background: linear-gradient(135deg, #10b981, #34d399);">📝</div>
+                            ContractPro
+                        </div>
+                        <div class="market-volume">▲ <span>1,203</span></div>
+                    </div>
+                    <h3>Micro-SaaS for Freelancer Contracts</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">One-click contract generator with e-signature.</p>
+                    <div class="market-card-footer">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Marcus T.</span>
+                        <span style="font-size: 0.8rem; color: var(--yes);">$24k pre-ordered</span>
+                    </div>
+                </div>
+
+                <div class="market-card" onclick="showPage('prediction')">
+                    <div class="market-card-header">
+                        <div class="market-idea">
+                            <div class="market-idea-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">🔧</div>
+                            ToolShare
+                        </div>
+                        <div class="market-volume">▲ <span>634</span></div>
+                    </div>
+                    <h3>Neighborhood Tool Library App</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Borrow tools from neighbors instead of buying.</p>
+                    <div class="market-card-footer">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Jamie L.</span>
+                        <span style="font-size: 0.8rem; color: var(--purple);">3 devs building</span>
+                    </div>
+                </div>
+
+                <div class="market-card" onclick="showPage('prediction')">
+                    <div class="market-card-header">
+                        <div class="market-idea">
+                            <div class="market-idea-icon" style="background: linear-gradient(135deg, #ec4899, #f472b6);">❌</div>
+                            UnsubMe
+                        </div>
+                        <div class="market-volume">▲ <span>289</span></div>
+                    </div>
+                    <h3>Subscription Cancellation Concierge</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">We find and cancel unwanted subscriptions.</p>
+                    <div class="market-card-footer">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Nina P.</span>
+                        <span style="font-size: 0.8rem; color: var(--yes);">15 want to build</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 Build Me. <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">How it Works</a></p>
+        </footer>
+    </div>
+
+    <!-- ============== SUBMIT PAGE ============== -->
+    <div class="page" id="page-submit">
+        <div class="markets-section" style="max-width: 700px;">
+            <h1 class="animate-in" style="font-size: 2.5rem; margin-bottom: 0.5rem;">Submit your idea</h1>
+            <p class="animate-in delay-1" style="color: var(--text-secondary); margin-bottom: 3rem;">Tell us what you want to exist. We'll create your pitch page and open prediction markets.</p>
+
+            <form onsubmit="handleSubmit(event)">
+                <div style="margin-bottom: 1.75rem;" class="animate-in delay-2">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">What's your idea?</label>
+                    <input type="text" placeholder="An app that..." style="width: 100%; padding: 1rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; color: var(--text-primary); font-size: 1rem;">
+                </div>
+
+                <div style="margin-bottom: 1.75rem;" class="animate-in delay-2">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Who is this for?</label>
+                    <input type="text" placeholder="Busy parents, freelancers..." style="width: 100%; padding: 1rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; color: var(--text-primary); font-size: 1rem;">
+                </div>
+
+                <div style="margin-bottom: 1.75rem;" class="animate-in delay-3">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">What problem does it solve?</label>
+                    <textarea placeholder="Describe the pain point..." style="width: 100%; padding: 1rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; color: var(--text-primary); font-size: 1rem; min-height: 120px; resize: vertical;"></textarea>
+                </div>
+
+                <div style="margin-bottom: 1.75rem;" class="animate-in delay-3">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Your email</label>
+                    <input type="email" placeholder="you@email.com" style="width: 100%; padding: 1rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; color: var(--text-primary); font-size: 1rem;">
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;" class="animate-in delay-4">
+                    <div onclick="selectTier(this)" style="background: var(--bg-secondary); border: 2px solid var(--border); border-radius: 12px; padding: 1.25rem; cursor: pointer; text-align: center;">
+                        <div style="font-weight: 600;">Free</div>
+                        <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent);">$0</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Basic page</div>
+                    </div>
+                    <div onclick="selectTier(this)" class="selected" style="background: rgba(255, 107, 53, 0.05); border: 2px solid var(--accent); border-radius: 12px; padding: 1.25rem; cursor: pointer; text-align: center;">
+                        <div style="font-weight: 600;">Pro</div>
+                        <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent);">$49</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Full pitch</div>
+                    </div>
+                    <div onclick="selectTier(this)" style="background: var(--bg-secondary); border: 2px solid var(--border); border-radius: 12px; padding: 1.25rem; cursor: pointer; text-align: center;">
+                        <div style="font-weight: 600;">Studio</div>
+                        <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent);">$199</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Landing page</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary animate-in delay-5" style="width: 100%; padding: 1rem; justify-content: center;">
+                    Submit Idea
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </form>
+        </div>
+
+        <footer>
+            <p>© 2025 Build Me. <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">How it Works</a></p>
         </footer>
     </div>
 
     <script>
-        // Typing effect
-        const ideas = [
-            "An app that turns fridge photos into recipes.",
-            "One-click contracts for freelancers.",
-            "Borrow tools from your neighbors.",
-            "AI meeting notes for busy parents.",
-            "Cancel subscriptions with one click."
-        ];
-        let ideaIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typingSpeed = 50;
-
-        function typeText() {
-            const typingEl = document.getElementById('typing-text');
-            if (!typingEl) return;
-
-            const currentIdea = ideas[ideaIndex];
-            
-            if (isDeleting) {
-                typingEl.textContent = currentIdea.substring(0, charIndex - 1);
-                charIndex--;
-                typingSpeed = 30;
-            } else {
-                typingEl.textContent = currentIdea.substring(0, charIndex + 1);
-                charIndex++;
-                typingSpeed = 50;
-            }
-
-            if (!isDeleting && charIndex === currentIdea.length) {
-                isDeleting = true;
-                typingSpeed = 2000; // Pause at end
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                ideaIndex = (ideaIndex + 1) % ideas.length;
-                typingSpeed = 500; // Pause before typing next
-                
-                // Update active chip
-                document.querySelectorAll('.hero-idea-chip').forEach((chip, idx) => {
-                    chip.classList.toggle('active', idx === ideaIndex);
-                });
-            }
-
-            setTimeout(typeText, typingSpeed);
-        }
-
-        // Start typing effect
-        setTimeout(typeText, 1000);
-
-        // Initialize first chip as active
-        document.querySelector('.hero-idea-chip')?.classList.add('active');
+        let currentBet = 'yes';
 
         function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById('page-' + pageId).classList.add('active');
-
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.classList.remove('active');
-            });
-
+            
+            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
             const navLink = document.getElementById('nav-' + pageId);
             if (navLink) navLink.classList.add('active');
 
             window.scrollTo(0, 0);
 
-            if (pageId === 'idea') {
-                const animatedElements = document.querySelectorAll('#page-idea .animate-in');
-                animatedElements.forEach(el => {
-                    el.style.animation = 'none';
-                    el.offsetHeight;
-                    el.style.animation = null;
-                });
-            }
-        }
-
-        function selectTier(element, tier) {
-            document.querySelectorAll('.tier-option').forEach(opt => {
-                opt.classList.remove('selected');
+            const animatedElements = document.querySelectorAll('#page-' + pageId + ' .animate-in');
+            animatedElements.forEach(el => {
+                el.style.animation = 'none';
+                el.offsetHeight;
+                el.style.animation = null;
             });
-            element.classList.add('selected');
         }
 
-        function handleSubmit(event) {
-            event.preventDefault();
-            alert('Idea submitted! (This is a demo — in production, this would process payment and create your idea page.)');
+        function showSubPage(subId) {
+            document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('.page-tab[onclick="showSubPage(\'' + subId + '\')"]').classList.add('active');
+            
+            document.getElementById('subpage-market').style.display = subId === 'market' ? 'block' : 'none';
+            document.getElementById('subpage-about').style.display = subId === 'about' ? 'block' : 'none';
+
+            // Re-trigger animations
+            const animatedElements = document.querySelectorAll('#subpage-' + subId + ' .animate-in');
+            animatedElements.forEach(el => {
+                el.style.animation = 'none';
+                el.offsetHeight;
+                el.style.animation = null;
+            });
+        }
+
+        function selectBet(type) {
+            currentBet = type;
+            document.querySelectorAll('.bet-option').forEach(b => b.classList.remove('active'));
+            document.querySelector('.bet-option.' + type).classList.add('active');
+            
+            const btn = document.querySelector('.place-bet-btn');
+            btn.className = 'btn place-bet-btn ' + type;
+            btn.textContent = 'Predict ' + type.toUpperCase();
+        }
+
+        function setBetAmount(amount) {
+            document.getElementById('bet-amount').value = amount;
+        }
+
+        function placeBet() {
+            const amount = document.getElementById('bet-amount').value;
+            if (!amount) {
+                alert('Enter an amount');
+                return;
+            }
+            alert('🎯 Prediction placed!\n\n' + currentBet.toUpperCase() + ' for $' + amount + '\n\n(This is a demo)');
         }
 
         function handleVote(btn) {
             btn.classList.toggle('voted');
             const countEl = document.getElementById('vote-count');
             let count = parseInt(countEl.textContent);
-            
-            if (btn.classList.contains('voted')) {
-                count++;
-                createConfetti(btn);
-            } else {
-                count--;
-            }
-            
+            count = btn.classList.contains('voted') ? count + 1 : count - 1;
             countEl.textContent = count;
         }
 
-        function createConfetti(element) {
-            const rect = element.getBoundingClientRect();
-            const colors = ['#ff6b35', '#ffb347', '#34d399', '#a855f7', '#3b82f6'];
-            
-            for (let i = 0; i < 20; i++) {
-                const confetti = document.createElement('div');
-                confetti.style.cssText = `
-                    position: fixed;
-                    width: ${Math.random() * 8 + 4}px;
-                    height: ${Math.random() * 8 + 4}px;
-                    background: ${colors[Math.floor(Math.random() * colors.length)]};
-                    left: ${rect.left + rect.width / 2}px;
-                    top: ${rect.top}px;
-                    pointer-events: none;
-                    z-index: 1001;
-                    border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
-                `;
-                
-                document.body.appendChild(confetti);
-                
-                const angle = (Math.random() - 0.5) * 120 * (Math.PI / 180);
-                const velocity = Math.random() * 80 + 60;
-                const vx = Math.sin(angle) * velocity;
-                const vy = -Math.cos(angle) * velocity - 20;
-                
-                let x = 0, y = 0, rotation = 0;
-                const gravity = 2;
-                const rotationSpeed = (Math.random() - 0.5) * 20;
-                
-                function animate() {
-                    x += vx * 0.1;
-                    y += vy * 0.1 + gravity;
-                    rotation += rotationSpeed;
-                    
-                    confetti.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
-                    confetti.style.opacity = Math.max(0, 1 - y / 150);
-                    
-                    if (y < 150) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        confetti.remove();
-                    }
-                }
-                
-                requestAnimationFrame(animate);
-            }
+        function selectTier(el) {
+            document.querySelectorAll('[onclick="selectTier(this)"]').forEach(t => {
+                t.style.borderColor = 'var(--border)';
+                t.style.background = 'var(--bg-secondary)';
+            });
+            el.style.borderColor = 'var(--accent)';
+            el.style.background = 'rgba(255, 107, 53, 0.05)';
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            alert('🚀 Idea submitted!\n\n(This is a demo)');
         }
 
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
             });
         });
 
-        // Chip click handler
-        document.querySelectorAll('.hero-idea-chip').forEach((chip, idx) => {
-            chip.addEventListener('click', () => {
-                ideaIndex = idx;
-                charIndex = 0;
-                isDeleting = false;
-                document.querySelectorAll('.hero-idea-chip').forEach(c => c.classList.remove('active'));
-                chip.classList.add('active');
+        document.querySelectorAll('.chart-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                this.parentElement.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
             });
         });
+
+        // Simulate live odds
+        setInterval(() => {
+            const oddsEl = document.getElementById('live-odds');
+            if (oddsEl && document.getElementById('page-prediction').classList.contains('active')) {
+                const change = (Math.random() - 0.5) * 2;
+                const currentOdds = parseInt(oddsEl.textContent);
+                const newOdds = Math.min(95, Math.max(5, currentOdds + change));
+                oddsEl.textContent = Math.round(newOdds) + '%';
+            }
+        }, 5000);
     </script>
 </body>
 </html>
