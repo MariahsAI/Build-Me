@@ -290,7 +290,7 @@
 
         .chart-container {
             height: 220px;
-            background: linear-gradient(180deg, rgba(16, 185, 129, 0.03) 0%, transparent 100%);
+            background: linear-gradient(180deg, rgba(0, 212, 255, 0.03) 0%, transparent 100%);
             border-radius: 12px;
             position: relative;
             overflow: hidden;
@@ -303,7 +303,7 @@
 
         .chart-line {
             fill: none;
-            stroke: var(--yes);
+            stroke: #00d4ff;
             stroke-width: 2.5;
         }
 
@@ -363,14 +363,14 @@
         }
 
         .market-prob-yes {
-            background: linear-gradient(90deg, var(--yes), #34d399);
+            background: linear-gradient(90deg, #00d4ff, #a8edea);
             display: flex;
             align-items: center;
             padding-left: 1rem;
             font-family: var(--font-mono);
             font-weight: 700;
             font-size: 0.95rem;
-            color: white;
+            color: #0a0b14;
             min-width: 50px;
         }
 
@@ -559,7 +559,7 @@
 
         .betting-on {
             background: var(--bg-secondary);
-            border-left: 3px solid var(--yes);
+            border-left: 3px solid #00d4ff;
             border-radius: 8px;
             padding: 1rem;
             margin-bottom: 1.25rem;
@@ -601,8 +601,8 @@
         }
 
         .bet-btn.yes.active {
-            border-color: var(--yes);
-            background: rgba(16, 185, 129, 0.1);
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
         }
 
         .bet-btn.no.active {
@@ -616,7 +616,7 @@
             margin-bottom: 0.25rem;
         }
 
-        .bet-btn.yes .outcome { color: var(--yes); }
+        .bet-btn.yes .outcome { color: #00d4ff; }
         .bet-btn.no .outcome { color: var(--no); }
 
         .bet-btn .price {
@@ -702,8 +702,8 @@
         }
 
         .submit-btn.yes {
-            background: linear-gradient(135deg, var(--yes), #34d399);
-            color: white;
+            background: linear-gradient(135deg, #00d4ff, #a8edea);
+            color: #0a0b14;
         }
 
         .submit-btn.no {
@@ -1305,8 +1305,8 @@
                             <svg class="chart-svg" viewBox="0 0 800 200" preserveAspectRatio="none">
                                 <defs>
                                     <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" style="stop-color: #10b981; stop-opacity: 0.3" />
-                                        <stop offset="100%" style="stop-color: #10b981; stop-opacity: 0" />
+                                        <stop offset="0%" style="stop-color: #00d4ff; stop-opacity: 0.3" />
+                                        <stop offset="100%" style="stop-color: #00d4ff; stop-opacity: 0" />
                                     </linearGradient>
                                 </defs>
                                 <line x1="0" y1="100" x2="800" y2="100" class="chart-reference" />
@@ -1626,7 +1626,7 @@
     </main>
 
     <footer>
-        <p>© 2025 Build Me. <a href="#">Terms</a> · <a href="#">Privacy</a></p>
+        <p>Powered by Mariah™ · © 2025</p>
     </footer>
 
     <script>
