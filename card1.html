@@ -27,6 +27,7 @@
             --purple: #a855f7;
             --blue: #3b82f6;
             --pink: #f338c3;
+            --green: #10b981;
             --font-sans: 'Instrument Sans', -apple-system, sans-serif;
             --font-mono: 'Space Mono', monospace;
         }
@@ -711,6 +712,809 @@
             color: white;
         }
 
+        /* ============== JOURNEY TAB ============== */
+        .journey-layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+        }
+
+        .journey-main {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .journey-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .journey-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .journey-card-header h2 {
+            font-size: 1.1rem;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .update-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Odds Chart */
+        .odds-chart-card {
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            background: linear-gradient(180deg, rgba(0, 212, 255, 0.05), var(--bg-card));
+        }
+
+        .odds-chart {
+            position: relative;
+            height: 280px;
+            margin-bottom: 1rem;
+        }
+
+        .odds-svg {
+            width: 100%;
+            height: 220px;
+        }
+
+        .odds-line {
+            filter: drop-shadow(0 0 6px rgba(0, 212, 255, 0.5));
+        }
+
+        .event-dot {
+            filter: drop-shadow(0 0 4px rgba(0, 212, 255, 0.5));
+            cursor: pointer;
+            transition: r 0.2s;
+        }
+
+        .event-dot:hover {
+            r: 10;
+        }
+
+        .odds-events {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+        }
+
+        .odds-event {
+            position: absolute;
+            text-align: center;
+            transform: translateX(-50%);
+        }
+
+        .event-line {
+            width: 1px;
+            height: 20px;
+            background: var(--accent);
+            margin: 0 auto 0.25rem;
+        }
+
+        .event-line.red { background: var(--no); }
+        .event-line.green { background: var(--green); }
+
+        .event-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .odds-current {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .odds-value {
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* Updates Feed */
+        .updates-feed {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .update-item {
+            display: flex;
+            gap: 1rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .update-item.latest .update-content {
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        .update-marker {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 1.25rem;
+        }
+
+        .marker-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+        }
+
+        .marker-dot.red {
+            background: var(--no);
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+        }
+
+        .marker-dot.green {
+            background: var(--green);
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+        }
+
+        .marker-dot.first {
+            background: var(--purple);
+            box-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+        }
+
+        .marker-line {
+            width: 2px;
+            flex: 1;
+            background: var(--border);
+            margin-top: 0.5rem;
+        }
+
+        .update-content {
+            flex: 1;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+
+        .update-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .update-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+
+        .update-meta {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .update-author {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .update-badge {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .update-badge.new {
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .update-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .update-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .update-body p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 0.75rem;
+        }
+
+        .update-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .update-media {
+            margin: 1rem 0;
+        }
+
+        .media-placeholder {
+            background: var(--bg-tertiary);
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .update-impact {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+        }
+
+        .update-impact.positive {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent);
+        }
+
+        .update-impact.negative {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--no);
+        }
+
+        .impact-delta {
+            font-family: var(--font-mono);
+            font-weight: 700;
+        }
+
+        .update-reactions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .reaction {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
+        }
+
+        .reaction:hover {
+            border-color: var(--accent);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .reaction-add {
+            background: transparent;
+            border: 1px dashed var(--border);
+            border-radius: 100px;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-family: var(--font-sans);
+        }
+
+        .reaction-add:hover {
+            border-color: var(--text-muted);
+        }
+
+        /* Journey Sidebar */
+        .journey-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .countdown-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), var(--bg-card));
+            border-color: rgba(0, 212, 255, 0.3);
+            text-align: center;
+        }
+
+        .countdown-card h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .countdown-item {
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            min-width: 70px;
+        }
+
+        .countdown-value {
+            font-family: var(--font-mono);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .countdown-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .countdown-date {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .countdown-market {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Milestones */
+        .milestones {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .milestone {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+
+        .milestone.completed .milestone-check {
+            background: var(--green);
+            color: white;
+        }
+
+        .milestone.pending .milestone-check {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .milestone-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .milestone-info {
+            flex: 1;
+        }
+
+        .milestone-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .milestone-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .milestone.completed .milestone-title {
+            color: var(--text-primary);
+        }
+
+        .milestone.pending .milestone-title {
+            color: var(--text-muted);
+        }
+
+        /* Journey Stats */
+        .journey-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .journey-stat {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .journey-stat-value {
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .journey-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .follow-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #00d4ff, #a8edea);
+            border: none;
+            border-radius: 10px;
+            color: var(--bg-primary);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .follow-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* Comments Section */
+        .comments-card {
+            border: 1px solid var(--border);
+        }
+
+        .comment-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .comment-tab {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: all 0.2s;
+        }
+
+        .comment-tab:hover {
+            border-color: var(--text-muted);
+        }
+
+        .comment-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Comment Input */
+        .comment-input-box {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .comment-input-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .comment-input-wrapper {
+            flex: 1;
+        }
+
+        .comment-input {
+            width: 100%;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            resize: none;
+            margin-bottom: 0.75rem;
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .comment-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .comment-input-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stance-selector {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .stance-btn {
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: all 0.2s;
+        }
+
+        .stance-btn.bull {
+            background: transparent;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: var(--accent);
+        }
+
+        .stance-btn.bull.active {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--accent);
+        }
+
+        .stance-btn.bear {
+            background: transparent;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--no);
+        }
+
+        .stance-btn.bear.active {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--no);
+        }
+
+        .comment-submit {
+            padding: 0.5rem 1.25rem;
+            background: linear-gradient(135deg, #00d4ff, #a8edea);
+            border: none;
+            border-radius: 6px;
+            color: var(--bg-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font-sans);
+        }
+
+        /* Comments List */
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .comment-item {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .comment-item:hover {
+            border-color: var(--border);
+        }
+
+        .comment-item.pinned {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.05), var(--bg-secondary));
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .comment-item.reply {
+            background: var(--bg-tertiary);
+            margin-left: 0;
+            padding: 1rem;
+        }
+
+        .comment-pin-badge {
+            font-size: 0.7rem;
+            color: #fbbf24;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .comment-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .comment-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .author-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .author-badge {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            color: var(--text-muted);
+        }
+
+        .author-badge.top {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+
+        .comment-stance {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .comment-stance.bull {
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--accent);
+        }
+
+        .comment-stance.bear {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--no);
+        }
+
+        .comment-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .comment-body {
+            margin-bottom: 1rem;
+        }
+
+        .comment-body p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .comment-body strong {
+            color: var(--text-primary);
+        }
+
+        .comment-footer {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .comment-vote,
+        .comment-reply,
+        .comment-share {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: var(--font-sans);
+            transition: all 0.2s;
+        }
+
+        .comment-vote:hover,
+        .comment-reply:hover,
+        .comment-share:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .comment-vote.upvote.active {
+            color: var(--accent);
+        }
+
+        .comment-vote.downvote.active {
+            color: var(--no);
+        }
+
+        .comment-replies {
+            margin-top: 1rem;
+            margin-left: 1rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--border);
+        }
+
+        .load-more-comments {
+            width: 100%;
+            padding: 0.875rem;
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: all 0.2s;
+        }
+
+        .load-more-comments:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
         /* ============== ABOUT TAB ============== */
         .pitch-header {
             margin-bottom: 2rem;
@@ -1279,6 +2083,10 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
                 Prediction Markets
             </button>
+            <button class="tab" onclick="switchTab('journey')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/></svg>
+                Journey
+            </button>
             <button class="tab" onclick="switchTab('about')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                 About <span id="aboutTabName">FridgeChef</span>
@@ -1437,6 +2245,490 @@
                         </div>
                         <button class="submit-btn yes" id="submitBtn" onclick="placeBet()">Predict YES</button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Journey Tab Content -->
+        <div class="tab-content" id="tab-journey">
+            <div class="journey-layout">
+                <!-- Main Timeline -->
+                <div class="journey-main">
+                    <!-- Live Odds Chart with Events -->
+                    <div class="journey-card odds-chart-card">
+                        <div class="journey-card-header">
+                            <h2>📈 Odds Timeline</h2>
+                            <div class="live-indicator">
+                                <span class="live-dot"></span>
+                                Live
+                            </div>
+                        </div>
+                        <div class="odds-chart">
+                            <svg class="odds-svg" viewBox="0 0 800 250" preserveAspectRatio="none">
+                                <defs>
+                                    <linearGradient id="oddsGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color: #00d4ff; stop-opacity: 0.3" />
+                                        <stop offset="100%" style="stop-color: #00d4ff; stop-opacity: 0" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Reference lines -->
+                                <line x1="0" y1="50" x2="800" y2="50" stroke="#252836" stroke-dasharray="4" />
+                                <line x1="0" y1="125" x2="800" y2="125" stroke="#252836" stroke-dasharray="4" />
+                                <line x1="0" y1="200" x2="800" y2="200" stroke="#252836" stroke-dasharray="4" />
+                                <text x="10" y="55" fill="#606075" font-size="11">75%</text>
+                                <text x="10" y="130" fill="#606075" font-size="11">50%</text>
+                                <text x="10" y="205" fill="#606075" font-size="11">25%</text>
+                                <!-- Area -->
+                                <path class="odds-area" fill="url(#oddsGradient)" d="M0,200 C50,200 80,180 120,175 C160,170 200,165 240,140 C280,115 300,130 340,135 C380,140 420,100 480,85 C540,70 580,75 640,60 C700,45 750,50 800,42 L800,250 L0,250 Z" />
+                                <!-- Line -->
+                                <path class="odds-line" fill="none" stroke="#00d4ff" stroke-width="3" d="M0,200 C50,200 80,180 120,175 C160,170 200,165 240,140 C280,115 300,130 340,135 C380,140 420,100 480,85 C540,70 580,75 640,60 C700,45 750,50 800,42" />
+                                <!-- Event markers -->
+                                <circle cx="120" cy="175" r="8" fill="#00d4ff" class="event-dot" />
+                                <circle cx="240" cy="140" r="8" fill="#00d4ff" class="event-dot" />
+                                <circle cx="340" cy="135" r="8" fill="#ef4444" class="event-dot" />
+                                <circle cx="480" cy="85" r="8" fill="#00d4ff" class="event-dot" />
+                                <circle cx="640" cy="60" r="8" fill="#10b981" class="event-dot" />
+                            </svg>
+                            <div class="odds-events">
+                                <div class="odds-event" style="left: 15%">
+                                    <div class="event-line"></div>
+                                    <div class="event-label">Idea Posted</div>
+                                </div>
+                                <div class="odds-event" style="left: 30%">
+                                    <div class="event-line"></div>
+                                    <div class="event-label">Quit Job</div>
+                                </div>
+                                <div class="odds-event" style="left: 42.5%">
+                                    <div class="event-line red"></div>
+                                    <div class="event-label">VC Rejections</div>
+                                </div>
+                                <div class="odds-event" style="left: 60%">
+                                    <div class="event-line"></div>
+                                    <div class="event-label">YC Interview</div>
+                                </div>
+                                <div class="odds-event" style="left: 80%">
+                                    <div class="event-line green"></div>
+                                    <div class="event-label">Beta Launch</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="odds-current">
+                            <span>Current Odds:</span>
+                            <span class="odds-value">73% YES</span>
+                        </div>
+                    </div>
+
+                    <!-- Founder Updates Feed -->
+                    <div class="journey-card">
+                        <div class="journey-card-header">
+                            <h2>📝 Founder Updates</h2>
+                            <span class="update-count">12 updates</span>
+                        </div>
+                        
+                        <div class="updates-feed">
+                            <!-- Update 5 - Latest -->
+                            <div class="update-item latest">
+                                <div class="update-marker">
+                                    <div class="marker-dot green"></div>
+                                    <div class="marker-line"></div>
+                                </div>
+                                <div class="update-content">
+                                    <div class="update-header">
+                                        <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
+                                        <div class="update-meta">
+                                            <span class="update-author">Sarah K.</span>
+                                            <span class="update-badge new">NEW</span>
+                                        </div>
+                                        <span class="update-time">2 hours ago</span>
+                                    </div>
+                                    <div class="update-title">🚀 Beta is LIVE!</div>
+                                    <div class="update-body">
+                                        <p>Holy shit, we did it. After 47 days of grinding, FridgeChef beta is officially live on the App Store. 1,247 people on the waitlist are getting access tonight.</p>
+                                        <p>The AI can now identify 500+ ingredients with 94% accuracy. Recipe matching is working beautifully. I'm literally shaking.</p>
+                                    </div>
+                                    <div class="update-media">
+                                        <div class="media-placeholder">📱 App Store Screenshot</div>
+                                    </div>
+                                    <div class="update-impact positive">
+                                        <span>📈 Odds moved: 68% → 73%</span>
+                                        <span class="impact-delta">+5%</span>
+                                    </div>
+                                    <div class="update-reactions">
+                                        <button class="reaction">🔥 247</button>
+                                        <button class="reaction">🚀 189</button>
+                                        <button class="reaction">💪 156</button>
+                                        <button class="reaction-add">+</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Update 4 -->
+                            <div class="update-item">
+                                <div class="update-marker">
+                                    <div class="marker-dot"></div>
+                                    <div class="marker-line"></div>
+                                </div>
+                                <div class="update-content">
+                                    <div class="update-header">
+                                        <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
+                                        <div class="update-meta">
+                                            <span class="update-author">Sarah K.</span>
+                                        </div>
+                                        <span class="update-time">5 days ago</span>
+                                    </div>
+                                    <div class="update-title">YC Interview Scheduled! 🎉</div>
+                                    <div class="update-body">
+                                        <p>Just got the email. Y Combinator wants to interview us for the W25 batch. Interview is next Tuesday. I've never been more nervous and excited in my life.</p>
+                                        <p>To everyone who bet YES early — thank you for believing. We're not done yet.</p>
+                                    </div>
+                                    <div class="update-impact positive">
+                                        <span>📈 Odds moved: 52% → 68%</span>
+                                        <span class="impact-delta">+16%</span>
+                                    </div>
+                                    <div class="update-reactions">
+                                        <button class="reaction">🔥 312</button>
+                                        <button class="reaction">🙏 201</button>
+                                        <button class="reaction-add">+</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Update 3 - Negative -->
+                            <div class="update-item">
+                                <div class="update-marker">
+                                    <div class="marker-dot red"></div>
+                                    <div class="marker-line"></div>
+                                </div>
+                                <div class="update-content">
+                                    <div class="update-header">
+                                        <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
+                                        <div class="update-meta">
+                                            <span class="update-author">Sarah K.</span>
+                                        </div>
+                                        <span class="update-time">2 weeks ago</span>
+                                    </div>
+                                    <div class="update-title">Rough week. 10 VC rejections. 😔</div>
+                                    <div class="update-body">
+                                        <p>Not gonna sugarcoat it — this week was brutal. Pitched to 10 VCs, got 10 nos. "Market too small." "Already invested in a competitor." "Come back with traction."</p>
+                                        <p>But here's the thing: I'm not building this for VCs. I'm building it for the 40% of food that gets wasted every day. We keep going.</p>
+                                    </div>
+                                    <div class="update-impact negative">
+                                        <span>📉 Odds moved: 58% → 52%</span>
+                                        <span class="impact-delta">-6%</span>
+                                    </div>
+                                    <div class="update-reactions">
+                                        <button class="reaction">💪 445</button>
+                                        <button class="reaction">❤️ 287</button>
+                                        <button class="reaction-add">+</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Update 2 -->
+                            <div class="update-item">
+                                <div class="update-marker">
+                                    <div class="marker-dot"></div>
+                                    <div class="marker-line"></div>
+                                </div>
+                                <div class="update-content">
+                                    <div class="update-header">
+                                        <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
+                                        <div class="update-meta">
+                                            <span class="update-author">Sarah K.</span>
+                                        </div>
+                                        <span class="update-time">3 weeks ago</span>
+                                    </div>
+                                    <div class="update-title">I quit my job today.</div>
+                                    <div class="update-body">
+                                        <p>Handed in my resignation at Google this morning. 6 years, gone. My manager thought I was crazy. Maybe I am.</p>
+                                        <p>But I've been thinking about FridgeChef for 2 years. If not now, when? I have 8 months of runway. Let's see what happens.</p>
+                                    </div>
+                                    <div class="update-impact positive">
+                                        <span>📈 Odds moved: 50% → 58%</span>
+                                        <span class="impact-delta">+8%</span>
+                                    </div>
+                                    <div class="update-reactions">
+                                        <button class="reaction">🔥 523</button>
+                                        <button class="reaction">🚀 341</button>
+                                        <button class="reaction-add">+</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Update 1 - First -->
+                            <div class="update-item">
+                                <div class="update-marker">
+                                    <div class="marker-dot first"></div>
+                                </div>
+                                <div class="update-content">
+                                    <div class="update-header">
+                                        <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
+                                        <div class="update-meta">
+                                            <span class="update-author">Sarah K.</span>
+                                        </div>
+                                        <span class="update-time">6 weeks ago</span>
+                                    </div>
+                                    <div class="update-title">Day 1: FridgeChef is born 🍳</div>
+                                    <div class="update-body">
+                                        <p>Hey everyone! I'm Sarah, and I just submitted FridgeChef to Build Me. The idea is simple: take a photo of your fridge, get instant recipe ideas.</p>
+                                        <p>I've been a software engineer for 6 years, but I've never built my own thing. That changes now. Follow along as I try to make this real.</p>
+                                    </div>
+                                    <div class="update-impact">
+                                        <span>🎯 Market opened at 50%</span>
+                                    </div>
+                                    <div class="update-reactions">
+                                        <button class="reaction">👋 234</button>
+                                        <button class="reaction">🚀 189</button>
+                                        <button class="reaction-add">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comments/Debate Section -->
+                    <div class="journey-card comments-card">
+                        <div class="journey-card-header">
+                            <h2>💬 Community Debate</h2>
+                            <div class="comment-tabs">
+                                <button class="comment-tab active" onclick="filterComments('hot')">🔥 Hot</button>
+                                <button class="comment-tab" onclick="filterComments('new')">🆕 New</button>
+                                <button class="comment-tab" onclick="filterComments('bulls')">📈 Bulls</button>
+                                <button class="comment-tab" onclick="filterComments('bears')">📉 Bears</button>
+                            </div>
+                        </div>
+
+                        <!-- Comment Input -->
+                        <div class="comment-input-box">
+                            <div class="comment-input-avatar" style="background: linear-gradient(135deg, #00d4ff, #00b4d8);"></div>
+                            <div class="comment-input-wrapper">
+                                <textarea class="comment-input" placeholder="Share your take on FridgeChef's chances..." rows="2"></textarea>
+                                <div class="comment-input-actions">
+                                    <div class="stance-selector">
+                                        <button class="stance-btn bull active" onclick="setStance('bull')">📈 Bullish</button>
+                                        <button class="stance-btn bear" onclick="setStance('bear')">📉 Bearish</button>
+                                    </div>
+                                    <button class="comment-submit">Post</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Comments List -->
+                        <div class="comments-list">
+                            <!-- Hot Take / Pinned -->
+                            <div class="comment-item pinned">
+                                <div class="comment-pin-badge">📌 Pinned by moderator</div>
+                                <div class="comment-header">
+                                    <div class="comment-avatar" style="background: linear-gradient(135deg, #fbbf24, #f59e0b);"></div>
+                                    <div class="comment-author">
+                                        <span class="author-name">crypto_whale</span>
+                                        <span class="author-badge top">🏆 Top Predictor</span>
+                                    </div>
+                                    <span class="comment-stance bull">📈 BULL</span>
+                                    <span class="comment-time">1 day ago</span>
+                                </div>
+                                <div class="comment-body">
+                                    <p>I've been tracking food-tech startups for 3 years. FridgeChef has something most don't: <strong>a founder who actually understands the problem</strong>. Sarah quit Google to build this — that's conviction.</p>
+                                    <p>The YC interview is huge. Even if they don't get in, the signal is there. My position: 500 YES @ 58¢. Riding this to resolution.</p>
+                                </div>
+                                <div class="comment-footer">
+                                    <button class="comment-vote upvote active">▲ 342</button>
+                                    <button class="comment-vote downvote">▼</button>
+                                    <button class="comment-reply">💬 Reply (23)</button>
+                                    <button class="comment-share">🔗 Share</button>
+                                </div>
+                            </div>
+
+                            <!-- Bull Comment -->
+                            <div class="comment-item">
+                                <div class="comment-header">
+                                    <div class="comment-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
+                                    <div class="comment-author">
+                                        <span class="author-name">startup_sage</span>
+                                        <span class="author-badge">84% accuracy</span>
+                                    </div>
+                                    <span class="comment-stance bull">📈 BULL</span>
+                                    <span class="comment-time">3 hours ago</span>
+                                </div>
+                                <div class="comment-body">
+                                    <p>Beta launch changes everything. 1,247 waitlist users is solid validation. The 94% ingredient accuracy is actually impressive — most food recognition AI struggles to hit 80%.</p>
+                                    <p>Adding 100 more YES here.</p>
+                                </div>
+                                <div class="comment-footer">
+                                    <button class="comment-vote upvote">▲ 89</button>
+                                    <button class="comment-vote downvote">▼ 12</button>
+                                    <button class="comment-reply">💬 Reply (7)</button>
+                                    <button class="comment-share">🔗 Share</button>
+                                </div>
+                            </div>
+
+                            <!-- Bear Comment -->
+                            <div class="comment-item">
+                                <div class="comment-header">
+                                    <div class="comment-avatar" style="background: linear-gradient(135deg, #ef4444, #f87171);"></div>
+                                    <div class="comment-author">
+                                        <span class="author-name">skeptic_steve</span>
+                                        <span class="author-badge">72% accuracy</span>
+                                    </div>
+                                    <span class="comment-stance bear">📉 BEAR</span>
+                                    <span class="comment-time">5 hours ago</span>
+                                </div>
+                                <div class="comment-body">
+                                    <p>Unpopular opinion: This is a feature, not a company. Google, Samsung, and LG are all working on smart fridge integrations. What's the moat here?</p>
+                                    <p>Also, 10 VC rejections isn't nothing. They see something we don't. Holding my NO position.</p>
+                                </div>
+                                <div class="comment-footer">
+                                    <button class="comment-vote upvote">▲ 67</button>
+                                    <button class="comment-vote downvote">▼ 45</button>
+                                    <button class="comment-reply">💬 Reply (31)</button>
+                                    <button class="comment-share">🔗 Share</button>
+                                </div>
+
+                                <!-- Nested Reply -->
+                                <div class="comment-replies">
+                                    <div class="comment-item reply">
+                                        <div class="comment-header">
+                                            <div class="comment-avatar" style="background: linear-gradient(135deg, #a855f7, #c084fc);"></div>
+                                            <div class="comment-author">
+                                                <span class="author-name">vc_insider</span>
+                                            </div>
+                                            <span class="comment-stance bull">📈 BULL</span>
+                                            <span class="comment-time">4 hours ago</span>
+                                        </div>
+                                        <div class="comment-body">
+                                            <p>@skeptic_steve The moat is UX + speed. Big tech builds for hardware lock-in. FridgeChef works with ANY fridge and ANY phone. That's the wedge.</p>
+                                        </div>
+                                        <div class="comment-footer">
+                                            <button class="comment-vote upvote">▲ 34</button>
+                                            <button class="comment-vote downvote">▼ 8</button>
+                                            <button class="comment-reply">💬 Reply</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Another Comment -->
+                            <div class="comment-item">
+                                <div class="comment-header">
+                                    <div class="comment-avatar" style="background: linear-gradient(135deg, #3b82f6, #60a5fa);"></div>
+                                    <div class="comment-author">
+                                        <span class="author-name">data_dan</span>
+                                    </div>
+                                    <span class="comment-stance bull">📈 BULL</span>
+                                    <span class="comment-time">8 hours ago</span>
+                                </div>
+                                <div class="comment-body">
+                                    <p>The founder updates are what sold me. Most startup founders go dark after submitting. Sarah's posting weekly, being transparent about rejections AND wins. That's rare.</p>
+                                    <p>Execution > Idea. She's executing. 🚀</p>
+                                </div>
+                                <div class="comment-footer">
+                                    <button class="comment-vote upvote">▲ 156</button>
+                                    <button class="comment-vote downvote">▼ 23</button>
+                                    <button class="comment-reply">💬 Reply (12)</button>
+                                    <button class="comment-share">🔗 Share</button>
+                                </div>
+                            </div>
+
+                            <!-- Load More -->
+                            <button class="load-more-comments">
+                                Load more comments (47 remaining)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Journey Sidebar -->
+                <div class="journey-sidebar">
+                    <!-- Resolution Countdown -->
+                    <div class="sidebar-card countdown-card">
+                        <h3>⏰ Resolution In</h3>
+                        <div class="countdown">
+                            <div class="countdown-item">
+                                <div class="countdown-value">47</div>
+                                <div class="countdown-label">days</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value">12</div>
+                                <div class="countdown-label">hours</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value">34</div>
+                                <div class="countdown-label">mins</div>
+                            </div>
+                        </div>
+                        <div class="countdown-date">March 31, 2025</div>
+                        <div class="countdown-market">Will FridgeChef ship a working MVP?</div>
+                    </div>
+
+                    <!-- Key Milestones -->
+                    <div class="sidebar-card">
+                        <h3>🏁 Key Milestones</h3>
+                        <div class="milestones">
+                            <div class="milestone completed">
+                                <div class="milestone-check">✓</div>
+                                <div class="milestone-info">
+                                    <div class="milestone-title">Idea Posted</div>
+                                    <div class="milestone-date">Dec 1, 2024</div>
+                                </div>
+                            </div>
+                            <div class="milestone completed">
+                                <div class="milestone-check">✓</div>
+                                <div class="milestone-info">
+                                    <div class="milestone-title">Founder Goes Full-Time</div>
+                                    <div class="milestone-date">Dec 8, 2024</div>
+                                </div>
+                            </div>
+                            <div class="milestone completed">
+                                <div class="milestone-check">✓</div>
+                                <div class="milestone-info">
+                                    <div class="milestone-title">YC Interview</div>
+                                    <div class="milestone-date">Dec 15, 2024</div>
+                                </div>
+                            </div>
+                            <div class="milestone completed">
+                                <div class="milestone-check">✓</div>
+                                <div class="milestone-info">
+                                    <div class="milestone-title">Beta Launch</div>
+                                    <div class="milestone-date">Dec 17, 2024</div>
+                                </div>
+                            </div>
+                            <div class="milestone pending">
+                                <div class="milestone-check">○</div>
+                                <div class="milestone-info">
+                                    <div class="milestone-title">MVP Ship Date</div>
+                                    <div class="milestone-date">Mar 31, 2025</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="sidebar-card">
+                        <h3>📊 Journey Stats</h3>
+                        <div class="journey-stats">
+                            <div class="journey-stat">
+                                <div class="journey-stat-value">47</div>
+                                <div class="journey-stat-label">Days In</div>
+                            </div>
+                            <div class="journey-stat">
+                                <div class="journey-stat-value">12</div>
+                                <div class="journey-stat-label">Updates</div>
+                            </div>
+                            <div class="journey-stat">
+                                <div class="journey-stat-value">2.4K</div>
+                                <div class="journey-stat-label">Followers</div>
+                            </div>
+                            <div class="journey-stat">
+                                <div class="journey-stat-value">+23%</div>
+                                <div class="journey-stat-label">Odds Change</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Follow Button -->
+                    <button class="follow-btn">
+                        <span>🔔</span> Follow Journey
+                    </button>
                 </div>
             </div>
         </div>
@@ -1882,6 +3174,18 @@
                 this.classList.add('active');
             });
         });
+
+        // Comment functions
+        function filterComments(filter) {
+            document.querySelectorAll('.comment-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            // In production, this would filter the comments
+        }
+
+        function setStance(stance) {
+            document.querySelectorAll('.stance-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.stance-btn.' + stance).classList.add('active');
+        }
     </script>
 </body>
 </html>
