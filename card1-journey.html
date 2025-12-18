@@ -428,61 +428,21 @@
             color: var(--accent);
         }
 
-        /* Hero Video Placeholder */
+        /* Hero Video */
         .hero-video {
             min-width: 380px;
+            max-width: 420px;
         }
 
-        .video-placeholder {
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), var(--bg-card));
+        .video-player {
+            width: 100%;
+            border-radius: 16px;
             border: 2px solid rgba(0, 212, 255, 0.3);
-            border-radius: 20px;
-            padding: 3rem 2rem;
-            text-align: center;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s;
-            min-height: 280px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .video-placeholder:hover {
+        .video-player:hover {
             border-color: var(--accent);
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), var(--bg-card));
-        }
-
-        .video-play-btn {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #00d4ff, #a8edea);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: var(--bg-primary);
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
-            transition: transform 0.2s;
-        }
-
-        .video-placeholder:hover .video-play-btn {
-            transform: scale(1.1);
-        }
-
-        .video-label {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .video-duration {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: var(--text-muted);
         }
 
         /* Sidebar Prediction Card */
@@ -2660,11 +2620,10 @@
 
                 <!-- Quick Trade Panel -->
                 <div class="hero-video">
-                    <div class="video-placeholder">
-                        <div class="video-play-btn">▶</div>
-                        <div class="video-label">Watch Sarah's Journey</div>
-                        <div class="video-duration">3:47</div>
-                    </div>
+                    <video class="video-player" controls poster="">
+                        <source src="journey-video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </section>
