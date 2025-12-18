@@ -21,13 +21,10 @@
             --accent-secondary: #00e5ff;
             --border: #252836;
             --yes: #00d4ff;
-            --yes-glow: rgba(0, 212, 255, 0.3);
             --no: #ef4444;
-            --no-glow: rgba(239, 68, 68, 0.3);
-            --purple: #a855f7;
-            --blue: #3b82f6;
-            --pink: #f338c3;
             --green: #10b981;
+            --purple: #a855f7;
+            --pink: #f338c3;
             --font-sans: 'Instrument Sans', -apple-system, sans-serif;
             --font-mono: 'Space Mono', monospace;
         }
@@ -39,10 +36,14 @@
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
-            min-height: 100vh;
         }
 
         a { color: inherit; text-decoration: none; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
 
         /* Navigation */
         nav {
@@ -53,7 +54,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(10, 10, 11, 0.9);
+            background: rgba(10, 11, 20, 0.95);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
         }
@@ -69,12 +70,13 @@
 
         .logo-icon {
             width: 32px; height: 32px;
-            background: linear-gradient(135deg, #00d4ff, #00b4d8); box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            background: linear-gradient(135deg, #00d4ff, #00b4d8);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1rem;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
         }
 
         .nav-links {
@@ -90,7 +92,6 @@
         }
 
         .nav-links a:hover { color: var(--text-primary); }
-        .nav-links a.active { color: var(--accent); }
 
         .nav-balance {
             display: flex;
@@ -105,10 +106,10 @@
         .nav-balance-amount {
             font-family: var(--font-mono);
             font-weight: 700;
-            color: var(--yes);
+            color: var(--green);
         }
 
-        .btn {
+        .btn-primary {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -116,136 +117,371 @@
             border-radius: 8px;
             font-weight: 600;
             font-size: 0.9rem;
-            cursor: pointer;
-            border: none;
-            font-family: var(--font-sans);
-        }
-
-        .btn-primary {
             background: linear-gradient(135deg, #00d4ff, #00b4d8);
             color: #0a0b14 !important;
-            font-weight: 600;
             box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
         }
 
         /* Main Layout */
         main {
-            padding: 90px 2rem 4rem;
-            max-width: 1400px;
-            margin: 0 auto;
+            padding: 80px 0 0;
+            min-height: 100vh;
         }
 
-        /* Back Link */
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(180deg, rgba(0, 212, 255, 0.05) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 2rem;
+        }
+
+        .hero-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
         .back-link {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
+            font-size: 0.85rem;
         }
 
-        .back-link:hover {
-            color: var(--text-primary);
-        }
+        .back-link:hover { color: var(--accent); }
 
-        /* Company Header */
-        .company-header {
+        .founder-header {
             display: flex;
             align-items: center;
             gap: 1.25rem;
-            margin-bottom: 2rem;
         }
 
-        .company-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
+        .founder-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b35, #ffb347);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
+            box-shadow: 0 0 25px rgba(255, 107, 53, 0.3);
         }
 
-        .company-info h1 {
-            font-size: 2rem;
-            font-weight: 700;
+        .founder-info h1 {
+            font-size: 1.75rem;
             margin-bottom: 0.25rem;
         }
 
-        .company-info p {
+        .founder-name {
             color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .founder-name span {
+            color: var(--accent);
+        }
+
+        .idea-tagline {
+            font-size: 1.35rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.5;
+        }
+
+        .idea-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.4rem 0.85rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .hero-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Hero Right - Quick Trade */
+        .hero-trade {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            min-width: 320px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-trade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .hero-trade-header h3 {
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.7rem;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .live-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .current-odds {
+            text-align: center;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), transparent);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .odds-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .odds-value {
+            font-family: var(--font-mono);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .odds-question {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .trade-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .trade-btn {
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            background: var(--bg-secondary);
+            cursor: pointer;
+            text-align: center;
+            font-family: var(--font-sans);
+            transition: all 0.2s;
+        }
+
+        .trade-btn:hover {
+            border-color: var(--text-muted);
+        }
+
+        .trade-btn.yes.active {
+            border-color: var(--accent);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .trade-btn.no.active {
+            border-color: var(--no);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .trade-btn .outcome {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .trade-btn.yes .outcome { color: var(--accent); }
+        .trade-btn.no .outcome { color: var(--no); }
+
+        .trade-btn .price {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .amount-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .amount-input {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
             font-size: 1rem;
         }
 
-        /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 2rem;
+        .amount-input:focus {
+            outline: none;
+            border-color: var(--accent);
         }
 
-        .tab {
+        .quick-amounts {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .quick-btn {
+            padding: 0.75rem 0.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        .quick-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            background: linear-gradient(135deg, #00d4ff, #a8edea);
+            color: #0a0b14;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .countdown-mini {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .countdown-mini span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .countdown-mini strong {
+            font-family: var(--font-mono);
+            color: var(--accent);
+        }
+
+        /* Content Area */
+        .content-area {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2rem;
+        }
+
+        /* Journey Timeline */
+        .journey-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 1rem 1.5rem;
-            background: none;
-            border: none;
-            border-bottom: 2px solid transparent;
+        }
+
+        .section-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .section-tab {
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            font-size: 0.95rem;
-            font-weight: 500;
             cursor: pointer;
-            margin-bottom: -1px;
             font-family: var(--font-sans);
         }
 
-        .tab:hover {
-            color: var(--text-secondary);
+        .section-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg-primary);
         }
 
-        .tab.active {
-            color: var(--accent);
-            border-bottom-color: var(--accent);
-        }
-
-        .tab svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* Tab Content */
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Trade Layout */
-        .trade-layout {
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 1.5rem;
-        }
-
-        .trade-main {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .trade-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        /* Chart Card */
-        .chart-card {
+        /* Odds Chart */
+        .odds-chart-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 16px;
@@ -261,40 +497,33 @@
 
         .chart-header h3 {
             font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .chart-tabs {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.25rem;
         }
 
         .chart-tab {
-            padding: 0.5rem 1rem;
+            padding: 0.35rem 0.75rem;
             background: var(--bg-secondary);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            font-weight: 500;
             cursor: pointer;
-            font-family: var(--font-sans);
+            font-family: var(--font-mono);
         }
 
         .chart-tab.active {
             background: var(--accent);
             border-color: var(--accent);
-            color: white;
+            color: var(--bg-primary);
         }
 
         .chart-container {
-            height: 220px;
-            background: linear-gradient(180deg, rgba(0, 212, 255, 0.03) 0%, transparent 100%);
-            border-radius: 12px;
+            height: 180px;
             position: relative;
-            overflow: hidden;
         }
 
         .chart-svg {
@@ -302,644 +531,86 @@
             height: 100%;
         }
 
-        .chart-line {
-            fill: none;
-            stroke: #00d4ff;
-            stroke-width: 2.5;
-        }
-
-        .chart-area {
-            fill: url(#chartGradient);
-        }
-
-        .chart-reference {
-            stroke: var(--text-muted);
-            stroke-dasharray: 4;
-            opacity: 0.3;
-        }
-
-        .chart-label {
-            fill: var(--text-muted);
-            font-size: 11px;
-            font-family: var(--font-mono);
-        }
-
-        /* Market Items */
-        #marketsList {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .market-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.75rem;
-            cursor: pointer;
-        }
-
-        .market-item:hover {
-            border-color: var(--text-muted);
-        }
-
-        .market-item.active {
-            border-color: var(--yes);
-        }
-
-        .market-item h4 {
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            line-height: 1.4;
-        }
-
-        .market-prob-bar {
-            height: 40px;
-            background: var(--bg-primary);
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            margin-bottom: 1rem;
-        }
-
-        .market-prob-yes {
-            background: linear-gradient(90deg, #00d4ff, #a8edea);
-            display: flex;
-            align-items: center;
-            padding-left: 1rem;
-            font-family: var(--font-mono);
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: #0a0b14;
-            min-width: 50px;
-        }
-
-        .market-prob-no {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 1rem;
-            font-family: var(--font-mono);
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: var(--no);
-        }
-
-        .market-meta {
+        .chart-events {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .market-meta span {
-            font-family: var(--font-mono);
-        }
-
-        /* Activity Card */
-        .activity-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem;
-        }
-
-        .activity-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .activity-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .activity-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-        }
-
-        .activity-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .activity-info {
-            flex: 1;
-        }
-
-        .activity-text {
-            font-size: 0.95rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .activity-text strong {
-            color: var(--text-primary);
-        }
-
-        .activity-text .yes {
-            color: var(--yes);
-            font-weight: 700;
-        }
-
-        .activity-text .no {
-            color: var(--no);
-            font-weight: 700;
-        }
-
-        .activity-time {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .activity-amount {
-            font-family: var(--font-mono);
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        /* Sidebar Cards */
-        .sidebar-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem;
-        }
-
-        /* Probability Card */
-        .prob-card {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), var(--bg-card));
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            text-align: center;
-            padding: 2rem 1.5rem;
-        }
-
-        .prob-label {
+            padding: 0.75rem 0;
             font-size: 0.7rem;
             color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 0.5rem;
         }
 
-        .prob-value {
-            font-family: var(--font-mono);
-            font-size: 4.5rem;
-            font-weight: 700;
-            color: var(--yes);
-            line-height: 1;
-        }
-
-        .prob-change {
-            font-family: var(--font-mono);
-            font-size: 0.95rem;
-            color: var(--yes);
-            margin-top: 0.75rem;
-        }
-
-        /* Position Card */
-        .position-card {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), var(--bg-card));
-            border-color: rgba(16, 185, 129, 0.2);
-        }
-
-        .position-card h3 {
-            color: var(--yes);
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .position-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
-        }
-
-        .position-stat {
-            background: var(--bg-secondary);
-            border-radius: 10px;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        .position-stat .label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            margin-bottom: 0.25rem;
-        }
-
-        .position-stat .value {
-            font-family: var(--font-mono);
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        .position-stat .value.yes { color: var(--yes); }
-
-        /* Prediction Card */
-        .prediction-card h3 {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .betting-on {
-            background: var(--bg-secondary);
-            border-left: 3px solid #00d4ff;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .betting-on .label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-bottom: 0.25rem;
-        }
-
-        .betting-on .question {
-            font-size: 0.9rem;
-            font-weight: 600;
-            line-height: 1.4;
-        }
-
-        .bet-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .bet-btn {
-            padding: 1.25rem;
-            border-radius: 12px;
-            border: 2px solid var(--border);
-            background: var(--bg-secondary);
-            cursor: pointer;
-            text-align: center;
-            font-family: var(--font-sans);
-        }
-
-        .bet-btn:hover {
-            border-color: var(--text-muted);
-        }
-
-        .bet-btn.yes.active {
-            border-color: #00d4ff;
-            background: rgba(0, 212, 255, 0.1);
-        }
-
-        .bet-btn.no.active {
-            border-color: var(--no);
-            background: rgba(239, 68, 68, 0.1);
-        }
-
-        .bet-btn .outcome {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .bet-btn.yes .outcome { color: #00d4ff; }
-        .bet-btn.no .outcome { color: var(--no); }
-
-        .bet-btn .price {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .amount-group {
-            margin-bottom: 1rem;
-        }
-
-        .amount-group label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-
-        .amount-input-wrap {
-            position: relative;
-        }
-
-        .amount-input {
-            width: 100%;
-            padding: 1rem;
-            padding-left: 1.75rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 1.25rem;
-        }
-
-        .amount-input:focus {
-            outline: none;
-            border-color: var(--yes);
-        }
-
-        .amount-prefix {
-            position: absolute;
-            left: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-family: var(--font-mono);
-        }
-
-        .quick-amounts {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .quick-btn {
-            flex: 1;
-            padding: 0.6rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text-secondary);
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            cursor: pointer;
-        }
-
-        .quick-btn:hover {
-            border-color: var(--yes);
-            color: var(--yes);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            border-radius: 10px;
-            border: none;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: var(--font-sans);
-        }
-
-        .submit-btn.yes {
-            background: linear-gradient(135deg, #00d4ff, #a8edea);
-            color: #0a0b14;
-        }
-
-        .submit-btn.no {
-            background: linear-gradient(135deg, var(--no), #f87171);
-            color: white;
-        }
-
-        /* ============== JOURNEY TAB ============== */
-        .journey-layout {
-            display: grid;
-            grid-template-columns: 1fr 340px;
-            gap: 2rem;
-        }
-
-        .journey-main {
+        .chart-event {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .journey-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem;
-        }
-
-        .journey-card-header {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.25rem;
+            gap: 0.25rem;
         }
 
-        .journey-card-header h2 {
-            font-size: 1.1rem;
-        }
-
-        .live-indicator {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.75rem;
-            color: var(--green);
-            font-weight: 600;
-        }
-
-        .live-dot {
+        .chart-event .dot {
             width: 8px;
             height: 8px;
-            background: var(--green);
             border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        .update-count {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* Odds Chart */
-        .odds-chart-card {
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            background: linear-gradient(180deg, rgba(0, 212, 255, 0.05), var(--bg-card));
-        }
-
-        .odds-chart {
-            position: relative;
-            height: 280px;
-            margin-bottom: 1rem;
-        }
-
-        .odds-svg {
-            width: 100%;
-            height: 220px;
-        }
-
-        .odds-line {
-            filter: drop-shadow(0 0 6px rgba(0, 212, 255, 0.5));
-        }
-
-        .event-dot {
-            filter: drop-shadow(0 0 4px rgba(0, 212, 255, 0.5));
-            cursor: pointer;
-            transition: r 0.2s;
-        }
-
-        .event-dot:hover {
-            r: 10;
-        }
-
-        .odds-events {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 50px;
-        }
-
-        .odds-event {
-            position: absolute;
-            text-align: center;
-            transform: translateX(-50%);
-        }
-
-        .event-line {
-            width: 1px;
-            height: 20px;
             background: var(--accent);
-            margin: 0 auto 0.25rem;
         }
 
-        .event-line.red { background: var(--no); }
-        .event-line.green { background: var(--green); }
-
-        .event-label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            white-space: nowrap;
-        }
-
-        .odds-current {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-            font-size: 0.9rem;
-        }
-
-        .odds-value {
-            font-family: var(--font-mono);
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--accent);
-        }
+        .chart-event .dot.red { background: var(--no); }
+        .chart-event .dot.green { background: var(--green); }
 
         /* Updates Feed */
         .updates-feed {
             display: flex;
             flex-direction: column;
-        }
-
-        .update-item {
-            display: flex;
             gap: 1rem;
-            padding-bottom: 1.5rem;
         }
 
-        .update-item.latest .update-content {
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            background: rgba(0, 212, 255, 0.03);
+        .update-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: border-color 0.2s;
         }
 
-        .update-marker {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 1.25rem;
+        .update-card:hover {
+            border-color: rgba(0, 212, 255, 0.3);
         }
 
-        .marker-dot {
-            width: 12px;
-            height: 12px;
-            background: var(--accent);
-            border-radius: 50%;
-            flex-shrink: 0;
-            box-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
-        }
-
-        .marker-dot.red {
-            background: var(--no);
-            box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
-        }
-
-        .marker-dot.green {
-            background: var(--green);
-            box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
-        }
-
-        .marker-dot.first {
-            background: var(--purple);
-            box-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
-        }
-
-        .marker-line {
-            width: 2px;
-            flex: 1;
-            background: var(--border);
-            margin-top: 0.5rem;
-        }
-
-        .update-content {
-            flex: 1;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 1.25rem;
+        .update-card.latest {
+            border-color: rgba(0, 212, 255, 0.4);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), var(--bg-card));
         }
 
         .update-header {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
         }
 
         .update-avatar {
-            width: 36px;
-            height: 36px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
         }
 
         .update-meta {
             flex: 1;
+        }
+
+        .update-author {
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .update-author {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
         .update-badge {
-            font-size: 0.65rem;
-            font-weight: 700;
+            font-size: 0.6rem;
             padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            text-transform: uppercase;
-        }
-
-        .update-badge.new {
             background: var(--accent);
             color: var(--bg-primary);
+            border-radius: 4px;
+            font-weight: 700;
         }
 
         .update-time {
@@ -947,16 +618,29 @@
             color: var(--text-muted);
         }
 
+        .update-day {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+            background: rgba(0, 212, 255, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+        }
+
         .update-title {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             margin-bottom: 0.75rem;
         }
 
-        .update-body p {
+        .update-body {
             color: var(--text-secondary);
             font-size: 0.95rem;
             line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .update-body p {
             margin-bottom: 0.75rem;
         }
 
@@ -965,28 +649,23 @@
         }
 
         .update-media {
-            margin: 1rem 0;
-        }
-
-        .media-placeholder {
-            background: var(--bg-tertiary);
-            border: 1px dashed var(--border);
-            border-radius: 8px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
             padding: 3rem;
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            margin-bottom: 1rem;
         }
 
         .update-impact {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            background: var(--bg-tertiary);
-            border-radius: 8px;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
             font-size: 0.85rem;
-            margin: 1rem 0;
+            font-family: var(--font-mono);
+            margin-bottom: 1rem;
         }
 
         .update-impact.positive {
@@ -999,111 +678,72 @@
             color: var(--no);
         }
 
-        .impact-delta {
-            font-family: var(--font-mono);
-            font-weight: 700;
+        .update-footer {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
         }
 
         .update-reactions {
             display: flex;
             gap: 0.5rem;
-            flex-wrap: wrap;
         }
 
         .reaction {
-            background: var(--bg-tertiary);
+            background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: 100px;
             padding: 0.4rem 0.75rem;
             font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.2s;
             color: var(--text-secondary);
             font-family: var(--font-sans);
         }
 
         .reaction:hover {
             border-color: var(--accent);
-            background: rgba(0, 212, 255, 0.1);
         }
 
-        .reaction-add {
-            background: transparent;
-            border: 1px dashed var(--border);
-            border-radius: 100px;
-            padding: 0.4rem 0.75rem;
-            font-size: 0.9rem;
-            cursor: pointer;
+        .update-comments {
+            margin-left: auto;
+            font-size: 0.85rem;
             color: var(--text-muted);
-            font-family: var(--font-sans);
+            cursor: pointer;
         }
 
-        .reaction-add:hover {
-            border-color: var(--text-muted);
+        .update-comments:hover {
+            color: var(--accent);
         }
 
-        /* Journey Sidebar */
-        .journey-sidebar {
+        /* Sidebar */
+        .sidebar {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
         }
 
-        .countdown-card {
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), var(--bg-card));
-            border-color: rgba(0, 212, 255, 0.3);
-            text-align: center;
+        .sidebar-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.25rem;
         }
 
-        .countdown-card h3 {
-            margin-bottom: 1rem;
-            color: var(--accent);
-        }
-
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .countdown-item {
-            background: var(--bg-primary);
-            border-radius: 10px;
-            padding: 0.75rem 1rem;
-            min-width: 70px;
-        }
-
-        .countdown-value {
-            font-family: var(--font-mono);
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .countdown-label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .countdown-date {
-            font-family: var(--font-mono);
+        .sidebar-card h3 {
             font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-        }
-
-        .countdown-market {
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         /* Milestones */
         .milestones {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
         .milestone {
@@ -1112,29 +752,35 @@
             gap: 0.75rem;
             padding: 0.75rem;
             background: var(--bg-secondary);
-            border-radius: 8px;
+            border-radius: 10px;
         }
 
-        .milestone.completed .milestone-check {
-            background: var(--green);
-            color: white;
-        }
-
-        .milestone.pending .milestone-check {
-            background: transparent;
-            border: 2px solid var(--border);
-            color: var(--text-muted);
-        }
-
-        .milestone-check {
-            width: 24px;
-            height: 24px;
+        .milestone-icon {
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.75rem;
             flex-shrink: 0;
+        }
+
+        .milestone.completed .milestone-icon {
+            background: var(--green);
+            color: white;
+        }
+
+        .milestone.current .milestone-icon {
+            background: var(--accent);
+            color: var(--bg-primary);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .milestone.pending .milestone-icon {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            color: var(--text-muted);
         }
 
         .milestone-info {
@@ -1146,105 +792,156 @@
             font-weight: 600;
         }
 
-        .milestone-date {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .milestone.completed .milestone-title {
-            color: var(--text-primary);
-        }
-
         .milestone.pending .milestone-title {
             color: var(--text-muted);
         }
 
-        /* Journey Stats */
-        .journey-stats {
+        .milestone-date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Community */
+        .community-stats {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0.75rem;
+            margin-bottom: 1rem;
         }
 
-        .journey-stat {
+        .community-stat {
             background: var(--bg-secondary);
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 0.75rem;
             text-align: center;
         }
 
-        .journey-stat-value {
+        .community-stat-value {
             font-family: var(--font-mono);
             font-size: 1.25rem;
             font-weight: 700;
             color: var(--accent);
         }
 
-        .journey-stat-label {
+        .community-stat-label {
             font-size: 0.7rem;
             color: var(--text-muted);
         }
 
-        .follow-btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #00d4ff, #a8edea);
-            border: none;
-            border-radius: 10px;
-            color: var(--bg-primary);
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: var(--font-sans);
+        .top-predictors {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
             gap: 0.5rem;
         }
 
-        .follow-btn:hover {
-            transform: scale(1.02);
+        .predictor-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .predictor-row:hover {
+            background: var(--bg-secondary);
+        }
+
+        .predictor-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .predictor-info {
+            flex: 1;
+        }
+
+        .predictor-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .predictor-stance {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .predictor-stance.bull { color: var(--accent); }
+        .predictor-stance.bear { color: var(--no); }
+
+        .predictor-amount {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--green);
+        }
+
+        /* About Card */
+        .about-preview {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .about-link {
+            display: block;
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--accent);
+        }
+
+        .about-link:hover {
+            background: rgba(0, 212, 255, 0.1);
         }
 
         /* Comments Section */
-        .comments-card {
+        .comments-section {
+            background: var(--bg-card);
             border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
         }
 
-        .comment-tabs {
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .comments-header h3 {
+            font-size: 1.1rem;
+        }
+
+        .comment-filters {
             display: flex;
             gap: 0.5rem;
         }
 
-        .comment-tab {
+        .comment-filter {
+            padding: 0.4rem 0.75rem;
             background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: 6px;
-            padding: 0.4rem 0.75rem;
             font-size: 0.75rem;
             color: var(--text-muted);
             cursor: pointer;
             font-family: var(--font-sans);
-            transition: all 0.2s;
         }
 
-        .comment-tab:hover {
-            border-color: var(--text-muted);
-        }
-
-        .comment-tab.active {
+        .comment-filter.active {
             background: var(--accent);
             border-color: var(--accent);
             color: var(--bg-primary);
         }
 
-        /* Comment Input */
-        .comment-input-box {
+        .comment-input-row {
             display: flex;
             gap: 1rem;
-            padding: 1rem;
-            background: var(--bg-secondary);
-            border-radius: 12px;
             margin-bottom: 1.5rem;
         }
 
@@ -1252,6 +949,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff, #00b4d8);
             flex-shrink: 0;
         }
 
@@ -1259,12 +957,12 @@
             flex: 1;
         }
 
-        .comment-input {
+        .comment-textarea {
             width: 100%;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
             padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
             color: var(--text-primary);
             font-family: var(--font-sans);
             font-size: 0.9rem;
@@ -1272,22 +970,18 @@
             margin-bottom: 0.75rem;
         }
 
-        .comment-input:focus {
+        .comment-textarea:focus {
             outline: none;
             border-color: var(--accent);
         }
 
-        .comment-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .comment-input-actions {
+        .comment-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .stance-selector {
+        .stance-btns {
             display: flex;
             gap: 0.5rem;
         }
@@ -1299,12 +993,12 @@
             font-weight: 600;
             cursor: pointer;
             font-family: var(--font-sans);
-            transition: all 0.2s;
+            border: 1px solid;
         }
 
         .stance-btn.bull {
             background: transparent;
-            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-color: rgba(0, 212, 255, 0.3);
             color: var(--accent);
         }
 
@@ -1315,7 +1009,7 @@
 
         .stance-btn.bear {
             background: transparent;
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-color: rgba(239, 68, 68, 0.3);
             color: var(--no);
         }
 
@@ -1324,7 +1018,7 @@
             border-color: var(--no);
         }
 
-        .comment-submit {
+        .post-btn {
             padding: 0.5rem 1.25rem;
             background: linear-gradient(135deg, #00d4ff, #a8edea);
             border: none;
@@ -1336,87 +1030,71 @@
             font-family: var(--font-sans);
         }
 
-        /* Comments List */
         .comments-list {
             display: flex;
             flex-direction: column;
             gap: 1rem;
         }
 
-        .comment-item {
+        .comment {
+            padding: 1.25rem;
             background: var(--bg-secondary);
             border-radius: 12px;
-            padding: 1.25rem;
-            border: 1px solid transparent;
-            transition: border-color 0.2s;
         }
 
-        .comment-item:hover {
-            border-color: var(--border);
-        }
-
-        .comment-item.pinned {
+        .comment.pinned {
             background: linear-gradient(135deg, rgba(251, 191, 36, 0.05), var(--bg-secondary));
-            border: 1px solid rgba(251, 191, 36, 0.3);
+            border: 1px solid rgba(251, 191, 36, 0.2);
         }
 
-        .comment-item.reply {
-            background: var(--bg-tertiary);
-            margin-left: 0;
-            padding: 1rem;
-        }
-
-        .comment-pin-badge {
+        .comment-pin {
             font-size: 0.7rem;
             color: #fbbf24;
             margin-bottom: 0.75rem;
-            font-weight: 600;
         }
 
-        .comment-header {
+        .comment-head {
             display: flex;
             align-items: center;
             gap: 0.75rem;
             margin-bottom: 0.75rem;
-            flex-wrap: wrap;
         }
 
         .comment-avatar {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            flex-shrink: 0;
         }
 
-        .comment-author {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .comment-author-info {
             flex: 1;
         }
 
-        .author-name {
+        .comment-author-name {
             font-weight: 600;
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .author-badge {
-            font-size: 0.65rem;
-            padding: 0.2rem 0.5rem;
-            background: var(--bg-tertiary);
-            border-radius: 4px;
-            color: var(--text-muted);
-        }
-
-        .author-badge.top {
+        .comment-author-badge {
+            font-size: 0.6rem;
+            padding: 0.15rem 0.4rem;
             background: rgba(251, 191, 36, 0.2);
             color: #fbbf24;
+            border-radius: 4px;
+        }
+
+        .comment-author-accuracy {
+            font-size: 0.7rem;
+            color: var(--text-muted);
         }
 
         .comment-stance {
             font-size: 0.7rem;
             font-weight: 700;
-            padding: 0.25rem 0.5rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 4px;
         }
 
@@ -1435,600 +1113,72 @@
             color: var(--text-muted);
         }
 
-        .comment-body {
-            margin-bottom: 1rem;
-        }
-
-        .comment-body p {
+        .comment-text {
             color: var(--text-secondary);
             font-size: 0.9rem;
             line-height: 1.6;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
-        .comment-body p:last-child {
-            margin-bottom: 0;
-        }
-
-        .comment-body strong {
+        .comment-text strong {
             color: var(--text-primary);
         }
 
-        .comment-footer {
+        .comment-actions-row {
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .comment-vote,
-        .comment-reply,
-        .comment-share {
-            background: transparent;
+        .comment-action {
+            background: none;
             border: none;
             color: var(--text-muted);
             font-size: 0.8rem;
             cursor: pointer;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
             font-family: var(--font-sans);
-            transition: all 0.2s;
         }
 
-        .comment-vote:hover,
-        .comment-reply:hover,
-        .comment-share:hover {
-            background: var(--bg-tertiary);
+        .comment-action:hover {
             color: var(--text-primary);
         }
 
-        .comment-vote.upvote.active {
-            color: var(--accent);
-        }
-
-        .comment-vote.downvote.active {
-            color: var(--no);
-        }
-
-        .comment-replies {
-            margin-top: 1rem;
-            margin-left: 1rem;
-            padding-left: 1rem;
-            border-left: 2px solid var(--border);
-        }
-
-        .load-more-comments {
+        .load-more {
             width: 100%;
             padding: 0.875rem;
-            background: var(--bg-secondary);
+            background: transparent;
             border: 1px dashed var(--border);
             border-radius: 8px;
             color: var(--text-muted);
             font-size: 0.85rem;
             cursor: pointer;
             font-family: var(--font-sans);
-            transition: all 0.2s;
         }
 
-        .load-more-comments:hover {
+        .load-more:hover {
             border-color: var(--accent);
             color: var(--accent);
         }
 
-        /* ============== ABOUT TAB ============== */
-        .pitch-header {
-            margin-bottom: 2rem;
-        }
-
-        .ai-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
-            border: 1px solid rgba(168, 85, 247, 0.4);
-            border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #c084fc;
-            margin-bottom: 1.5rem;
-        }
-
-        .pitch-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .pitch-title span:first-child {
-            color: var(--accent);
-        }
-
-        .pitch-subtitle {
-            font-size: 1.15rem;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .pitch-meta {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .pitch-author {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .author-avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #00d4ff, #00b4d8); box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-        }
-
-        .pitch-date {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .pitch-tags {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .tag {
-            padding: 0.35rem 0.75rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        .pitch-actions {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: var(--font-sans);
-        }
-
-        .action-btn.upvote {
-            background: transparent;
-            border: 2px solid var(--accent);
-            color: var(--accent);
-        }
-
-        .action-btn.build {
-            background: linear-gradient(135deg, #a855f7, #c084fc);
-            border: none;
-            color: white;
-        }
-
-        .action-btn.buy {
-            background: linear-gradient(135deg, var(--yes), #34d399);
-            border: none;
-            color: white;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 2rem;
-        }
-
-        .about-main {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .about-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-        }
-
-        .about-card h2 {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .about-card h2::before {
-            content: '';
-            width: 4px;
-            height: 20px;
-            background: var(--accent);
-            border-radius: 2px;
-        }
-
-        .about-card p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-size: 1rem;
-        }
-
-        .about-card ul {
-            list-style: none;
-        }
-
-        .about-card li {
-            position: relative;
-            padding-left: 1.75rem;
-            margin-bottom: 1rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .about-card li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.5rem;
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-        }
-
-        .about-card li strong {
-            color: var(--text-primary);
-        }
-
-        /* Phone Mockup */
-        .demo-card {
-            padding: 2rem;
-        }
-
-        .phone-mockup {
-            display: flex;
-            justify-content: center;
-            padding: 2rem 0;
-        }
-
-        .phone-frame {
-            width: 280px;
-            background: #1a1a2e;
-            border-radius: 40px;
-            padding: 12px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-            border: 3px solid #2a2a3e;
-        }
-
-        .phone-notch {
-            width: 120px;
-            height: 25px;
-            background: #0a0a0b;
-            border-radius: 20px;
-            margin: 0 auto 15px;
-        }
-
-        .phone-screen {
-            background: linear-gradient(180deg, #1e1e3f, #16163a);
-            border-radius: 28px;
-            padding: 1.5rem;
-            text-align: center;
-            min-height: 450px;
-        }
-
-        .app-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #00d4ff, #00b4d8); box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            margin: 0 auto 0.75rem;
-        }
-
-        .app-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .app-tagline {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-
-        .scan-area {
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 2rem 1rem;
-            margin-bottom: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .scan-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.6;
-        }
-
-        .scan-text {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .scan-line {
-            position: absolute;
-            left: 10%;
-            right: 10%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--yes), transparent);
-            animation: scan 2s ease-in-out infinite;
-        }
-
-        @keyframes scan {
-            0%, 100% { top: 20%; opacity: 0; }
-            50% { top: 80%; opacity: 1; }
-        }
-
-        .demo-btn {
-            width: 100%;
-            padding: 0.875rem;
-            background: linear-gradient(135deg, #00d4ff, #00b4d8); box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 1rem;
-            font-family: var(--font-sans);
-        }
-
-        .recipe-suggestions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .recipe-item {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 0.75rem 0.5rem;
-        }
-
-        .recipe-item span {
-            font-size: 1.5rem;
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-
-        .recipe-item div:first-of-type {
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .recipe-item .match {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--yes);
-        }
-
-        /* About Sidebar */
-        .about-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .traction-card h3 {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .live-badge {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.75rem;
-            color: var(--yes);
-            font-weight: 600;
-        }
-
-        .live-badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: var(--yes);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .traction-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
-        }
-
-        .traction-stat {
-            background: var(--bg-primary);
-            border-radius: 10px;
-            padding: 1rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .traction-stat::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-        }
-
-        .traction-stat:nth-child(1)::before { background: var(--accent); }
-        .traction-stat:nth-child(2)::before { background: var(--purple); }
-        .traction-stat:nth-child(3)::before { background: var(--yes); }
-        .traction-stat:nth-child(4)::before { background: var(--blue); }
-
-        .traction-stat .value {
-            font-family: var(--font-mono);
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .traction-stat:nth-child(1) .value { color: var(--accent); }
-        .traction-stat:nth-child(2) .value { color: var(--purple); }
-        .traction-stat:nth-child(3) .value { color: var(--yes); }
-        .traction-stat:nth-child(4) .value { color: var(--blue); }
-
-        .traction-stat .label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .market-analysis h3 {
-            color: var(--accent);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-        }
-
-        .market-item-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.9rem;
-        }
-
-        .market-item-row:last-child {
-            border-bottom: none;
-        }
-
-        .market-item-row .label {
-            color: var(--text-secondary);
-        }
-
-        .market-item-row .value {
-            font-family: var(--font-mono);
-            font-weight: 700;
-        }
-
-        /* Builders Card */
-        .builders-card h3 {
-            color: var(--yes);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-        }
-
-        .builders-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .builder-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            background: var(--bg-secondary);
-            border-radius: 10px;
-        }
-
-        .builder-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-
-        .builder-info {
-            flex: 1;
-        }
-
-        .builder-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .builder-role {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .applied-badge {
-            padding: 0.25rem 0.6rem;
-            background: rgba(16, 185, 129, 0.2);
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--yes);
-        }
-
-        .view-all-link {
-            display: block;
-            text-align: center;
-            color: var(--yes);
-            font-size: 0.85rem;
-            margin-top: 1rem;
-        }
-
-        .view-all-link:hover {
-            text-decoration: underline;
-        }
-
         /* Footer */
         footer {
-            padding: 3rem 2rem;
-            border-top: 1px solid var(--border);
+            padding: 2rem;
             text-align: center;
             color: var(--text-muted);
             font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
         }
 
         /* Responsive */
         @media (max-width: 1100px) {
-            .trade-layout, .about-content {
+            .content-area {
                 grid-template-columns: 1fr;
+            }
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+            .hero-trade {
+                min-width: auto;
             }
         }
 
@@ -2036,10 +1186,11 @@
             nav { padding: 1rem; }
             .nav-links { gap: 1rem; }
             .nav-balance { display: none; }
-            .nav-links .btn { display: none; }
-            main { padding: 80px 1rem 3rem; }
-            .company-info h1 { font-size: 1.5rem; }
-            .company-icon { width: 48px; height: 48px; font-size: 1.5rem; }
+            .hero-section { padding: 1.5rem 1rem; }
+            .content-area { padding: 1.5rem 1rem; }
+            .founder-avatar { width: 56px; height: 56px; font-size: 1.5rem; }
+            .founder-info h1 { font-size: 1.35rem; }
+            .hero-stats { gap: 1.5rem; }
         }
     </style>
 </head>
@@ -2050,867 +1201,487 @@
             Build Me
         </a>
         <div class="nav-links">
-            
             <a href="browse.html">Browse Ideas</a>
-            <a href="card1.html">My Predictions</a>
+            <a href="#">My Predictions</a>
             <div class="nav-balance">
                 <span>Balance:</span>
                 <span class="nav-balance-amount">$1,247.00</span>
             </div>
-            <a href="submit.html" class="btn btn-primary">Submit Idea</a>
+            <a href="submit.html" class="btn-primary">Submit Idea</a>
         </div>
     </nav>
 
     <main>
-        <!-- Back Link -->
-        <a href="browse.html" class="back-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Back to browse ideas
-        </a>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-inner">
+                <div class="hero-left">
+                    <a href="browse.html" class="back-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                        Back to browse
+                    </a>
 
-        <!-- Company Header -->
-        <div class="company-header">
-            <div class="company-icon" id="companyIcon" style="background: linear-gradient(135deg, #ff6b35, #ffb347);">🍳</div>
-            <div class="company-info">
-                <h1 id="companyName">FridgeChef</h1>
-                <p id="companyTagline">AI Recipe Generator from Fridge Photos</p>
-            </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('predictions')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
-                Prediction Markets
-            </button>
-            <button class="tab" onclick="switchTab('journey')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/></svg>
-                Journey
-            </button>
-            <button class="tab" onclick="switchTab('about')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                About <span id="aboutTabName">FridgeChef</span>
-            </button>
-        </div>
-
-        <!-- Predictions Tab Content -->
-        <div class="tab-content active" id="tab-predictions">
-            <div class="trade-layout">
-                <!-- Left Column -->
-                <div class="trade-main">
-                    <!-- Chart -->
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3>📈 Probability History</h3>
-                            <div class="chart-tabs">
-                                <button class="chart-tab">1D</button>
-                                <button class="chart-tab active">1W</button>
-                                <button class="chart-tab">1M</button>
-                                <button class="chart-tab">ALL</button>
-                            </div>
-                        </div>
-                        <div class="chart-container">
-                            <svg class="chart-svg" viewBox="0 0 800 200" preserveAspectRatio="none">
-                                <defs>
-                                    <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" style="stop-color: #00d4ff; stop-opacity: 0.3" />
-                                        <stop offset="100%" style="stop-color: #00d4ff; stop-opacity: 0" />
-                                    </linearGradient>
-                                </defs>
-                                <line x1="0" y1="100" x2="800" y2="100" class="chart-reference" />
-                                <text x="10" y="95" class="chart-label">50%</text>
-                                <path class="chart-area" d="M0,160 C50,155 100,150 150,145 C200,140 250,130 300,120 C350,110 400,100 450,85 C500,75 550,65 600,55 C650,50 700,48 750,45 L800,42 L800,200 L0,200 Z" />
-                                <path class="chart-line" d="M0,160 C50,155 100,150 150,145 C200,140 250,130 300,120 C350,110 400,100 450,85 C500,75 550,65 600,55 C650,50 700,48 750,45 L800,42" />
-                            </svg>
+                    <div class="founder-header">
+                        <div class="founder-avatar">🍳</div>
+                        <div class="founder-info">
+                            <h1>FridgeChef</h1>
+                            <div class="founder-name">by <span>Sarah K.</span> · Day 47 of building</div>
                         </div>
                     </div>
 
-                    <!-- Markets List -->
-                    <div id="marketsList">
-                        <!-- Populated by JS -->
+                    <p class="idea-tagline">AI Recipe Generator from Fridge Photos — Snap a photo of your fridge, get instant recipe ideas. Stop wasting food, stop wasting time.</p>
+
+                    <div class="idea-tags">
+                        <span class="tag">Consumer</span>
+                        <span class="tag">AI</span>
+                        <span class="tag">Mobile</span>
+                        <span class="tag">Food-Tech</span>
                     </div>
 
-                    <!-- Recent Activity -->
-                    <div class="activity-card">
-                        <h3>⚡ Recent Activity</h3>
-                        <div class="activity-list">
-                            <div class="activity-item">
-                                <div class="activity-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
-                                <div class="activity-info">
-                                    <div class="activity-text"><strong>alex_m</strong> predicted <span class="yes">YES</span></div>
-                                    <div class="activity-time">2 minutes ago</div>
-                                </div>
-                                <div class="activity-amount">$50</div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-avatar" style="background: linear-gradient(135deg, #a855f7, #c084fc);"></div>
-                                <div class="activity-info">
-                                    <div class="activity-text"><strong>sarah_k</strong> predicted <span class="yes">YES</span></div>
-                                    <div class="activity-time">8 minutes ago</div>
-                                </div>
-                                <div class="activity-amount">$120</div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-avatar" style="background: linear-gradient(135deg, #ef4444, #f87171);"></div>
-                                <div class="activity-info">
-                                    <div class="activity-text"><strong>crypto_dan</strong> predicted <span class="no">NO</span></div>
-                                    <div class="activity-time">15 minutes ago</div>
-                                </div>
-                                <div class="activity-amount">$200</div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
-                                <div class="activity-info">
-                                    <div class="activity-text"><strong>jenny_dev</strong> predicted <span class="yes">YES</span></div>
-                                    <div class="activity-time">23 minutes ago</div>
-                                </div>
-                                <div class="activity-amount">$75</div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-avatar" style="background: linear-gradient(135deg, #3b82f6, #60a5fa);"></div>
-                                <div class="activity-info">
-                                    <div class="activity-text"><strong>mike_r</strong> predicted <span class="no">NO</span></div>
-                                    <div class="activity-time">31 minutes ago</div>
-                                </div>
-                                <div class="activity-amount">$150</div>
-                            </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">2.4K</div>
+                            <div class="hero-stat-label">Followers</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">$24.7K</div>
+                            <div class="hero-stat-label">Volume</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">847</div>
+                            <div class="hero-stat-label">Predictors</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">12</div>
+                            <div class="hero-stat-label">Updates</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Column -->
-                <div class="trade-sidebar">
-                    <!-- Current Probability -->
-                    <div class="sidebar-card prob-card">
-                        <div class="prob-label">Current Probability</div>
-                        <div class="prob-value" id="currentProb">73%</div>
-                        <div class="prob-change">▲ +8% this week</div>
+                <!-- Quick Trade Panel -->
+                <div class="hero-trade">
+                    <div class="hero-trade-header">
+                        <h3>⚡ Make a Prediction</h3>
+                        <div class="live-badge">Live</div>
                     </div>
 
-                    <!-- Your Position -->
-                    <div class="sidebar-card position-card">
-                        <h3>📊 Your Position</h3>
-                        <div class="position-grid">
-                            <div class="position-stat">
-                                <div class="label">Prediction</div>
-                                <div class="value yes">YES</div>
-                            </div>
-                            <div class="position-stat">
-                                <div class="label">Amount</div>
-                                <div class="value">$150</div>
-                            </div>
-                            <div class="position-stat">
-                                <div class="label">Avg Price</div>
-                                <div class="value">65¢</div>
-                            </div>
-                            <div class="position-stat">
-                                <div class="label">Potential Win</div>
-                                <div class="value yes">$230.77</div>
-                            </div>
+                    <div class="current-odds">
+                        <div class="odds-label">Current Probability</div>
+                        <div class="odds-value">73%</div>
+                        <div class="odds-question">Will FridgeChef ship MVP by March 31?</div>
+                    </div>
+
+                    <div class="trade-buttons">
+                        <div class="trade-btn yes active" onclick="selectBet('yes')">
+                            <div class="outcome">YES</div>
+                            <div class="price">Buy @ 73¢</div>
+                        </div>
+                        <div class="trade-btn no" onclick="selectBet('no')">
+                            <div class="outcome">NO</div>
+                            <div class="price">Buy @ 27¢</div>
                         </div>
                     </div>
 
-                    <!-- Make a Prediction -->
-                    <div class="sidebar-card prediction-card">
-                        <h3>🎯 Make a Prediction</h3>
-                        <div class="betting-on">
-                            <div class="label">Betting On</div>
-                            <div class="question" id="bettingQuestion">Will FridgeChef ship a working MVP by March 31, 2025?</div>
-                        </div>
-                        <div class="bet-buttons">
-                            <div class="bet-btn yes active" onclick="selectBet('yes')">
-                                <div class="outcome">YES</div>
-                                <div class="price">Buy @ <span id="yesPrice">73</span>¢</div>
-                            </div>
-                            <div class="bet-btn no" onclick="selectBet('no')">
-                                <div class="outcome">NO</div>
-                                <div class="price">Buy @ <span id="noPrice">27</span>¢</div>
-                            </div>
-                        </div>
-                        <div class="amount-group">
-                            <label>
-                                Amount
-                                <span>Balance: $1,247.00</span>
-                            </label>
-                            <div class="amount-input-wrap">
-                                <span class="amount-prefix">$</span>
-                                <input type="number" class="amount-input" id="betAmount" placeholder="0">
-                            </div>
-                        </div>
+                    <div class="amount-row">
+                        <input type="number" class="amount-input" placeholder="$0" id="betAmount">
                         <div class="quick-amounts">
-                            <button class="quick-btn" onclick="setAmount(10)">$10</button>
                             <button class="quick-btn" onclick="setAmount(25)">$25</button>
                             <button class="quick-btn" onclick="setAmount(50)">$50</button>
                             <button class="quick-btn" onclick="setAmount(100)">$100</button>
                         </div>
-                        <button class="submit-btn yes" id="submitBtn" onclick="placeBet()">Predict YES</button>
+                    </div>
+
+                    <button class="submit-btn" id="submitBtn" onclick="placeBet()">Predict YES</button>
+
+                    <div class="countdown-mini">
+                        <span>Resolves in</span>
+                        <strong>47 days</strong>
+                        <span>· Mar 31, 2025</span>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Journey Tab Content -->
-        <div class="tab-content" id="tab-journey">
-            <div class="journey-layout">
-                <!-- Main Timeline -->
-                <div class="journey-main">
-                    <!-- Live Odds Chart with Events -->
-                    <div class="journey-card odds-chart-card">
-                        <div class="journey-card-header">
-                            <h2>📈 Odds Timeline</h2>
-                            <div class="live-indicator">
-                                <span class="live-dot"></span>
-                                Live
-                            </div>
-                        </div>
-                        <div class="odds-chart">
-                            <svg class="odds-svg" viewBox="0 0 800 250" preserveAspectRatio="none">
-                                <defs>
-                                    <linearGradient id="oddsGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" style="stop-color: #00d4ff; stop-opacity: 0.3" />
-                                        <stop offset="100%" style="stop-color: #00d4ff; stop-opacity: 0" />
-                                    </linearGradient>
-                                </defs>
-                                <!-- Reference lines -->
-                                <line x1="0" y1="50" x2="800" y2="50" stroke="#252836" stroke-dasharray="4" />
-                                <line x1="0" y1="125" x2="800" y2="125" stroke="#252836" stroke-dasharray="4" />
-                                <line x1="0" y1="200" x2="800" y2="200" stroke="#252836" stroke-dasharray="4" />
-                                <text x="10" y="55" fill="#606075" font-size="11">75%</text>
-                                <text x="10" y="130" fill="#606075" font-size="11">50%</text>
-                                <text x="10" y="205" fill="#606075" font-size="11">25%</text>
-                                <!-- Area -->
-                                <path class="odds-area" fill="url(#oddsGradient)" d="M0,200 C50,200 80,180 120,175 C160,170 200,165 240,140 C280,115 300,130 340,135 C380,140 420,100 480,85 C540,70 580,75 640,60 C700,45 750,50 800,42 L800,250 L0,250 Z" />
-                                <!-- Line -->
-                                <path class="odds-line" fill="none" stroke="#00d4ff" stroke-width="3" d="M0,200 C50,200 80,180 120,175 C160,170 200,165 240,140 C280,115 300,130 340,135 C380,140 420,100 480,85 C540,70 580,75 640,60 C700,45 750,50 800,42" />
-                                <!-- Event markers -->
-                                <circle cx="120" cy="175" r="8" fill="#00d4ff" class="event-dot" />
-                                <circle cx="240" cy="140" r="8" fill="#00d4ff" class="event-dot" />
-                                <circle cx="340" cy="135" r="8" fill="#ef4444" class="event-dot" />
-                                <circle cx="480" cy="85" r="8" fill="#00d4ff" class="event-dot" />
-                                <circle cx="640" cy="60" r="8" fill="#10b981" class="event-dot" />
-                            </svg>
-                            <div class="odds-events">
-                                <div class="odds-event" style="left: 15%">
-                                    <div class="event-line"></div>
-                                    <div class="event-label">Idea Posted</div>
-                                </div>
-                                <div class="odds-event" style="left: 30%">
-                                    <div class="event-line"></div>
-                                    <div class="event-label">Quit Job</div>
-                                </div>
-                                <div class="odds-event" style="left: 42.5%">
-                                    <div class="event-line red"></div>
-                                    <div class="event-label">VC Rejections</div>
-                                </div>
-                                <div class="odds-event" style="left: 60%">
-                                    <div class="event-line"></div>
-                                    <div class="event-label">YC Interview</div>
-                                </div>
-                                <div class="odds-event" style="left: 80%">
-                                    <div class="event-line green"></div>
-                                    <div class="event-label">Beta Launch</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="odds-current">
-                            <span>Current Odds:</span>
-                            <span class="odds-value">73% YES</span>
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Journey Timeline -->
+            <div class="journey-section">
+                <!-- Section Header -->
+                <div class="section-header">
+                    <h2>📖 The Journey</h2>
+                    <div class="section-tabs">
+                        <button class="section-tab active">All Updates</button>
+                        <button class="section-tab">Milestones</button>
+                        <button class="section-tab">Media</button>
+                    </div>
+                </div>
+
+                <!-- Mini Odds Chart -->
+                <div class="odds-chart-card">
+                    <div class="chart-header">
+                        <h3>📈 Odds Over Time</h3>
+                        <div class="chart-tabs">
+                            <button class="chart-tab">1W</button>
+                            <button class="chart-tab active">1M</button>
+                            <button class="chart-tab">ALL</button>
                         </div>
                     </div>
-
-                    <!-- Founder Updates Feed -->
-                    <div class="journey-card">
-                        <div class="journey-card-header">
-                            <h2>📝 Founder Updates</h2>
-                            <span class="update-count">12 updates</span>
-                        </div>
-                        
-                        <div class="updates-feed">
-                            <!-- Update 5 - Latest -->
-                            <div class="update-item latest">
-                                <div class="update-marker">
-                                    <div class="marker-dot green"></div>
-                                    <div class="marker-line"></div>
-                                </div>
-                                <div class="update-content">
-                                    <div class="update-header">
-                                        <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
-                                        <div class="update-meta">
-                                            <span class="update-author">Sarah K.</span>
-                                            <span class="update-badge new">NEW</span>
-                                        </div>
-                                        <span class="update-time">2 hours ago</span>
-                                    </div>
-                                    <div class="update-title">🚀 Beta is LIVE!</div>
-                                    <div class="update-body">
-                                        <p>Holy shit, we did it. After 47 days of grinding, FridgeChef beta is officially live on the App Store. 1,247 people on the waitlist are getting access tonight.</p>
-                                        <p>The AI can now identify 500+ ingredients with 94% accuracy. Recipe matching is working beautifully. I'm literally shaking.</p>
-                                    </div>
-                                    <div class="update-media">
-                                        <div class="media-placeholder">📱 App Store Screenshot</div>
-                                    </div>
-                                    <div class="update-impact positive">
-                                        <span>📈 Odds moved: 68% → 73%</span>
-                                        <span class="impact-delta">+5%</span>
-                                    </div>
-                                    <div class="update-reactions">
-                                        <button class="reaction">🔥 247</button>
-                                        <button class="reaction">🚀 189</button>
-                                        <button class="reaction">💪 156</button>
-                                        <button class="reaction-add">+</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Update 4 -->
-                            <div class="update-item">
-                                <div class="update-marker">
-                                    <div class="marker-dot"></div>
-                                    <div class="marker-line"></div>
-                                </div>
-                                <div class="update-content">
-                                    <div class="update-header">
-                                        <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
-                                        <div class="update-meta">
-                                            <span class="update-author">Sarah K.</span>
-                                        </div>
-                                        <span class="update-time">5 days ago</span>
-                                    </div>
-                                    <div class="update-title">YC Interview Scheduled! 🎉</div>
-                                    <div class="update-body">
-                                        <p>Just got the email. Y Combinator wants to interview us for the W25 batch. Interview is next Tuesday. I've never been more nervous and excited in my life.</p>
-                                        <p>To everyone who bet YES early — thank you for believing. We're not done yet.</p>
-                                    </div>
-                                    <div class="update-impact positive">
-                                        <span>📈 Odds moved: 52% → 68%</span>
-                                        <span class="impact-delta">+16%</span>
-                                    </div>
-                                    <div class="update-reactions">
-                                        <button class="reaction">🔥 312</button>
-                                        <button class="reaction">🙏 201</button>
-                                        <button class="reaction-add">+</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Update 3 - Negative -->
-                            <div class="update-item">
-                                <div class="update-marker">
-                                    <div class="marker-dot red"></div>
-                                    <div class="marker-line"></div>
-                                </div>
-                                <div class="update-content">
-                                    <div class="update-header">
-                                        <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
-                                        <div class="update-meta">
-                                            <span class="update-author">Sarah K.</span>
-                                        </div>
-                                        <span class="update-time">2 weeks ago</span>
-                                    </div>
-                                    <div class="update-title">Rough week. 10 VC rejections. 😔</div>
-                                    <div class="update-body">
-                                        <p>Not gonna sugarcoat it — this week was brutal. Pitched to 10 VCs, got 10 nos. "Market too small." "Already invested in a competitor." "Come back with traction."</p>
-                                        <p>But here's the thing: I'm not building this for VCs. I'm building it for the 40% of food that gets wasted every day. We keep going.</p>
-                                    </div>
-                                    <div class="update-impact negative">
-                                        <span>📉 Odds moved: 58% → 52%</span>
-                                        <span class="impact-delta">-6%</span>
-                                    </div>
-                                    <div class="update-reactions">
-                                        <button class="reaction">💪 445</button>
-                                        <button class="reaction">❤️ 287</button>
-                                        <button class="reaction-add">+</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Update 2 -->
-                            <div class="update-item">
-                                <div class="update-marker">
-                                    <div class="marker-dot"></div>
-                                    <div class="marker-line"></div>
-                                </div>
-                                <div class="update-content">
-                                    <div class="update-header">
-                                        <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
-                                        <div class="update-meta">
-                                            <span class="update-author">Sarah K.</span>
-                                        </div>
-                                        <span class="update-time">3 weeks ago</span>
-                                    </div>
-                                    <div class="update-title">I quit my job today.</div>
-                                    <div class="update-body">
-                                        <p>Handed in my resignation at Google this morning. 6 years, gone. My manager thought I was crazy. Maybe I am.</p>
-                                        <p>But I've been thinking about FridgeChef for 2 years. If not now, when? I have 8 months of runway. Let's see what happens.</p>
-                                    </div>
-                                    <div class="update-impact positive">
-                                        <span>📈 Odds moved: 50% → 58%</span>
-                                        <span class="impact-delta">+8%</span>
-                                    </div>
-                                    <div class="update-reactions">
-                                        <button class="reaction">🔥 523</button>
-                                        <button class="reaction">🚀 341</button>
-                                        <button class="reaction-add">+</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Update 1 - First -->
-                            <div class="update-item">
-                                <div class="update-marker">
-                                    <div class="marker-dot first"></div>
-                                </div>
-                                <div class="update-content">
-                                    <div class="update-header">
-                                        <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
-                                        <div class="update-meta">
-                                            <span class="update-author">Sarah K.</span>
-                                        </div>
-                                        <span class="update-time">6 weeks ago</span>
-                                    </div>
-                                    <div class="update-title">Day 1: FridgeChef is born 🍳</div>
-                                    <div class="update-body">
-                                        <p>Hey everyone! I'm Sarah, and I just submitted FridgeChef to Build Me. The idea is simple: take a photo of your fridge, get instant recipe ideas.</p>
-                                        <p>I've been a software engineer for 6 years, but I've never built my own thing. That changes now. Follow along as I try to make this real.</p>
-                                    </div>
-                                    <div class="update-impact">
-                                        <span>🎯 Market opened at 50%</span>
-                                    </div>
-                                    <div class="update-reactions">
-                                        <button class="reaction">👋 234</button>
-                                        <button class="reaction">🚀 189</button>
-                                        <button class="reaction-add">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="chart-container">
+                        <svg class="chart-svg" viewBox="0 0 800 150" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color: #00d4ff; stop-opacity: 0.3" />
+                                    <stop offset="100%" style="stop-color: #00d4ff; stop-opacity: 0" />
+                                </linearGradient>
+                            </defs>
+                            <line x1="0" y1="75" x2="800" y2="75" stroke="#252836" stroke-dasharray="4" />
+                            <path fill="url(#chartGradient)" d="M0,120 C100,115 150,100 200,95 C250,90 300,80 400,75 C500,85 550,70 650,50 C700,45 750,40 800,35 L800,150 L0,150 Z" />
+                            <path fill="none" stroke="#00d4ff" stroke-width="2.5" d="M0,120 C100,115 150,100 200,95 C250,90 300,80 400,75 C500,85 550,70 650,50 C700,45 750,40 800,35" />
+                        </svg>
                     </div>
-
-                    <!-- Comments/Debate Section -->
-                    <div class="journey-card comments-card">
-                        <div class="journey-card-header">
-                            <h2>💬 Community Debate</h2>
-                            <div class="comment-tabs">
-                                <button class="comment-tab active" onclick="filterComments('hot')">🔥 Hot</button>
-                                <button class="comment-tab" onclick="filterComments('new')">🆕 New</button>
-                                <button class="comment-tab" onclick="filterComments('bulls')">📈 Bulls</button>
-                                <button class="comment-tab" onclick="filterComments('bears')">📉 Bears</button>
-                            </div>
+                    <div class="chart-events">
+                        <div class="chart-event">
+                            <div class="dot"></div>
+                            <span>Idea Posted</span>
                         </div>
-
-                        <!-- Comment Input -->
-                        <div class="comment-input-box">
-                            <div class="comment-input-avatar" style="background: linear-gradient(135deg, #00d4ff, #00b4d8);"></div>
-                            <div class="comment-input-wrapper">
-                                <textarea class="comment-input" placeholder="Share your take on FridgeChef's chances..." rows="2"></textarea>
-                                <div class="comment-input-actions">
-                                    <div class="stance-selector">
-                                        <button class="stance-btn bull active" onclick="setStance('bull')">📈 Bullish</button>
-                                        <button class="stance-btn bear" onclick="setStance('bear')">📉 Bearish</button>
-                                    </div>
-                                    <button class="comment-submit">Post</button>
-                                </div>
-                            </div>
+                        <div class="chart-event">
+                            <div class="dot"></div>
+                            <span>Quit Job</span>
                         </div>
-
-                        <!-- Comments List -->
-                        <div class="comments-list">
-                            <!-- Hot Take / Pinned -->
-                            <div class="comment-item pinned">
-                                <div class="comment-pin-badge">📌 Pinned by moderator</div>
-                                <div class="comment-header">
-                                    <div class="comment-avatar" style="background: linear-gradient(135deg, #fbbf24, #f59e0b);"></div>
-                                    <div class="comment-author">
-                                        <span class="author-name">crypto_whale</span>
-                                        <span class="author-badge top">🏆 Top Predictor</span>
-                                    </div>
-                                    <span class="comment-stance bull">📈 BULL</span>
-                                    <span class="comment-time">1 day ago</span>
-                                </div>
-                                <div class="comment-body">
-                                    <p>I've been tracking food-tech startups for 3 years. FridgeChef has something most don't: <strong>a founder who actually understands the problem</strong>. Sarah quit Google to build this — that's conviction.</p>
-                                    <p>The YC interview is huge. Even if they don't get in, the signal is there. My position: 500 YES @ 58¢. Riding this to resolution.</p>
-                                </div>
-                                <div class="comment-footer">
-                                    <button class="comment-vote upvote active">▲ 342</button>
-                                    <button class="comment-vote downvote">▼</button>
-                                    <button class="comment-reply">💬 Reply (23)</button>
-                                    <button class="comment-share">🔗 Share</button>
-                                </div>
-                            </div>
-
-                            <!-- Bull Comment -->
-                            <div class="comment-item">
-                                <div class="comment-header">
-                                    <div class="comment-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
-                                    <div class="comment-author">
-                                        <span class="author-name">startup_sage</span>
-                                        <span class="author-badge">84% accuracy</span>
-                                    </div>
-                                    <span class="comment-stance bull">📈 BULL</span>
-                                    <span class="comment-time">3 hours ago</span>
-                                </div>
-                                <div class="comment-body">
-                                    <p>Beta launch changes everything. 1,247 waitlist users is solid validation. The 94% ingredient accuracy is actually impressive — most food recognition AI struggles to hit 80%.</p>
-                                    <p>Adding 100 more YES here.</p>
-                                </div>
-                                <div class="comment-footer">
-                                    <button class="comment-vote upvote">▲ 89</button>
-                                    <button class="comment-vote downvote">▼ 12</button>
-                                    <button class="comment-reply">💬 Reply (7)</button>
-                                    <button class="comment-share">🔗 Share</button>
-                                </div>
-                            </div>
-
-                            <!-- Bear Comment -->
-                            <div class="comment-item">
-                                <div class="comment-header">
-                                    <div class="comment-avatar" style="background: linear-gradient(135deg, #ef4444, #f87171);"></div>
-                                    <div class="comment-author">
-                                        <span class="author-name">skeptic_steve</span>
-                                        <span class="author-badge">72% accuracy</span>
-                                    </div>
-                                    <span class="comment-stance bear">📉 BEAR</span>
-                                    <span class="comment-time">5 hours ago</span>
-                                </div>
-                                <div class="comment-body">
-                                    <p>Unpopular opinion: This is a feature, not a company. Google, Samsung, and LG are all working on smart fridge integrations. What's the moat here?</p>
-                                    <p>Also, 10 VC rejections isn't nothing. They see something we don't. Holding my NO position.</p>
-                                </div>
-                                <div class="comment-footer">
-                                    <button class="comment-vote upvote">▲ 67</button>
-                                    <button class="comment-vote downvote">▼ 45</button>
-                                    <button class="comment-reply">💬 Reply (31)</button>
-                                    <button class="comment-share">🔗 Share</button>
-                                </div>
-
-                                <!-- Nested Reply -->
-                                <div class="comment-replies">
-                                    <div class="comment-item reply">
-                                        <div class="comment-header">
-                                            <div class="comment-avatar" style="background: linear-gradient(135deg, #a855f7, #c084fc);"></div>
-                                            <div class="comment-author">
-                                                <span class="author-name">vc_insider</span>
-                                            </div>
-                                            <span class="comment-stance bull">📈 BULL</span>
-                                            <span class="comment-time">4 hours ago</span>
-                                        </div>
-                                        <div class="comment-body">
-                                            <p>@skeptic_steve The moat is UX + speed. Big tech builds for hardware lock-in. FridgeChef works with ANY fridge and ANY phone. That's the wedge.</p>
-                                        </div>
-                                        <div class="comment-footer">
-                                            <button class="comment-vote upvote">▲ 34</button>
-                                            <button class="comment-vote downvote">▼ 8</button>
-                                            <button class="comment-reply">💬 Reply</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Another Comment -->
-                            <div class="comment-item">
-                                <div class="comment-header">
-                                    <div class="comment-avatar" style="background: linear-gradient(135deg, #3b82f6, #60a5fa);"></div>
-                                    <div class="comment-author">
-                                        <span class="author-name">data_dan</span>
-                                    </div>
-                                    <span class="comment-stance bull">📈 BULL</span>
-                                    <span class="comment-time">8 hours ago</span>
-                                </div>
-                                <div class="comment-body">
-                                    <p>The founder updates are what sold me. Most startup founders go dark after submitting. Sarah's posting weekly, being transparent about rejections AND wins. That's rare.</p>
-                                    <p>Execution > Idea. She's executing. 🚀</p>
-                                </div>
-                                <div class="comment-footer">
-                                    <button class="comment-vote upvote">▲ 156</button>
-                                    <button class="comment-vote downvote">▼ 23</button>
-                                    <button class="comment-reply">💬 Reply (12)</button>
-                                    <button class="comment-share">🔗 Share</button>
-                                </div>
-                            </div>
-
-                            <!-- Load More -->
-                            <button class="load-more-comments">
-                                Load more comments (47 remaining)
-                            </button>
+                        <div class="chart-event">
+                            <div class="dot red"></div>
+                            <span>VC Rejections</span>
+                        </div>
+                        <div class="chart-event">
+                            <div class="dot"></div>
+                            <span>YC Interview</span>
+                        </div>
+                        <div class="chart-event">
+                            <div class="dot green"></div>
+                            <span>Beta Live!</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Journey Sidebar -->
-                <div class="journey-sidebar">
-                    <!-- Resolution Countdown -->
-                    <div class="sidebar-card countdown-card">
-                        <h3>⏰ Resolution In</h3>
-                        <div class="countdown">
-                            <div class="countdown-item">
-                                <div class="countdown-value">47</div>
-                                <div class="countdown-label">days</div>
+                <!-- Updates Feed -->
+                <div class="updates-feed">
+                    <!-- Latest Update -->
+                    <div class="update-card latest">
+                        <div class="update-header">
+                            <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
+                            <div class="update-meta">
+                                <div class="update-author">
+                                    Sarah K.
+                                    <span class="update-badge">NEW</span>
+                                </div>
+                                <div class="update-time">2 hours ago</div>
                             </div>
-                            <div class="countdown-item">
-                                <div class="countdown-value">12</div>
-                                <div class="countdown-label">hours</div>
-                            </div>
-                            <div class="countdown-item">
-                                <div class="countdown-value">34</div>
-                                <div class="countdown-label">mins</div>
-                            </div>
+                            <div class="update-day">Day 47</div>
                         </div>
-                        <div class="countdown-date">March 31, 2025</div>
-                        <div class="countdown-market">Will FridgeChef ship a working MVP?</div>
-                    </div>
-
-                    <!-- Key Milestones -->
-                    <div class="sidebar-card">
-                        <h3>🏁 Key Milestones</h3>
-                        <div class="milestones">
-                            <div class="milestone completed">
-                                <div class="milestone-check">✓</div>
-                                <div class="milestone-info">
-                                    <div class="milestone-title">Idea Posted</div>
-                                    <div class="milestone-date">Dec 1, 2024</div>
-                                </div>
+                        <div class="update-title">🚀 Beta is LIVE!</div>
+                        <div class="update-body">
+                            <p>Holy shit, we did it. After 47 days of grinding, FridgeChef beta is officially live on the App Store. 1,247 people on the waitlist are getting access tonight.</p>
+                            <p>The AI can now identify 500+ ingredients with 94% accuracy. Recipe matching is working beautifully. I'm literally shaking.</p>
+                        </div>
+                        <div class="update-media">📱 App Store Screenshot</div>
+                        <div class="update-impact positive">📈 Odds: 68% → 73% (+5%)</div>
+                        <div class="update-footer">
+                            <div class="update-reactions">
+                                <button class="reaction">🔥 247</button>
+                                <button class="reaction">🚀 189</button>
+                                <button class="reaction">💪 156</button>
                             </div>
-                            <div class="milestone completed">
-                                <div class="milestone-check">✓</div>
-                                <div class="milestone-info">
-                                    <div class="milestone-title">Founder Goes Full-Time</div>
-                                    <div class="milestone-date">Dec 8, 2024</div>
-                                </div>
-                            </div>
-                            <div class="milestone completed">
-                                <div class="milestone-check">✓</div>
-                                <div class="milestone-info">
-                                    <div class="milestone-title">YC Interview</div>
-                                    <div class="milestone-date">Dec 15, 2024</div>
-                                </div>
-                            </div>
-                            <div class="milestone completed">
-                                <div class="milestone-check">✓</div>
-                                <div class="milestone-info">
-                                    <div class="milestone-title">Beta Launch</div>
-                                    <div class="milestone-date">Dec 17, 2024</div>
-                                </div>
-                            </div>
-                            <div class="milestone pending">
-                                <div class="milestone-check">○</div>
-                                <div class="milestone-info">
-                                    <div class="milestone-title">MVP Ship Date</div>
-                                    <div class="milestone-date">Mar 31, 2025</div>
-                                </div>
-                            </div>
+                            <span class="update-comments">💬 47 comments</span>
                         </div>
                     </div>
 
-                    <!-- Quick Stats -->
-                    <div class="sidebar-card">
-                        <h3>📊 Journey Stats</h3>
-                        <div class="journey-stats">
-                            <div class="journey-stat">
-                                <div class="journey-stat-value">47</div>
-                                <div class="journey-stat-label">Days In</div>
+                    <!-- Update 2 -->
+                    <div class="update-card">
+                        <div class="update-header">
+                            <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
+                            <div class="update-meta">
+                                <div class="update-author">Sarah K.</div>
+                                <div class="update-time">5 days ago</div>
                             </div>
-                            <div class="journey-stat">
-                                <div class="journey-stat-value">12</div>
-                                <div class="journey-stat-label">Updates</div>
+                            <div class="update-day">Day 42</div>
+                        </div>
+                        <div class="update-title">🎉 YC Interview Scheduled!</div>
+                        <div class="update-body">
+                            <p>Just got the email. Y Combinator wants to interview us for the W25 batch. Interview is next Tuesday. I've never been more nervous and excited in my life.</p>
+                            <p>To everyone who bet YES early — thank you for believing. We're not done yet.</p>
+                        </div>
+                        <div class="update-impact positive">📈 Odds: 52% → 68% (+16%)</div>
+                        <div class="update-footer">
+                            <div class="update-reactions">
+                                <button class="reaction">🔥 312</button>
+                                <button class="reaction">🙏 201</button>
                             </div>
-                            <div class="journey-stat">
-                                <div class="journey-stat-value">2.4K</div>
-                                <div class="journey-stat-label">Followers</div>
+                            <span class="update-comments">💬 89 comments</span>
+                        </div>
+                    </div>
+
+                    <!-- Update 3 - Negative -->
+                    <div class="update-card">
+                        <div class="update-header">
+                            <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
+                            <div class="update-meta">
+                                <div class="update-author">Sarah K.</div>
+                                <div class="update-time">2 weeks ago</div>
                             </div>
-                            <div class="journey-stat">
-                                <div class="journey-stat-value">+23%</div>
-                                <div class="journey-stat-label">Odds Change</div>
+                            <div class="update-day">Day 33</div>
+                        </div>
+                        <div class="update-title">😔 Rough week. 10 VC rejections.</div>
+                        <div class="update-body">
+                            <p>Not gonna sugarcoat it — this week was brutal. Pitched to 10 VCs, got 10 nos. "Market too small." "Already invested in a competitor." "Come back with traction."</p>
+                            <p>But here's the thing: I'm not building this for VCs. I'm building it for the 40% of food that gets wasted every day. We keep going.</p>
+                        </div>
+                        <div class="update-impact negative">📉 Odds: 58% → 52% (-6%)</div>
+                        <div class="update-footer">
+                            <div class="update-reactions">
+                                <button class="reaction">💪 445</button>
+                                <button class="reaction">❤️ 287</button>
+                            </div>
+                            <span class="update-comments">💬 156 comments</span>
+                        </div>
+                    </div>
+
+                    <!-- Update 4 -->
+                    <div class="update-card">
+                        <div class="update-header">
+                            <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
+                            <div class="update-meta">
+                                <div class="update-author">Sarah K.</div>
+                                <div class="update-time">3 weeks ago</div>
+                            </div>
+                            <div class="update-day">Day 21</div>
+                        </div>
+                        <div class="update-title">I quit my job today.</div>
+                        <div class="update-body">
+                            <p>Handed in my resignation at Google this morning. 6 years, gone. My manager thought I was crazy. Maybe I am.</p>
+                            <p>But I've been thinking about FridgeChef for 2 years. If not now, when? I have 8 months of runway. Let's see what happens.</p>
+                        </div>
+                        <div class="update-impact positive">📈 Odds: 50% → 58% (+8%)</div>
+                        <div class="update-footer">
+                            <div class="update-reactions">
+                                <button class="reaction">🔥 523</button>
+                                <button class="reaction">🚀 341</button>
+                            </div>
+                            <span class="update-comments">💬 203 comments</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="comments-section">
+                    <div class="comments-header">
+                        <h3>💬 Community Discussion</h3>
+                        <div class="comment-filters">
+                            <button class="comment-filter active">🔥 Hot</button>
+                            <button class="comment-filter">📈 Bulls</button>
+                            <button class="comment-filter">📉 Bears</button>
+                            <button class="comment-filter">🆕 New</button>
+                        </div>
+                    </div>
+
+                    <div class="comment-input-row">
+                        <div class="comment-input-avatar"></div>
+                        <div class="comment-input-wrapper">
+                            <textarea class="comment-textarea" placeholder="What's your take on FridgeChef?" rows="2"></textarea>
+                            <div class="comment-actions">
+                                <div class="stance-btns">
+                                    <button class="stance-btn bull active">📈 Bullish</button>
+                                    <button class="stance-btn bear">📉 Bearish</button>
+                                </div>
+                                <button class="post-btn">Post</button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Follow Button -->
-                    <button class="follow-btn">
-                        <span>🔔</span> Follow Journey
-                    </button>
-                </div>
-            </div>
-        </div>
+                    <div class="comments-list">
+                        <div class="comment pinned">
+                            <div class="comment-pin">📌 Pinned</div>
+                            <div class="comment-head">
+                                <div class="comment-avatar" style="background: linear-gradient(135deg, #fbbf24, #f59e0b);"></div>
+                                <div class="comment-author-info">
+                                    <div class="comment-author-name">
+                                        crypto_whale
+                                        <span class="comment-author-badge">🏆 Top Predictor</span>
+                                    </div>
+                                    <div class="comment-author-accuracy">89% accuracy</div>
+                                </div>
+                                <span class="comment-stance bull">📈 BULL</span>
+                                <span class="comment-time">1 day ago</span>
+                            </div>
+                            <div class="comment-text">
+                                <p>I've been tracking food-tech startups for 3 years. FridgeChef has something most don't: <strong>a founder who actually understands the problem</strong>. The YC interview is huge. My position: $500 YES @ 58¢.</p>
+                            </div>
+                            <div class="comment-actions-row">
+                                <button class="comment-action">▲ 342</button>
+                                <button class="comment-action">▼ 12</button>
+                                <button class="comment-action">💬 23 replies</button>
+                            </div>
+                        </div>
 
-        <!-- About Tab Content -->
-        <div class="tab-content" id="tab-about">
-            <!-- Pitch Header -->
-            <div class="pitch-header">
-                <div class="ai-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                    AI-Generated Pitch • Pro Tier
-                </div>
-                <h1 class="pitch-title"><span id="pitchName">FridgeChef</span> — <span id="pitchTagline">AI Recipe Generator from Fridge Photos</span></h1>
-                <p class="pitch-subtitle" id="pitchSubtitle">Snap a photo of your fridge. Get dinner ideas in seconds. Stop wasting food, stop wasting time.</p>
-                
-                <div class="pitch-meta">
-                    <div class="pitch-author">
-                        <div class="author-avatar" id="authorAvatar"></div>
-                        <span id="authorName">Sarah K.</span>
-                    </div>
-                    <span class="pitch-date">📅 Dec 12, 2025</span>
-                    <div class="pitch-tags" id="pitchTags">
-                        <span class="tag">Consumer</span>
-                        <span class="tag">AI</span>
-                        <span class="tag">Mobile</span>
-                    </div>
-                </div>
+                        <div class="comment">
+                            <div class="comment-head">
+                                <div class="comment-avatar" style="background: linear-gradient(135deg, #ef4444, #f87171);"></div>
+                                <div class="comment-author-info">
+                                    <div class="comment-author-name">skeptic_steve</div>
+                                    <div class="comment-author-accuracy">72% accuracy</div>
+                                </div>
+                                <span class="comment-stance bear">📉 BEAR</span>
+                                <span class="comment-time">5 hours ago</span>
+                            </div>
+                            <div class="comment-text">
+                                <p>Unpopular opinion: This is a feature, not a company. Google, Samsung, and LG are all working on smart fridge integrations. What's the moat here? Holding my NO position.</p>
+                            </div>
+                            <div class="comment-actions-row">
+                                <button class="comment-action">▲ 67</button>
+                                <button class="comment-action">▼ 45</button>
+                                <button class="comment-action">💬 31 replies</button>
+                            </div>
+                        </div>
 
-                <div class="pitch-actions">
-                    <button class="action-btn upvote" onclick="upvote()">
-                        <span>▲</span>
-                        <span id="upvoteCount">848</span>
-                        <span>Upvote</span>
-                    </button>
-                    <button class="action-btn build">
-                        <span>🔧</span>
-                        I'd Build This
-                    </button>
-                    <button class="action-btn buy">
-                        <span>💰</span>
-                        I'd Buy This
-                    </button>
+                        <div class="comment">
+                            <div class="comment-head">
+                                <div class="comment-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
+                                <div class="comment-author-info">
+                                    <div class="comment-author-name">startup_sage</div>
+                                    <div class="comment-author-accuracy">84% accuracy</div>
+                                </div>
+                                <span class="comment-stance bull">📈 BULL</span>
+                                <span class="comment-time">3 hours ago</span>
+                            </div>
+                            <div class="comment-text">
+                                <p>Beta launch changes everything. 1,247 waitlist users is solid validation. The 94% ingredient accuracy is impressive — most food AI struggles to hit 80%. Adding 100 more YES.</p>
+                            </div>
+                            <div class="comment-actions-row">
+                                <button class="comment-action">▲ 89</button>
+                                <button class="comment-action">▼ 8</button>
+                                <button class="comment-action">💬 7 replies</button>
+                            </div>
+                        </div>
+
+                        <button class="load-more">Load more comments (47 remaining)</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="about-content">
-                <div class="about-main">
-                    <div class="about-card">
-                        <h2>The Problem</h2>
-                        <p id="aboutProblem">Every day, 40% of food in American homes goes to waste — $1,500 per household annually. Meanwhile, people spend 30+ minutes deciding what to cook, often giving up and ordering takeout instead.</p>
-                    </div>
-
-                    <div class="about-card">
-                        <h2>The Solution</h2>
-                        <p id="aboutSolution">FridgeChef uses computer vision to instantly identify ingredients from a single photo. Point your phone at your fridge, snap, and get 5 personalized recipe suggestions in under 3 seconds.</p>
-                    </div>
-
-                    <div class="about-card">
-                        <h2>Key Features</h2>
-                        <ul id="aboutFeatures">
-                            <li><strong>Instant Photo Recognition</strong> — AI identifies 500+ ingredients with 94% accuracy</li>
-                            <li><strong>Smart Recipe Matching</strong> — Recipes ranked by ingredient coverage</li>
-                            <li><strong>Dietary Intelligence</strong> — Remembers preferences: vegan, gluten-free, etc.</li>
-                            <li><strong>Expiration Alerts</strong> — Flags ingredients going bad soon</li>
-                            <li><strong>One-Tap Shopping</strong> — Order missing ingredients via Instacart</li>
-                            <li><strong>Hands-Free Cook Mode</strong> — Voice guidance while cooking</li>
-                        </ul>
-                    </div>
-
-                    <div class="about-card demo-card">
-                        <h2>Demo Preview</h2>
-                        <div class="phone-mockup">
-                            <div class="phone-frame">
-                                <div class="phone-notch"></div>
-                                <div class="phone-screen">
-                                    <div class="app-icon" id="demoIcon">🍳</div>
-                                    <div class="app-name" id="demoName">FridgeChef</div>
-                                    <div class="app-tagline">What's for dinner?</div>
-                                    <div class="scan-area">
-                                        <div class="scan-icon">📷</div>
-                                        <div class="scan-text">Tap to scan your fridge</div>
-                                        <div class="scan-line"></div>
-                                    </div>
-                                    <button class="demo-btn">Take Photo</button>
-                                    <div class="recipe-suggestions">
-                                        <div class="recipe-item">
-                                            <span>🍝</span>
-                                            <div>Pasta</div>
-                                            <div class="match">92%</div>
-                                        </div>
-                                        <div class="recipe-item">
-                                            <span>🥗</span>
-                                            <div>Salad</div>
-                                            <div class="match">87%</div>
-                                        </div>
-                                        <div class="recipe-item">
-                                            <span>🍳</span>
-                                            <div>Omelet</div>
-                                            <div class="match">78%</div>
-                                        </div>
-                                    </div>
-                                </div>
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Milestones -->
+                <div class="sidebar-card">
+                    <h3>🏁 Milestones</h3>
+                    <div class="milestones">
+                        <div class="milestone completed">
+                            <div class="milestone-icon">✓</div>
+                            <div class="milestone-info">
+                                <div class="milestone-title">Idea Posted</div>
+                                <div class="milestone-date">Dec 1, 2024</div>
+                            </div>
+                        </div>
+                        <div class="milestone completed">
+                            <div class="milestone-icon">✓</div>
+                            <div class="milestone-info">
+                                <div class="milestone-title">Founder Goes Full-Time</div>
+                                <div class="milestone-date">Dec 8, 2024</div>
+                            </div>
+                        </div>
+                        <div class="milestone completed">
+                            <div class="milestone-icon">✓</div>
+                            <div class="milestone-info">
+                                <div class="milestone-title">YC Interview</div>
+                                <div class="milestone-date">Dec 15, 2024</div>
+                            </div>
+                        </div>
+                        <div class="milestone current">
+                            <div class="milestone-icon">●</div>
+                            <div class="milestone-info">
+                                <div class="milestone-title">Beta Launch</div>
+                                <div class="milestone-date">Dec 17, 2024</div>
+                            </div>
+                        </div>
+                        <div class="milestone pending">
+                            <div class="milestone-icon">○</div>
+                            <div class="milestone-info">
+                                <div class="milestone-title">MVP Ship (Resolution)</div>
+                                <div class="milestone-date">Mar 31, 2025</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="about-sidebar">
-                    <div class="sidebar-card traction-card">
-                        <h3>
-                            Live Traction
-                            <span class="live-badge">Updating</span>
-                        </h3>
-                        <div class="traction-grid">
-                            <div class="traction-stat">
-                                <div class="value">847</div>
-                                <div class="label">Upvotes</div>
-                            </div>
-                            <div class="traction-stat">
-                                <div class="value">12</div>
-                                <div class="label">Builders</div>
-                            </div>
-                            <div class="traction-stat">
-                                <div class="value">234</div>
-                                <div class="label">Would Buy</div>
-                            </div>
-                            <div class="traction-stat">
-                                <div class="value">89</div>
-                                <div class="label">Comments</div>
-                            </div>
+                <!-- Community -->
+                <div class="sidebar-card">
+                    <h3>👥 Community</h3>
+                    <div class="community-stats">
+                        <div class="community-stat">
+                            <div class="community-stat-value">2.4K</div>
+                            <div class="community-stat-label">Followers</div>
+                        </div>
+                        <div class="community-stat">
+                            <div class="community-stat-value">847</div>
+                            <div class="community-stat-label">Predictors</div>
                         </div>
                     </div>
-
-                    <div class="sidebar-card market-analysis">
-                        <h3>Market Analysis</h3>
-                        <div class="market-item-row">
-                            <span class="label">Market Size</span>
-                            <span class="value">$1.2B</span>
+                    <h4 style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Top Predictors</h4>
+                    <div class="top-predictors">
+                        <div class="predictor-row">
+                            <div class="predictor-avatar" style="background: linear-gradient(135deg, #fbbf24, #f59e0b);"></div>
+                            <div class="predictor-info">
+                                <div class="predictor-name">crypto_whale</div>
+                                <div class="predictor-stance bull">📈 YES @ 58¢</div>
+                            </div>
+                            <div class="predictor-amount">$500</div>
                         </div>
-                        <div class="market-item-row">
-                            <span class="label">Annual Growth</span>
-                            <span class="value">12.4%</span>
+                        <div class="predictor-row">
+                            <div class="predictor-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
+                            <div class="predictor-info">
+                                <div class="predictor-name">startup_sage</div>
+                                <div class="predictor-stance bull">📈 YES @ 52¢</div>
+                            </div>
+                            <div class="predictor-amount">$320</div>
                         </div>
-                        <div class="market-item-row">
-                            <span class="label">Target Users (US)</span>
-                            <span class="value">40M</span>
-                        </div>
-                        <div class="market-item-row">
-                            <span class="label">Avg Food Waste/Home</span>
-                            <span class="value">$1,500/yr</span>
+                        <div class="predictor-row">
+                            <div class="predictor-avatar" style="background: linear-gradient(135deg, #ef4444, #f87171);"></div>
+                            <div class="predictor-info">
+                                <div class="predictor-name">skeptic_steve</div>
+                                <div class="predictor-stance bear">📉 NO @ 42¢</div>
+                            </div>
+                            <div class="predictor-amount">$200</div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="sidebar-card builders-card">
-                        <h3>Interested Builders</h3>
-                        <div class="builders-list">
-                            <div class="builder-item">
-                                <div class="builder-avatar" style="background: linear-gradient(135deg, #a855f7, #c084fc);"></div>
-                                <div class="builder-info">
-                                    <div class="builder-name">Mike Rodriguez</div>
-                                    <div class="builder-role">iOS Developer • 8 yrs</div>
+                <!-- About -->
+                <div class="sidebar-card">
+                    <h3>ℹ️ About FridgeChef</h3>
+                    <p class="about-preview">FridgeChef uses computer vision to instantly identify ingredients from a single photo. Point your phone at your fridge, snap, and get 5 personalized recipe suggestions in under 3 seconds.</p>
+                    <a href="#" class="about-link">View Full Pitch →</a>
+                </div>
+
+                <!-- Other Markets -->
+                <div class="sidebar-card">
+                    <h3>📊 Other Markets</h3>
+                    <div class="milestones" style="gap: 0.75rem;">
+                        <div class="milestone" style="cursor: pointer;">
+                            <div class="milestone-info" style="width: 100%;">
+                                <div class="milestone-title" style="font-size: 0.8rem;">Reach 10K users in month 1?</div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.25rem;">
+                                    <span style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent); font-weight: 700;">41% YES</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-muted);">$9.1K vol</span>
                                 </div>
-                                <span class="applied-badge">Applied</span>
-                            </div>
-                            <div class="builder-item">
-                                <div class="builder-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
-                                <div class="builder-info">
-                                    <div class="builder-name">Priya Sharma</div>
-                                    <div class="builder-role">ML Engineer • Google</div>
-                                </div>
-                                <span class="applied-badge">Applied</span>
-                            </div>
-                            <div class="builder-item">
-                                <div class="builder-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
-                                <div class="builder-info">
-                                    <div class="builder-name">Tom Harrison</div>
-                                    <div class="builder-role">Full Stack • 2 exits</div>
-                                </div>
-                                <span class="applied-badge">Applied</span>
                             </div>
                         </div>
-                        <a href="#" class="view-all-link">View all 12 builders →</a>
+                        <div class="milestone" style="cursor: pointer;">
+                            <div class="milestone-info" style="width: 100%;">
+                                <div class="milestone-title" style="font-size: 0.8rem;">Raise $500K+ seed by end of 2025?</div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.25rem;">
+                                    <span style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent); font-weight: 700;">28% YES</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-muted);">$5.2K vol</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2922,235 +1693,13 @@
     </footer>
 
     <script>
-        // Data
-        const companies = {
-            fridgechef: {
-                name: 'FridgeChef',
-                icon: '🍳',
-                color: 'linear-gradient(135deg, #ff6b35, #ffb347)',
-                tagline: 'AI Recipe Generator from Fridge Photos',
-                subtitle: 'Snap a photo of your fridge. Get dinner ideas in seconds. Stop wasting food, stop wasting time.',
-                markets: [
-                    { question: 'Will FridgeChef ship a working MVP by March 31, 2025?', odds: 73, volume: '$24.7K', predictors: 847, ends: 'Mar 31' },
-                    { question: 'Will FridgeChef reach 10,000 users within first month of launch?', odds: 41, volume: '$9.1K', predictors: 394, ends: 'Apr 30' },
-                    { question: 'Will FridgeChef raise $500K+ seed funding by end of 2025?', odds: 28, volume: '$5.2K', predictors: 187, ends: 'Dec 31' },
-                    { question: 'Will FridgeChef be acquired within 2 years?', odds: 8, volume: '$3.4K', predictors: 156, ends: 'Dec 2026' },
-                    { question: 'Will FridgeChef hit $50K revenue in year 1?', odds: 52, volume: '$7.8K', predictors: 312, ends: 'Dec 31' }
-                ],
-                problem: 'Every day, 40% of food in American homes goes to waste — $1,500 per household annually. Meanwhile, people spend 30+ minutes deciding what to cook, often giving up and ordering takeout instead.',
-                solution: 'FridgeChef uses computer vision to instantly identify ingredients from a single photo. Point your phone at your fridge, snap, and get 5 personalized recipe suggestions in under 3 seconds.',
-                features: [
-                    { title: 'Instant Photo Recognition', desc: 'AI identifies 500+ ingredients with 94% accuracy' },
-                    { title: 'Smart Recipe Matching', desc: 'Recipes ranked by ingredient coverage' },
-                    { title: 'Dietary Intelligence', desc: 'Remembers preferences: vegan, gluten-free, etc.' },
-                    { title: 'Expiration Alerts', desc: 'Flags ingredients going bad soon' },
-                    { title: 'One-Tap Shopping', desc: 'Order missing ingredients via Instacart' }
-                ]
-            },
-            contractpro: {
-                name: 'ContractPro',
-                icon: '📝',
-                color: 'linear-gradient(135deg, #10b981, #34d399)',
-                tagline: 'Micro-SaaS for Freelancer Contracts',
-                markets: [
-                    { question: 'Will ContractPro hit 1,000 paying users within 30 days of launch?', odds: 54, volume: '$18.2K', predictors: 634, ends: 'Feb 28' },
-                    { question: 'Will ContractPro raise $1M+ in seed funding by Q2 2025?', odds: 32, volume: '$6.3K', predictors: 187, ends: 'Jun 30' },
-                    { question: 'Will ContractPro reach $100K ARR by end of 2025?', odds: 47, volume: '$8.1K', predictors: 298, ends: 'Dec 31' },
-                    { question: 'Will ContractPro be featured on Product Hunt top 5?', odds: 65, volume: '$4.2K', predictors: 156, ends: 'Mar 15' }
-                ],
-                problem: 'Freelancers waste hours creating contracts from scratch or pay expensive lawyers. 67% of freelancers have been burned by unclear payment terms.',
-                solution: 'ContractPro generates legally-vetted contracts in one click. Built-in e-signatures, payment milestones, and automatic reminders.',
-                features: [
-                    { title: 'One-Click Contracts', desc: 'Generate professional contracts in seconds' },
-                    { title: 'E-Signatures Built In', desc: 'No need for DocuSign or external tools' },
-                    { title: 'Payment Tracking', desc: 'Automatic invoicing and milestone payments' },
-                    { title: 'Legal Templates', desc: 'Vetted by employment lawyers' }
-                ]
-            },
-            toolshare: {
-                name: 'ToolShare',
-                icon: '🔧',
-                color: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                tagline: 'Neighborhood Tool Library App',
-                markets: [
-                    { question: 'Will ToolShare raise a seed round of $500K+ by June 2025?', odds: 38, volume: '$12.4K', predictors: 421, ends: 'Jun 30' },
-                    { question: 'Will ToolShare launch in 10+ cities by end of 2025?', odds: 25, volume: '$4.8K', predictors: 198, ends: 'Dec 31' },
-                    { question: 'Will ToolShare hit 50,000 registered users in year 1?', odds: 33, volume: '$6.1K', predictors: 234, ends: 'Dec 31' }
-                ],
-                problem: 'The average power drill is used for only 13 minutes in its lifetime. Americans spend $400/year on tools they rarely use.',
-                solution: 'ToolShare connects neighbors to share tools. Borrow a drill for the weekend instead of buying one that collects dust.',
-                features: [
-                    { title: 'Neighbor Network', desc: 'See tools available within walking distance' },
-                    { title: 'Verified Users', desc: 'ID verification and ratings system' },
-                    { title: 'Insurance Included', desc: 'Coverage for damage or theft' },
-                    { title: 'Scheduling', desc: 'Book tools in advance, get reminders' }
-                ]
-            },
-            unsubme: {
-                name: 'UnsubMe',
-                icon: '❌',
-                color: 'linear-gradient(135deg, #ec4899, #f472b6)',
-                tagline: 'Subscription Cancellation Concierge',
-                markets: [
-                    { question: 'Will UnsubMe generate $50K revenue in its first year?', odds: 61, volume: '$8.7K', predictors: 298, ends: 'Dec 31' },
-                    { question: 'Will UnsubMe save users $1M+ in cancelled subscriptions by Q2?', odds: 72, volume: '$5.3K', predictors: 187, ends: 'Jun 30' },
-                    { question: 'Will UnsubMe get acquired by a fintech company in 2025?', odds: 12, volume: '$2.1K', predictors: 89, ends: 'Dec 31' }
-                ],
-                problem: 'Americans waste $240/year on forgotten subscriptions. Cancellation processes are intentionally difficult and time-consuming.',
-                solution: 'UnsubMe scans your accounts, finds all subscriptions, and cancels unwanted ones with a single click. We handle the phone calls and chatbots.',
-                features: [
-                    { title: 'Auto-Discovery', desc: 'Finds subscriptions across all your accounts' },
-                    { title: 'One-Click Cancel', desc: 'We handle the cancellation process' },
-                    { title: 'Savings Dashboard', desc: 'Track how much you\'ve saved' },
-                    { title: 'Price Monitoring', desc: 'Alerts when prices increase' }
-                ]
-            },
-            petwatch: {
-                name: 'PetWatch',
-                icon: '🐕',
-                color: 'linear-gradient(135deg, #f59e0b, #fbbf24)',
-                tagline: 'AI Pet Health Monitoring Collar',
-                markets: [
-                    { question: 'Will PetWatch ship first hardware prototype by Q2 2025?', odds: 45, volume: '$14.2K', predictors: 312, ends: 'Jun 30' },
-                    { question: 'Will PetWatch raise $1M+ in seed funding by end of 2025?', odds: 38, volume: '$8.4K', predictors: 245, ends: 'Dec 31' },
-                    { question: 'Will PetWatch reach 5,000 pre-orders before launch?', odds: 62, volume: '$6.1K', predictors: 198, ends: 'Mar 31' },
-                    { question: 'Will PetWatch partner with a major pet retailer?', odds: 28, volume: '$4.8K', predictors: 156, ends: 'Dec 31' }
-                ],
-                problem: 'Pet owners often miss early signs of illness until it\'s too late. Vet visits are expensive and pets can\'t tell us when something\'s wrong.',
-                solution: 'PetWatch is a smart collar that monitors your pet\'s vitals, activity, and behavior patterns. AI detects early warning signs and alerts you before small issues become big problems.',
-                features: [
-                    { title: 'Vital Monitoring', desc: 'Tracks heart rate, temperature, and respiratory rate' },
-                    { title: 'Activity Tracking', desc: 'Steps, sleep quality, and exercise levels' },
-                    { title: 'AI Health Alerts', desc: 'Early detection of illness patterns' },
-                    { title: 'Vet Integration', desc: 'Share data directly with your veterinarian' }
-                ]
-            },
-            studybuddy: {
-                name: 'StudyBuddy',
-                icon: '📚',
-                color: 'linear-gradient(135deg, #3b82f6, #60a5fa)',
-                tagline: 'AI Tutor for Any Subject',
-                markets: [
-                    { question: 'Will StudyBuddy reach 10,000 active users in first 3 months?', odds: 58, volume: '$12.8K', predictors: 567, ends: 'Apr 30' },
-                    { question: 'Will StudyBuddy raise a Series A by end of 2025?', odds: 35, volume: '$7.2K', predictors: 234, ends: 'Dec 31' },
-                    { question: 'Will StudyBuddy achieve 4.5+ star rating on App Store?', odds: 71, volume: '$5.4K', predictors: 312, ends: 'Mar 31' },
-                    { question: 'Will a major university partner with StudyBuddy?', odds: 42, volume: '$9.1K', predictors: 287, ends: 'Dec 31' },
-                    { question: 'Will StudyBuddy hit $100K MRR in year 1?', odds: 33, volume: '$6.8K', predictors: 198, ends: 'Dec 31' }
-                ],
-                problem: 'Students struggle with personalized learning. Traditional tutoring is expensive ($50-150/hr) and one-size-fits-all online courses don\'t adapt to individual needs.',
-                solution: 'StudyBuddy is an AI tutor that adapts to your learning style. It identifies knowledge gaps, creates personalized study plans, and explains concepts in ways that click for you.',
-                features: [
-                    { title: 'Adaptive Learning', desc: 'Adjusts difficulty based on your progress' },
-                    { title: 'Any Subject', desc: 'From calculus to art history to coding' },
-                    { title: 'Practice Problems', desc: 'Infinite custom problems with step-by-step solutions' },
-                    { title: 'Study Plans', desc: 'AI-generated schedules for exams and goals' }
-                ]
-            }
-        };
-
-        let currentCompany = 'fridgechef';
-        let currentMarket = 0;
         let currentBet = 'yes';
 
-        // Get URL param
-        const urlParams = new URLSearchParams(window.location.search);
-        const ideaParam = urlParams.get('idea');
-        if (ideaParam && companies[ideaParam]) {
-            currentCompany = ideaParam;
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadCompany(currentCompany);
-        });
-
-        function switchTab(tab) {
-            // Update tab buttons
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.closest('.tab').classList.add('active');
-            
-            // Update tab content
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById('tab-' + tab).classList.add('active');
-        }
-
-        function loadCompany(id) {
-            const company = companies[id];
-            
-            // Update header
-            document.getElementById('companyIcon').style.background = company.color;
-            document.getElementById('companyIcon').textContent = company.icon;
-            document.getElementById('companyName').textContent = company.name;
-            document.getElementById('companyTagline').textContent = company.tagline;
-            document.getElementById('aboutTabName').textContent = company.name;
-            document.title = company.name + ' — Build Me';
-            
-            // Update pitch header
-            document.getElementById('pitchName').textContent = company.name;
-            document.getElementById('pitchTagline').textContent = company.tagline;
-            document.getElementById('pitchSubtitle').textContent = company.subtitle || company.tagline;
-            document.getElementById('authorAvatar').style.background = company.color;
-            document.getElementById('demoIcon').textContent = company.icon;
-            document.getElementById('demoName').textContent = company.name;
-            
-            // Build markets list
-            const list = document.getElementById('marketsList');
-            list.innerHTML = company.markets.map((m, i) => `
-                <div class="market-item ${i === 0 ? 'active' : ''}" onclick="selectMarket(${i})">
-                    <h4>${m.question}</h4>
-                    <div class="market-prob-bar">
-                        <div class="market-prob-yes" style="width: ${m.odds}%">${m.odds}%</div>
-                        <div class="market-prob-no">${100 - m.odds}%</div>
-                    </div>
-                    <div class="market-meta">
-                        <span>${m.predictors} predictors</span>
-                        <span>${m.volume}</span>
-                        <span>Ends ${m.ends}</span>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Update about content
-            document.getElementById('aboutProblem').textContent = company.problem;
-            document.getElementById('aboutSolution').textContent = company.solution;
-            document.getElementById('aboutFeatures').innerHTML = company.features.map(f => 
-                `<li><strong>${f.title}</strong> — ${f.desc}</li>`
-            ).join('');
-            
-            // Select first market
-            selectMarket(0);
-        }
-
-        function upvote() {
-            const countEl = document.getElementById('upvoteCount');
-            const current = parseInt(countEl.textContent);
-            countEl.textContent = current + 1;
-        }
-
-        function selectMarket(index) {
-            currentMarket = index;
-            const market = companies[currentCompany].markets[index];
-            
-            // Update active state
-            document.querySelectorAll('.market-item').forEach((item, i) => {
-                item.classList.toggle('active', i === index);
-            });
-            
-            // Update sidebar
-            document.getElementById('currentProb').textContent = market.odds + '%';
-            document.getElementById('yesPrice').textContent = market.odds;
-            document.getElementById('noPrice').textContent = 100 - market.odds;
-            document.getElementById('bettingQuestion').textContent = market.question;
-        }
-
-        function selectBet(type) {
-            currentBet = type;
-            document.querySelectorAll('.bet-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector('.bet-btn.' + type).classList.add('active');
-            
-            const btn = document.getElementById('submitBtn');
-            btn.className = 'submit-btn ' + type;
-            btn.textContent = 'Predict ' + type.toUpperCase();
+        function selectBet(side) {
+            currentBet = side;
+            document.querySelectorAll('.trade-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.trade-btn.' + side).classList.add('active');
+            document.getElementById('submitBtn').textContent = 'Predict ' + side.toUpperCase();
         }
 
         function setAmount(val) {
@@ -3163,28 +1712,7 @@
                 alert('Please enter an amount');
                 return;
             }
-            const market = companies[currentCompany].markets[currentMarket];
-            alert(`🎯 Prediction placed!\n\n${currentBet.toUpperCase()} on:\n"${market.question}"\n\nAmount: $${amount}\n\n(Demo)`);
-        }
-
-        // Chart tabs
-        document.querySelectorAll('.chart-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Comment functions
-        function filterComments(filter) {
-            document.querySelectorAll('.comment-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            // In production, this would filter the comments
-        }
-
-        function setStance(stance) {
-            document.querySelectorAll('.stance-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector('.stance-btn.' + stance).classList.add('active');
+            alert(`🎯 Prediction placed!\n\n${currentBet.toUpperCase()} on FridgeChef\n"Ship MVP by March 31?"\n\nAmount: $${amount}\n\n(Demo)`);
         }
     </script>
 </body>
