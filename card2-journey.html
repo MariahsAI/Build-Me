@@ -1,0 +1,3149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContractPro — Build Me</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0b14;
+            --bg-secondary: #0f1019;
+            --bg-tertiary: #161825;
+            --bg-card: #12131d;
+            --text-primary: #fafafa;
+            --text-secondary: #a0a0a5;
+            --text-muted: #606075;
+            --accent: #00d4ff;
+            --accent-glow: rgba(0, 212, 255, 0.3);
+            --accent-secondary: #00e5ff;
+            --border: #252836;
+            --yes: #00d4ff;
+            --no: #ef4444;
+            --green: #10b981;
+            --purple: #a855f7;
+            --pink: #f338c3;
+            --font-sans: 'Instrument Sans', -apple-system, sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 11, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, #00d4ff, #00b4d8);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+
+        .nav-balance {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--bg-tertiary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .nav-balance-amount {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            background: linear-gradient(135deg, #00d4ff, #00b4d8);
+            color: #0a0b14 !important;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Main Layout */
+        main {
+            padding: 80px 0 0;
+            min-height: 100vh;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(180deg, rgba(0, 212, 255, 0.05) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 2rem;
+        }
+
+        .hero-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .back-link:hover { color: var(--accent); }
+
+        .founder-header {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .founder-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b35, #ffb347);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 0 25px rgba(255, 107, 53, 0.3);
+        }
+
+        .founder-info h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .founder-name {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .founder-name span {
+            color: var(--accent);
+        }
+
+        .idea-tagline {
+            font-size: 1.35rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.5;
+        }
+
+        .idea-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.4rem 0.85rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .hero-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Hero Right - Quick Trade */
+        .hero-trade {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            min-width: 320px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-trade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .hero-trade-header h3 {
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.7rem;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .live-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .current-odds {
+            text-align: center;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), transparent);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .odds-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .odds-value {
+            font-family: var(--font-mono);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .odds-question {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .trade-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .trade-btn {
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            background: var(--bg-secondary);
+            cursor: pointer;
+            text-align: center;
+            font-family: var(--font-sans);
+            transition: all 0.2s;
+        }
+
+        .trade-btn:hover {
+            border-color: var(--text-muted);
+        }
+
+        .trade-btn.yes.active {
+            border-color: var(--accent);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .trade-btn.no.active {
+            border-color: var(--no);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .trade-btn .outcome {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .trade-btn.yes .outcome { color: var(--accent); }
+        .trade-btn.no .outcome { color: var(--no); }
+
+        .trade-btn .price {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .amount-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .amount-input {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+        }
+
+        .amount-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .quick-amounts {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .quick-btn {
+            padding: 0.75rem 0.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        .quick-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            background: linear-gradient(135deg, #00d4ff, #a8edea);
+            color: #0a0b14;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .countdown-mini {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .countdown-mini span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .countdown-mini strong {
+            font-family: var(--font-mono);
+            color: var(--accent);
+        }
+
+        /* Hero Video */
+        .hero-video {
+            width: 380px;
+        }
+
+        .video-player {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-player:hover {
+            border-color: var(--accent);
+        }
+
+        /* Sidebar Prediction Card */
+        .prediction-sidebar-card {
+            background: var(--bg-card);
+        }
+
+        .pred-title {
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 1.25rem;
+        }
+
+        .betting-on-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .bracket-svg {
+            width: 18px;
+            height: 100%;
+            min-height: 80px;
+            flex-shrink: 0;
+        }
+
+        .betting-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .betting-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 0.35rem;
+        }
+
+        .betting-question {
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .yes-no-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .yn-btn {
+            padding: 1.25rem 1rem;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            background: var(--bg-secondary);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .yn-btn.yes.active {
+            border-color: var(--accent);
+            background: rgba(0, 212, 255, 0.15);
+        }
+
+        .yn-btn.no.active {
+            border-color: var(--no);
+            background: rgba(239, 68, 68, 0.15);
+        }
+
+        .yn-btn:hover {
+            border-color: var(--text-muted);
+        }
+
+        .yn-label {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .yn-btn.yes .yn-label { color: var(--accent); }
+        .yn-btn.no .yn-label { color: var(--no); }
+
+        .yn-price {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .amount-section {
+            margin-bottom: 1rem;
+        }
+
+        .amount-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .balance {
+            font-family: var(--font-mono);
+        }
+
+        .amount-input-wrapper {
+            display: flex;
+            align-items: center;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.85rem 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .amount-input-wrapper:focus-within {
+            border-color: var(--accent);
+        }
+
+        .dollar-sign {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-right: 0.25rem;
+        }
+
+        .amount-input-full {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .quick-amounts-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .quick-amt {
+            padding: 0.65rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-amt:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .predict-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            background: linear-gradient(135deg, #00d4ff, #a8edea);
+            color: #0a0b14;
+            transition: all 0.2s;
+        }
+
+        .predict-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Content Area */
+        .content-area {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2rem;
+        }
+
+        /* Journey Timeline */
+        .journey-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .section-tab {
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-family: var(--font-sans);
+        }
+
+        .section-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Odds Chart */
+        .odds-chart-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.12);
+            transition: all 0.3s;
+        }
+
+        .odds-chart-card:hover {
+            border-color: rgba(0, 212, 255, 0.6);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-header h3 {
+            font-size: 1rem;
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .chart-tab {
+            padding: 0.35rem 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-family: var(--font-mono);
+        }
+
+        .chart-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .chart-container {
+            height: 180px;
+            position: relative;
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-events {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .chart-event {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .chart-event .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .chart-event .dot.red { background: var(--no); }
+        .chart-event .dot.green { background: var(--green); }
+
+        /* Updates Feed */
+        .updates-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .update-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: border-color 0.2s;
+        }
+
+        .update-card:hover {
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .update-card.latest {
+            border-color: rgba(0, 212, 255, 0.4);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), var(--bg-card));
+        }
+
+        .update-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .update-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+        }
+
+        .update-meta {
+            flex: 1;
+        }
+
+        .update-author {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .update-badge {
+            font-size: 0.6rem;
+            padding: 0.2rem 0.5rem;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .update-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .update-day {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+            background: rgba(0, 212, 255, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+        }
+
+        .update-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .update-body {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .update-body p {
+            margin-bottom: 0.75rem;
+        }
+
+        .update-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .update-media {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .update-impact {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-family: var(--font-mono);
+            margin-bottom: 1rem;
+        }
+
+        .update-impact.positive {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent);
+        }
+
+        .update-impact.negative {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--no);
+        }
+
+        .update-footer {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .update-reactions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .reaction {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
+        }
+
+        .reaction:hover {
+            border-color: var(--accent);
+        }
+
+        .update-comments {
+            margin-left: auto;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .update-comments:hover {
+            color: var(--accent);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            border-radius: 16px;
+            padding: 1.25rem;
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.12);
+            transition: all 0.3s;
+        }
+
+        .sidebar-card:hover {
+            border-color: rgba(0, 212, 255, 0.6);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .sidebar-card h3 {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Countdown Card */
+        .countdown-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08), var(--bg-card));
+            border-color: rgba(0, 212, 255, 0.3);
+            text-align: center;
+        }
+
+        .countdown-card h3 {
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .countdown-item {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            min-width: 80px;
+        }
+
+        .countdown-value {
+            font-family: var(--font-mono);
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.35rem;
+            letter-spacing: 0.5px;
+        }
+
+        .countdown-date {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .countdown-question {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Milestones */
+        .milestones {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .milestone {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+        }
+
+        .milestone-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .milestone.completed .milestone-icon {
+            background: var(--green);
+            color: white;
+        }
+
+        .milestone.current .milestone-icon {
+            background: var(--accent);
+            color: var(--bg-primary);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .milestone.pending .milestone-icon {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .milestone-info {
+            flex: 1;
+        }
+
+        .milestone-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .milestone.pending .milestone-title {
+            color: var(--text-muted);
+        }
+
+        .milestone-date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Community */
+        .community-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .community-stat {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .community-stat-value {
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .community-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .top-predictors {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .predictor-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .predictor-row:hover {
+            background: var(--bg-secondary);
+        }
+
+        .predictor-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .predictor-info {
+            flex: 1;
+        }
+
+        .predictor-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .predictor-stance {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .predictor-stance.bull { color: var(--accent); }
+        .predictor-stance.bear { color: var(--no); }
+
+        .predictor-amount {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--green);
+        }
+
+        /* About Card */
+        .about-preview {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .about-link {
+            display: block;
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--accent);
+        }
+
+        .about-link:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        /* Comments Section */
+        .comments-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .comments-header h3 {
+            font-size: 1.1rem;
+        }
+
+        .comment-filters {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .comment-filter {
+            padding: 0.4rem 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-family: var(--font-sans);
+        }
+
+        .comment-filter.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .comment-input-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .comment-input-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff, #00b4d8);
+            flex-shrink: 0;
+        }
+
+        .comment-input-wrapper {
+            flex: 1;
+        }
+
+        .comment-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            resize: none;
+            margin-bottom: 0.75rem;
+        }
+
+        .comment-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .comment-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stance-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .stance-btn {
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            border: 1px solid;
+        }
+
+        .stance-btn.bull {
+            background: transparent;
+            border-color: rgba(0, 212, 255, 0.3);
+            color: var(--accent);
+        }
+
+        .stance-btn.bull.active {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--accent);
+        }
+
+        .stance-btn.bear {
+            background: transparent;
+            border-color: rgba(239, 68, 68, 0.3);
+            color: var(--no);
+        }
+
+        .stance-btn.bear.active {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--no);
+        }
+
+        .post-btn {
+            padding: 0.5rem 1.25rem;
+            background: linear-gradient(135deg, #00d4ff, #a8edea);
+            border: none;
+            border-radius: 6px;
+            color: var(--bg-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font-sans);
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .comment {
+            padding: 1.25rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+        }
+
+        .comment.pinned {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.05), var(--bg-secondary));
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+
+        .comment-pin {
+            font-size: 0.7rem;
+            color: #fbbf24;
+            margin-bottom: 0.75rem;
+        }
+
+        .comment-head {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .comment-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+
+        .comment-author-info {
+            flex: 1;
+        }
+
+        .comment-author-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comment-author-badge {
+            font-size: 0.6rem;
+            padding: 0.15rem 0.4rem;
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border-radius: 4px;
+        }
+
+        .comment-author-accuracy {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .comment-stance {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .comment-stance.bull {
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--accent);
+        }
+
+        .comment-stance.bear {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--no);
+        }
+
+        .comment-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .comment-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .comment-text strong {
+            color: var(--text-primary);
+        }
+
+        .comment-actions-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .comment-action {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: var(--font-sans);
+        }
+
+        .comment-action:hover {
+            color: var(--text-primary);
+        }
+
+        .load-more {
+            width: 100%;
+            padding: 0.875rem;
+            background: transparent;
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: var(--font-sans);
+        }
+
+        .load-more:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* ============== PREDICTIONS TAB ============== */
+        .trade-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .trade-main {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .trade-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Chart Card */
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-header h3 {
+            font-size: 1rem;
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .chart-tab {
+            padding: 0.4rem 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-family: var(--font-mono);
+        }
+
+        .chart-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .chart-container {
+            height: 180px;
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Markets Section */
+        .markets-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .markets-section h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .market-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .market-card.active-market {
+            border-color: rgba(0, 212, 255, 0.3);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), var(--bg-card));
+        }
+
+        /* Activity Card */
+        .activity-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .activity-card h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+        }
+
+        .activity-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-text {
+            font-size: 0.9rem;
+        }
+
+        .activity-yes {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .activity-no {
+            color: var(--no);
+            font-weight: 600;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .activity-amount {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--green);
+        }
+
+        /* Probability Card */
+        .prob-card {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), var(--bg-card));
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .prob-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .prob-value-large {
+            font-family: var(--font-mono);
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .prob-change {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .prob-change.positive {
+            color: var(--green);
+        }
+
+        /* Position Card */
+        .position-card h3 {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .position-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .position-stat {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .position-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .position-value {
+            font-family: var(--font-mono);
+            font-weight: 700;
+        }
+
+        .position-value.yes {
+            color: var(--accent);
+        }
+
+        /* Prediction Card */
+        .prediction-card h3 {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .betting-on {
+            margin-bottom: 1rem;
+        }
+
+        .betting-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .betting-question {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .bet-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .bet-btn {
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            background: var(--bg-secondary);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .bet-btn:hover {
+            border-color: var(--text-muted);
+        }
+
+        .bet-btn.yes.active {
+            border-color: var(--accent);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .bet-btn.no.active {
+            border-color: var(--no);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .bet-outcome {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .bet-btn.yes .bet-outcome { color: var(--accent); }
+        .bet-btn.no .bet-outcome { color: var(--no); }
+
+        .bet-price {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .amount-group {
+            margin-bottom: 1rem;
+        }
+
+        .amount-group label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .amount-group label span {
+            color: var(--text-muted);
+        }
+
+        .amount-input-wrap {
+            display: flex;
+            align-items: center;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .amount-prefix {
+            padding: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .amount-input-pred {
+            flex: 1;
+            padding: 0.75rem 0.75rem 0.75rem 0;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+        }
+
+        .amount-input-pred:focus {
+            outline: none;
+        }
+
+        .quick-amounts-pred {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .quick-btn-pred {
+            flex: 1;
+            padding: 0.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .quick-btn-pred:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .submit-btn-pred {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            background: linear-gradient(135deg, #00d4ff, #a8edea);
+            color: #0a0b14;
+        }
+
+        .submit-btn-pred:hover {
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 1000px) {
+            .trade-layout {
+                grid-template-columns: 1fr;
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        /* Tabs */
+        .tabs-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab svg {
+            opacity: 0.7;
+        }
+
+        .tab.active svg {
+            opacity: 1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Markets List */
+        .markets-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .market-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: border-color 0.2s;
+        }
+
+        .market-card:hover {
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .market-question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .market-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .market-card-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            max-width: 70%;
+        }
+
+        .market-volume {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent);
+        }
+
+        .market-prob-bar {
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            overflow: visible;
+            margin-bottom: 1rem;
+            height: 40px;
+            background: var(--bg-secondary);
+            position: relative;
+        }
+
+        .market-prob-yes {
+            background: linear-gradient(135deg, #00d4ff, #a8edea);
+            display: flex;
+            align-items: center;
+            padding-left: 1rem;
+            color: #0a0b14;
+            font-weight: 700;
+            font-size: 0.95rem;
+            font-family: var(--font-mono);
+            border-radius: 8px 0 0 8px;
+            height: 100%;
+        }
+
+        .market-prob-no-pct {
+            position: absolute;
+            right: 1rem;
+            color: var(--no);
+            font-weight: 700;
+            font-size: 0.95rem;
+            font-family: var(--font-mono);
+        }
+
+        .market-prob-no {
+            flex: 1;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .market-card-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        /* About Content */
+        .about-content {
+            max-width: 800px;
+        }
+
+        .about-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .about-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-lead {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .about-card h3 {
+            font-size: 1.1rem;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--accent);
+        }
+
+        .about-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .about-card ul {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .about-card li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        .founder-bio {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+        }
+
+        .founder-bio-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .founder-bio-info strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .founder-bio-info p {
+            font-size: 0.9rem;
+        }
+
+        .about-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .about-link-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .about-link-item:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent);
+        }
+
+        /* ============== FULL ABOUT TAB ============== */
+        .pitch-header {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #c084fc;
+            margin-bottom: 1.5rem;
+        }
+
+        .pitch-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .pitch-title span {
+            color: var(--accent);
+        }
+
+        .pitch-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .pitch-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .pitch-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .author-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+        }
+
+        .pitch-date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .pitch-tags {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .pitch-tag {
+            padding: 0.35rem 0.75rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .pitch-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            border: none;
+        }
+
+        .action-btn.upvote {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .action-btn.build {
+            background: linear-gradient(135deg, #a855f7, #c084fc);
+            color: white;
+        }
+
+        .action-btn.buy {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+        }
+
+        .about-layout {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2rem;
+        }
+
+        .about-main {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .about-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        #tab-about .about-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        #tab-about .about-card h2 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #tab-about .about-card h2::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        #tab-about .about-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        #tab-about .about-card ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #tab-about .about-card li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        #tab-about .about-card li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        #tab-about .about-card li strong {
+            color: var(--text-primary);
+        }
+
+        /* Phone Mockup */
+        .demo-card {
+            padding: 2rem;
+        }
+
+        .phone-mockup {
+            display: flex;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .phone-frame {
+            width: 280px;
+            background: #1a1a2e;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 3px solid #2a2a3e;
+        }
+
+        .phone-notch {
+            width: 120px;
+            height: 25px;
+            background: #0a0a0b;
+            border-radius: 20px;
+            margin: 0 auto 15px;
+        }
+
+        .phone-screen {
+            background: linear-gradient(180deg, #1e1e3f, #16163a);
+            border-radius: 28px;
+            padding: 1.5rem;
+            text-align: center;
+            min-height: 450px;
+        }
+
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin: 0 auto 0.75rem;
+        }
+
+        .app-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .app-tagline {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .scan-area {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scan-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.6;
+        }
+
+        .scan-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .scan-line {
+            position: absolute;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: scan 2s ease-in-out infinite;
+        }
+
+        @keyframes scan {
+            0%, 100% { top: 20%; opacity: 0; }
+            50% { top: 80%; opacity: 1; }
+        }
+
+        .demo-btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            font-family: var(--font-sans);
+        }
+
+        .recipe-suggestions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .recipe-item {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+        }
+
+        .recipe-item span {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .recipe-item div:first-of-type {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .recipe-item .match {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+        }
+
+        /* Traction Card */
+        .traction-card h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .live-badge-traction {
+            font-size: 0.75rem;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .traction-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .traction-stat {
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .traction-stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .traction-stat:nth-child(1)::before { background: var(--accent); }
+        .traction-stat:nth-child(2)::before { background: #a855f7; }
+        .traction-stat:nth-child(3)::before { background: var(--green); }
+        .traction-stat:nth-child(4)::before { background: #3b82f6; }
+
+        .traction-value {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .traction-value.cyan { color: var(--accent); }
+        .traction-value.purple { color: #a855f7; }
+        .traction-value.green { color: var(--green); }
+        .traction-value.blue { color: #3b82f6; }
+
+        .traction-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Market Analysis */
+        .market-item-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .market-item-row:last-child {
+            border-bottom: none;
+        }
+
+        .market-label {
+            color: var(--text-secondary);
+        }
+
+        .market-value {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Builders Card */
+        .builders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .builder-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+        }
+
+        .builder-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .builder-info {
+            flex: 1;
+        }
+
+        .builder-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .builder-role {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .applied-badge {
+            padding: 0.25rem 0.6rem;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--green);
+        }
+
+        .view-all-link {
+            display: block;
+            text-align: center;
+            color: var(--green);
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .view-all-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1000px) {
+            .about-layout {
+                grid-template-columns: 1fr;
+            }
+            .pitch-title {
+                font-size: 1.75rem;
+            }
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .content-area {
+                grid-template-columns: 1fr;
+            }
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+            .hero-trade {
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem; }
+            .nav-links { gap: 1rem; }
+            .nav-balance { display: none; }
+            .hero-section { padding: 1.5rem 1rem; }
+            .content-area { padding: 1.5rem 1rem; }
+            .founder-avatar { width: 56px; height: 56px; font-size: 1.5rem; }
+            .founder-info h1 { font-size: 1.35rem; }
+            .hero-stats { gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">
+            <div class="logo-icon">🎯</div>
+            Build Me
+        </a>
+        <div class="nav-links">
+            <a href="browse.html">Browse Ideas</a>
+            <a href="#">My Predictions</a>
+            <div class="nav-balance">
+                <span>Balance:</span>
+                <span class="nav-balance-amount">$1,247.00</span>
+            </div>
+            <a href="submit.html" class="btn-primary">Submit Idea</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-inner">
+                <div class="hero-left">
+                    <a href="browse.html" class="back-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                        Back to browse
+                    </a>
+
+                    <div class="founder-header">
+                        <div class="founder-avatar">📄</div>
+                        <div class="founder-info">
+                            <h1>ContractPro</h1>
+                            <div class="founder-name">by <span>Marcus T.</span> · Day 52 of building</div>
+                        </div>
+                    </div>
+
+                    <p class="idea-tagline">Micro-SaaS for Freelancer Contracts — One-click contract generator with e-signature and payment tracking for freelancers.</p>
+
+                    <div class="idea-tags">
+                        <span class="tag">B2B</span>
+                        <span class="tag">SaaS</span>
+                        <span class="tag">Legal</span>
+                    </div>
+
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">3.1K</div>
+                            <div class="hero-stat-label">Followers</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">$31.2K</div>
+                            <div class="hero-stat-label">Volume</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">1,203</div>
+                            <div class="hero-stat-label">Predictors</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">8</div>
+                            <div class="hero-stat-label">Updates</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Trade Panel -->
+                <div class="hero-video">
+                    <video class="video-player" controls poster="">
+                        <source src="journey-video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <a href="card2.html" class="tab">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                    Prediction Markets
+                </a>
+                <a href="card2-journey.html" class="tab active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="3"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/></svg>
+                    Journey
+                </a>
+                <a href="card2-about.html" class="tab">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    About ContractPro
+                </a>
+            </div>
+        </div>
+
+        
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Journey Timeline -->
+            <div class="journey-section">
+                <!-- Section Header -->
+                <div class="section-header">
+                    <h2>📖 The Journey</h2>
+                    <div class="section-tabs">
+                        <button class="section-tab active">All Updates</button>
+                        <button class="section-tab">Milestones</button>
+                        <button class="section-tab">Media</button>
+                    </div>
+                </div>
+
+                <!-- Mini Odds Chart -->
+                <div class="odds-chart-card">
+                    <div class="chart-header">
+                        <h3>📈 Odds Over Time</h3>
+                        <div class="chart-tabs">
+                            <button class="chart-tab">1W</button>
+                            <button class="chart-tab active">1M</button>
+                            <button class="chart-tab">ALL</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <svg class="chart-svg" viewBox="0 0 800 150" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color: #00d4ff; stop-opacity: 0.3" />
+                                    <stop offset="100%" style="stop-color: #00d4ff; stop-opacity: 0" />
+                                </linearGradient>
+                            </defs>
+                            <line x1="0" y1="75" x2="800" y2="75" stroke="#252836" stroke-dasharray="4" />
+                            <path fill="url(#chartGradient)" d="M0,120 C100,115 150,100 200,95 C250,90 300,80 400,75 C500,85 550,70 650,50 C700,45 750,40 800,35 L800,150 L0,150 Z" />
+                            <path fill="none" stroke="#00d4ff" stroke-width="2.5" d="M0,120 C100,115 150,100 200,95 C250,90 300,80 400,75 C500,85 550,70 650,50 C700,45 750,40 800,35" />
+                        </svg>
+                    </div>
+                    <div class="chart-events">
+                        <div class="chart-event">
+                            <div class="dot"></div>
+                            <span>Idea Posted</span>
+                        </div>
+                        <div class="chart-event">
+                            <div class="dot"></div>
+                            <span>Quit Job</span>
+                        </div>
+                        <div class="chart-event">
+                            <div class="dot red"></div>
+                            <span>VC Rejections</span>
+                        </div>
+                        <div class="chart-event">
+                            <div class="dot"></div>
+                            <span>YC Interview</span>
+                        </div>
+                        <div class="chart-event">
+                            <div class="dot green"></div>
+                            <span>Beta Live!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Updates Feed -->
+                <div class="updates-feed">
+                    <!-- Latest Update -->
+                    <div class="update-card latest">
+                        <div class="update-header">
+                            <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
+                            <div class="update-meta">
+                                <div class="update-author">
+                                    Marcus T.
+                                    <span class="update-badge">NEW</span>
+                                </div>
+                                <div class="update-time">2 hours ago</div>
+                            </div>
+                            <div class="update-day">Day 47</div>
+                        </div>
+                        <div class="update-title">🚀 Beta is LIVE!</div>
+                        <div class="update-body">
+                            <p>Holy shit, we did it. After 47 days of grinding, ContractPro beta is officially live on the App Store. 1,247 people on the waitlist are getting access tonight.</p>
+                            <p>The AI can now identify 500+ ingredients with 94% accuracy. Recipe matching is working beautifully. I'm literally shaking.</p>
+                        </div>
+                        <div class="update-media">📱 App Store Screenshot</div>
+                        <div class="update-impact positive">📈 Odds: 68% → 68% (+5%)</div>
+                        <div class="update-footer">
+                            <div class="update-reactions">
+                                <button class="reaction">🔥 247</button>
+                                <button class="reaction">🚀 189</button>
+                                <button class="reaction">💪 156</button>
+                            </div>
+                            <span class="update-comments">💬 47 comments</span>
+                        </div>
+                    </div>
+
+                    <!-- Update 2 -->
+                    <div class="update-card">
+                        <div class="update-header">
+                            <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
+                            <div class="update-meta">
+                                <div class="update-author">Marcus T.</div>
+                                <div class="update-time">5 days ago</div>
+                            </div>
+                            <div class="update-day">Day 42</div>
+                        </div>
+                        <div class="update-title">🎉 YC Interview Scheduled!</div>
+                        <div class="update-body">
+                            <p>Just got the email. Y Combinator wants to interview us for the W25 batch. Interview is next Tuesday. I've never been more nervous and excited in my life.</p>
+                            <p>To everyone who bet YES early — thank you for believing. We're not done yet.</p>
+                        </div>
+                        <div class="update-impact positive">📈 Odds: 52% → 68% (+16%)</div>
+                        <div class="update-footer">
+                            <div class="update-reactions">
+                                <button class="reaction">🔥 312</button>
+                                <button class="reaction">🙏 201</button>
+                            </div>
+                            <span class="update-comments">💬 89 comments</span>
+                        </div>
+                    </div>
+
+                    <!-- Update 3 - Negative -->
+                    <div class="update-card">
+                        <div class="update-header">
+                            <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
+                            <div class="update-meta">
+                                <div class="update-author">Marcus T.</div>
+                                <div class="update-time">2 weeks ago</div>
+                            </div>
+                            <div class="update-day">Day 33</div>
+                        </div>
+                        <div class="update-title">😔 Rough week. 10 VC rejections.</div>
+                        <div class="update-body">
+                            <p>Not gonna sugarcoat it — this week was brutal. Pitched to 10 VCs, got 10 nos. "Market too small." "Already invested in a competitor." "Come back with traction."</p>
+                            <p>But here's the thing: I'm not building this for VCs. I'm building it for the 40% of food that gets wasted every day. We keep going.</p>
+                        </div>
+                        <div class="update-impact negative">📉 Odds: 58% → 52% (-6%)</div>
+                        <div class="update-footer">
+                            <div class="update-reactions">
+                                <button class="reaction">💪 445</button>
+                                <button class="reaction">❤️ 287</button>
+                            </div>
+                            <span class="update-comments">💬 156 comments</span>
+                        </div>
+                    </div>
+
+                    <!-- Update 4 -->
+                    <div class="update-card">
+                        <div class="update-header">
+                            <div class="update-avatar" style="background: linear-gradient(135deg, #ff6b35, #ffb347);"></div>
+                            <div class="update-meta">
+                                <div class="update-author">Marcus T.</div>
+                                <div class="update-time">3 weeks ago</div>
+                            </div>
+                            <div class="update-day">Day 21</div>
+                        </div>
+                        <div class="update-title">I quit my job today.</div>
+                        <div class="update-body">
+                            <p>Handed in my resignation at Google this morning. 6 years, gone. My manager thought I was crazy. Maybe I am.</p>
+                            <p>But I've been thinking about ContractPro for 2 years. If not now, when? I have 8 months of runway. Let's see what happens.</p>
+                        </div>
+                        <div class="update-impact positive">📈 Odds: 50% → 58% (+8%)</div>
+                        <div class="update-footer">
+                            <div class="update-reactions">
+                                <button class="reaction">🔥 523</button>
+                                <button class="reaction">🚀 341</button>
+                            </div>
+                            <span class="update-comments">💬 203 comments</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="comments-section">
+                    <div class="comments-header">
+                        <h3>💬 Community Discussion</h3>
+                        <div class="comment-filters">
+                            <button class="comment-filter active">🔥 Hot</button>
+                            <button class="comment-filter">📈 Bulls</button>
+                            <button class="comment-filter">📉 Bears</button>
+                            <button class="comment-filter">🆕 New</button>
+                        </div>
+                    </div>
+
+                    <div class="comment-input-row">
+                        <div class="comment-input-avatar"></div>
+                        <div class="comment-input-wrapper">
+                            <textarea class="comment-textarea" placeholder="What's your take on ContractPro?" rows="2"></textarea>
+                            <div class="comment-actions">
+                                <div class="stance-btns">
+                                    <button class="stance-btn bull active">📈 Bullish</button>
+                                    <button class="stance-btn bear">📉 Bearish</button>
+                                </div>
+                                <button class="post-btn">Post</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comments-list">
+                        <div class="comment pinned">
+                            <div class="comment-pin">📌 Pinned</div>
+                            <div class="comment-head">
+                                <div class="comment-avatar" style="background: linear-gradient(135deg, #fbbf24, #f59e0b);"></div>
+                                <div class="comment-author-info">
+                                    <div class="comment-author-name">
+                                        crypto_whale
+                                        <span class="comment-author-badge">🏆 Top Predictor</span>
+                                    </div>
+                                    <div class="comment-author-accuracy">89% accuracy</div>
+                                </div>
+                                <span class="comment-stance bull">📈 BULL</span>
+                                <span class="comment-time">1 day ago</span>
+                            </div>
+                            <div class="comment-text">
+                                <p>I've been tracking food-tech startups for 3 years. ContractPro has something most don't: <strong>a founder who actually understands the problem</strong>. The YC interview is huge. My position: $500 YES @ 58¢.</p>
+                            </div>
+                            <div class="comment-actions-row">
+                                <button class="comment-action">▲ 342</button>
+                                <button class="comment-action">▼ 12</button>
+                                <button class="comment-action">💬 23 replies</button>
+                            </div>
+                        </div>
+
+                        <div class="comment">
+                            <div class="comment-head">
+                                <div class="comment-avatar" style="background: linear-gradient(135deg, #ef4444, #f87171);"></div>
+                                <div class="comment-author-info">
+                                    <div class="comment-author-name">skeptic_steve</div>
+                                    <div class="comment-author-accuracy">72% accuracy</div>
+                                </div>
+                                <span class="comment-stance bear">📉 BEAR</span>
+                                <span class="comment-time">5 hours ago</span>
+                            </div>
+                            <div class="comment-text">
+                                <p>Unpopular opinion: This is a feature, not a company. Google, Samsung, and LG are all working on smart fridge integrations. What's the moat here? Holding my NO position.</p>
+                            </div>
+                            <div class="comment-actions-row">
+                                <button class="comment-action">▲ 67</button>
+                                <button class="comment-action">▼ 45</button>
+                                <button class="comment-action">💬 31 replies</button>
+                            </div>
+                        </div>
+
+                        <div class="comment">
+                            <div class="comment-head">
+                                <div class="comment-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
+                                <div class="comment-author-info">
+                                    <div class="comment-author-name">startup_sage</div>
+                                    <div class="comment-author-accuracy">84% accuracy</div>
+                                </div>
+                                <span class="comment-stance bull">📈 BULL</span>
+                                <span class="comment-time">3 hours ago</span>
+                            </div>
+                            <div class="comment-text">
+                                <p>Beta launch changes everything. 1,247 waitlist users is solid validation. The 94% ingredient accuracy is impressive — most food AI struggles to hit 80%. Adding 100 more YES.</p>
+                            </div>
+                            <div class="comment-actions-row">
+                                <button class="comment-action">▲ 89</button>
+                                <button class="comment-action">▼ 8</button>
+                                <button class="comment-action">💬 7 replies</button>
+                            </div>
+                        </div>
+
+                        <button class="load-more">Load more comments (47 remaining)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Make a Prediction -->
+                <div class="sidebar-card prediction-sidebar-card">
+                    <h3 class="pred-title">🎯 Make a Prediction</h3>
+
+                    <div class="betting-on-section">
+                        <svg class="bracket-svg" viewBox="0 0 24 100" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M24 0C10 2 6 10 6 20L6 80C6 90 10 98 24 100C12 96 10 90 10 80L10 20C10 10 12 4 24 0Z" fill="#00d4ff"/>
+                        </svg>
+                        <div class="betting-content">
+                            <div class="betting-label">BETTING ON</div>
+                            <div class="betting-question">Will ContractPro ship e-signature MVP by March 31, 2025?</div>
+                        </div>
+                    </div>
+
+                    <div class="yes-no-buttons">
+                        <div class="yn-btn yes active" onclick="selectBet('yes')">
+                            <div class="yn-label">YES</div>
+                            <div class="yn-price">Buy @ 68¢</div>
+                        </div>
+                        <div class="yn-btn no" onclick="selectBet('no')">
+                            <div class="yn-label">NO</div>
+                            <div class="yn-price">Buy @ 32¢</div>
+                        </div>
+                    </div>
+
+                    <div class="amount-section">
+                        <div class="amount-header">
+                            <span>Amount</span>
+                            <span class="balance">Balance: $1,247.00</span>
+                        </div>
+                        <div class="amount-input-wrapper">
+                            <span class="dollar-sign">$</span>
+                            <input type="number" class="amount-input-full" placeholder="0" id="betAmount">
+                        </div>
+                        <div class="quick-amounts-row">
+                            <button class="quick-amt" onclick="setAmount(10)">$10</button>
+                            <button class="quick-amt" onclick="setAmount(25)">$25</button>
+                            <button class="quick-amt" onclick="setAmount(50)">$50</button>
+                            <button class="quick-amt" onclick="setAmount(100)">$100</button>
+                        </div>
+                    </div>
+
+                    <button class="predict-btn" id="submitBtn" onclick="placeBet()">Predict YES</button>
+                </div>
+
+                <!-- Resolution Countdown -->
+                <div class="sidebar-card countdown-card">
+                    <h3>⏰ Resolution In</h3>
+                    <div class="countdown">
+                        <div class="countdown-item">
+                            <div class="countdown-value">47</div>
+                            <div class="countdown-label">DAYS</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-value">12</div>
+                            <div class="countdown-label">HOURS</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-value">34</div>
+                            <div class="countdown-label">MINS</div>
+                        </div>
+                    </div>
+                    <div class="countdown-date">March 31, 2025</div>
+                    <div class="countdown-question">Will ContractPro ship a working MVP?</div>
+                </div>
+
+                <!-- Milestones -->
+                <div class="sidebar-card">
+                    <h3>🏁 Milestones</h3>
+                    <div class="milestones">
+                        <div class="milestone completed">
+                            <div class="milestone-icon">✓</div>
+                            <div class="milestone-info">
+                                <div class="milestone-title">Idea Posted</div>
+                                <div class="milestone-date">Dec 1, 2024</div>
+                            </div>
+                        </div>
+                        <div class="milestone completed">
+                            <div class="milestone-icon">✓</div>
+                            <div class="milestone-info">
+                                <div class="milestone-title">Founder Goes Full-Time</div>
+                                <div class="milestone-date">Dec 8, 2024</div>
+                            </div>
+                        </div>
+                        <div class="milestone completed">
+                            <div class="milestone-icon">✓</div>
+                            <div class="milestone-info">
+                                <div class="milestone-title">YC Interview</div>
+                                <div class="milestone-date">Dec 15, 2024</div>
+                            </div>
+                        </div>
+                        <div class="milestone current">
+                            <div class="milestone-icon">●</div>
+                            <div class="milestone-info">
+                                <div class="milestone-title">Beta Launch</div>
+                                <div class="milestone-date">Dec 17, 2024</div>
+                            </div>
+                        </div>
+                        <div class="milestone pending">
+                            <div class="milestone-icon">○</div>
+                            <div class="milestone-info">
+                                <div class="milestone-title">MVP Ship (Resolution)</div>
+                                <div class="milestone-date">Mar 31, 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community -->
+                <div class="sidebar-card">
+                    <h3>👥 Community</h3>
+                    <div class="community-stats">
+                        <div class="community-stat">
+                            <div class="community-stat-value">2.4K</div>
+                            <div class="community-stat-label">Followers</div>
+                        </div>
+                        <div class="community-stat">
+                            <div class="community-stat-value">847</div>
+                            <div class="community-stat-label">Predictors</div>
+                        </div>
+                    </div>
+                    <h4 style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Top Predictors</h4>
+                    <div class="top-predictors">
+                        <div class="predictor-row">
+                            <div class="predictor-avatar" style="background: linear-gradient(135deg, #fbbf24, #f59e0b);"></div>
+                            <div class="predictor-info">
+                                <div class="predictor-name">crypto_whale</div>
+                                <div class="predictor-stance bull">📈 YES @ 58¢</div>
+                            </div>
+                            <div class="predictor-amount">$500</div>
+                        </div>
+                        <div class="predictor-row">
+                            <div class="predictor-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
+                            <div class="predictor-info">
+                                <div class="predictor-name">startup_sage</div>
+                                <div class="predictor-stance bull">📈 YES @ 52¢</div>
+                            </div>
+                            <div class="predictor-amount">$320</div>
+                        </div>
+                        <div class="predictor-row">
+                            <div class="predictor-avatar" style="background: linear-gradient(135deg, #ef4444, #f87171);"></div>
+                            <div class="predictor-info">
+                                <div class="predictor-name">skeptic_steve</div>
+                                <div class="predictor-stance bear">📉 NO @ 42¢</div>
+                            </div>
+                            <div class="predictor-amount">$200</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About -->
+                <div class="sidebar-card">
+                    <h3>ℹ️ About ContractPro</h3>
+                    <p class="about-preview">ContractPro lets freelancers create professional contracts in one click. Generate, send for e-signature, and track payments — all from one dashboard. Never chase invoices again.</p>
+                    <a href="#" class="about-link">View Full Pitch →</a>
+                </div>
+
+                <!-- Other Markets -->
+                <div class="sidebar-card">
+                    <h3>📊 Other Markets</h3>
+                    <div class="milestones" style="gap: 0.75rem;">
+                        <div class="milestone" style="cursor: pointer;">
+                            <div class="milestone-info" style="width: 100%;">
+                                <div class="milestone-title" style="font-size: 0.8rem;">Reach 10K users in month 1?</div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.25rem;">
+                                    <span style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent); font-weight: 700;">41% YES</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-muted);">$9.1K vol</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="milestone" style="cursor: pointer;">
+                            <div class="milestone-info" style="width: 100%;">
+                                <div class="milestone-title" style="font-size: 0.8rem;">Raise $500K+ seed by end of 2025?</div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.25rem;">
+                                    <span style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent); font-weight: 700;">28% YES</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-muted);">$5.2K vol</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </main>
+
+    <footer>
+        <p>Powered by Mariah™ · © 2025</p>
+    </footer>
+
+    <script>
+        let currentBet = 'yes';
+
+        function selectBet(side) {
+            currentBet = side;
+            document.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.yn-btn.' + side).classList.add('active');
+            document.getElementById('submitBtn').textContent = 'Predict ' + side.toUpperCase();
+        }
+
+        function setAmount(val) {
+            document.getElementById('betAmount').value = val;
+        }
+
+        function placeBet() {
+            const amount = document.getElementById('betAmount').value;
+            if (!amount) {
+                alert('Please enter an amount');
+                return;
+            }
+            alert(`🎯 Prediction placed!\n\n${currentBet.toUpperCase()} on ContractPro\n"Ship MVP by March 31?"\n\nAmount: $${amount}\n\n(Demo)`);
+        }
+    </script>
+</body>
+</html>
