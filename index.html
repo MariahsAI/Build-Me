@@ -9,21 +9,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0a0a0b;
-            --bg-secondary: #111113;
-            --bg-tertiary: #1a1a1d;
-            --bg-card: #141416;
+            --bg-primary: #0a0b14;
+            --bg-secondary: #0f1019;
+            --bg-tertiary: #161825;
+            --bg-card: #12131d;
             --text-primary: #fafafa;
             --text-secondary: #a0a0a5;
-            --text-muted: #606065;
-            --accent: #ff6b35;
-            --accent-glow: rgba(255, 107, 53, 0.3);
-            --accent-secondary: #ffb347;
-            --border: #2a2a2d;
-            --yes: #10b981;
-            --yes-glow: rgba(16, 185, 129, 0.3);
+            --text-muted: #606075;
+            --accent: #00d4ff;
+            --accent-glow: rgba(0, 212, 255, 0.3);
+            --accent-secondary: #00e5ff;
+            --border: #252836;
+            --yes: #00d4ff;
+            --yes-glow: rgba(0, 212, 255, 0.3);
             --no: #ef4444;
             --purple: #a855f7;
+            --pink: #f338c3;
             --font-sans: 'Instrument Sans', -apple-system, sans-serif;
             --font-mono: 'Space Mono', monospace;
         }
@@ -85,12 +86,13 @@
 
         .logo-icon {
             width: 32px; height: 32px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            background: linear-gradient(135deg, #00d4ff, #00b4d8);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1rem;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
         }
 
         .nav-links {
@@ -139,9 +141,10 @@
         }
 
         .btn-primary {
-            background: #ff6b35;
-            color: #ffffff !important;
+            background: linear-gradient(135deg, #00d4ff, #00b4d8);
+            color: #0a0b14 !important;
             font-weight: 600;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
         }
 
         .btn-secondary {
@@ -181,19 +184,20 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.5rem 1rem;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
             border-radius: 100px;
             font-size: 0.85rem;
-            color: var(--yes);
+            color: #00d4ff;
             margin-bottom: 2rem;
         }
 
         .hero-badge .live-dot {
             width: 8px; height: 8px;
-            background: var(--yes);
+            background: #00d4ff;
             border-radius: 50%;
             animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
         }
 
         .hero h1 {
@@ -206,7 +210,7 @@
         }
 
         .hero h1 .gradient {
-            background: linear-gradient(135deg, var(--yes), #34d399);
+            background: linear-gradient(135deg, #00d4ff, #00e5ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
