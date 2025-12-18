@@ -428,6 +428,237 @@
             color: var(--accent);
         }
 
+        /* Hero Video Placeholder */
+        .hero-video {
+            min-width: 380px;
+        }
+
+        .video-placeholder {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), var(--bg-card));
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-placeholder:hover {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), var(--bg-card));
+        }
+
+        .video-play-btn {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00d4ff, #a8edea);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--bg-primary);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .video-placeholder:hover .video-play-btn {
+            transform: scale(1.1);
+        }
+
+        .video-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .video-duration {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Sidebar Prediction Card */
+        .prediction-sidebar-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08), var(--bg-card));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .prediction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .prediction-header h3 {
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+
+        .live-badge-small {
+            font-size: 0.7rem;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .current-odds-mini {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .odds-label-mini {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .odds-value-mini {
+            font-family: var(--font-mono);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .odds-question-mini {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .trade-buttons-mini {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .trade-btn-mini {
+            padding: 0.75rem;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            background: var(--bg-secondary);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .trade-btn-mini.yes.active {
+            border-color: var(--accent);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .trade-btn-mini.no.active {
+            border-color: var(--no);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .outcome-mini {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .trade-btn-mini.yes .outcome-mini { color: var(--accent); }
+        .trade-btn-mini.no .outcome-mini { color: var(--no); }
+
+        .price-mini {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
+        }
+
+        .amount-row-mini {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .amount-input-mini {
+            flex: 1;
+            padding: 0.6rem 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        .amount-input-mini:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .quick-amounts-mini {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .quick-btn-mini {
+            padding: 0.6rem 0.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        .quick-btn-mini:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .submit-btn-mini {
+            width: 100%;
+            padding: 0.85rem;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            background: linear-gradient(135deg, #00d4ff, #a8edea);
+            color: #0a0b14;
+        }
+
+        .submit-btn-mini:hover {
+            transform: scale(1.02);
+        }
+
+        .countdown-mini-sidebar {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .countdown-mini-sidebar span {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .countdown-mini-sidebar strong {
+            font-family: var(--font-mono);
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+
         /* Content Area */
         .content-area {
             max-width: 1400px;
@@ -2428,44 +2659,11 @@
                 </div>
 
                 <!-- Quick Trade Panel -->
-                <div class="hero-trade">
-                    <div class="hero-trade-header">
-                        <h3>⚡ Make a Prediction</h3>
-                        <div class="live-badge">Live</div>
-                    </div>
-
-                    <div class="current-odds">
-                        <div class="odds-label">Current Probability</div>
-                        <div class="odds-value">73%</div>
-                        <div class="odds-question">Will FridgeChef ship MVP by March 31?</div>
-                    </div>
-
-                    <div class="trade-buttons">
-                        <div class="trade-btn yes active" onclick="selectBet('yes')">
-                            <div class="outcome">YES</div>
-                            <div class="price">Buy @ 73¢</div>
-                        </div>
-                        <div class="trade-btn no" onclick="selectBet('no')">
-                            <div class="outcome">NO</div>
-                            <div class="price">Buy @ 27¢</div>
-                        </div>
-                    </div>
-
-                    <div class="amount-row">
-                        <input type="number" class="amount-input" placeholder="$0" id="betAmount">
-                        <div class="quick-amounts">
-                            <button class="quick-btn" onclick="setAmount(25)">$25</button>
-                            <button class="quick-btn" onclick="setAmount(50)">$50</button>
-                            <button class="quick-btn" onclick="setAmount(100)">$100</button>
-                        </div>
-                    </div>
-
-                    <button class="submit-btn" id="submitBtn" onclick="placeBet()">Predict YES</button>
-
-                    <div class="countdown-mini">
-                        <span>Resolves in</span>
-                        <strong>47 days</strong>
-                        <span>· Mar 31, 2025</span>
+                <div class="hero-video">
+                    <div class="video-placeholder">
+                        <div class="video-play-btn">▶</div>
+                        <div class="video-label">Watch Sarah's Journey</div>
+                        <div class="video-duration">3:47</div>
                     </div>
                 </div>
             </div>
@@ -2757,6 +2955,48 @@
 
             <!-- Sidebar -->
             <div class="sidebar">
+                <!-- Make a Prediction -->
+                <div class="sidebar-card prediction-sidebar-card">
+                    <div class="prediction-header">
+                        <h3>⚡ Make a Prediction</h3>
+                        <div class="live-badge-small">● Live</div>
+                    </div>
+
+                    <div class="current-odds-mini">
+                        <div class="odds-label-mini">Current Probability</div>
+                        <div class="odds-value-mini">73%</div>
+                        <div class="odds-question-mini">Will FridgeChef ship MVP by March 31?</div>
+                    </div>
+
+                    <div class="trade-buttons-mini">
+                        <div class="trade-btn-mini yes active" onclick="selectBet('yes')">
+                            <div class="outcome-mini">YES</div>
+                            <div class="price-mini">Buy @ 73¢</div>
+                        </div>
+                        <div class="trade-btn-mini no" onclick="selectBet('no')">
+                            <div class="outcome-mini">NO</div>
+                            <div class="price-mini">Buy @ 27¢</div>
+                        </div>
+                    </div>
+
+                    <div class="amount-row-mini">
+                        <input type="number" class="amount-input-mini" placeholder="$0" id="betAmount">
+                        <div class="quick-amounts-mini">
+                            <button class="quick-btn-mini" onclick="setAmount(25)">$25</button>
+                            <button class="quick-btn-mini" onclick="setAmount(50)">$50</button>
+                            <button class="quick-btn-mini" onclick="setAmount(100)">$100</button>
+                        </div>
+                    </div>
+
+                    <button class="submit-btn-mini" id="submitBtn" onclick="placeBet()">Predict YES</button>
+
+                    <div class="countdown-mini-sidebar">
+                        <span>Resolves in</span>
+                        <strong>47 days</strong>
+                        <span>· Mar 31, 2025</span>
+                    </div>
+                </div>
+
                 <!-- Resolution Countdown -->
                 <div class="sidebar-card countdown-card">
                     <h3>⏰ Resolution In</h3>
