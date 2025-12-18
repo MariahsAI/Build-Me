@@ -9,23 +9,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0a0a0b;
-            --bg-secondary: #111113;
-            --bg-tertiary: #1a1a1d;
-            --bg-card: #141416;
+            --bg-primary: #0a0b14;
+            --bg-secondary: #0f1019;
+            --bg-tertiary: #161825;
+            --bg-card: #12131d;
             --text-primary: #fafafa;
             --text-secondary: #a0a0a5;
-            --text-muted: #606065;
-            --accent: #ff6b35;
-            --accent-glow: rgba(255, 107, 53, 0.3);
-            --accent-secondary: #ffb347;
-            --border: #2a2a2d;
-            --yes: #10b981;
-            --yes-glow: rgba(16, 185, 129, 0.3);
+            --text-muted: #606075;
+            --accent: #00d4ff;
+            --accent-glow: rgba(0, 212, 255, 0.3);
+            --accent-secondary: #00e5ff;
+            --border: #252836;
+            --yes: #00d4ff;
+            --yes-glow: rgba(0, 212, 255, 0.3);
             --no: #ef4444;
             --no-glow: rgba(239, 68, 68, 0.3);
             --purple: #a855f7;
             --blue: #3b82f6;
+            --pink: #f338c3;
             --font-sans: 'Instrument Sans', -apple-system, sans-serif;
             --font-mono: 'Space Mono', monospace;
         }
@@ -67,7 +68,7 @@
 
         .logo-icon {
             width: 32px; height: 32px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            background: linear-gradient(135deg, #00d4ff, #00b4d8); box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -120,9 +121,10 @@
         }
 
         .btn-primary {
-            background: #ff6b35;
-            color: #ffffff !important;
+            background: linear-gradient(135deg, #00d4ff, #00b4d8);
+            color: #0a0b14 !important;
             font-weight: 600;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
         }
 
         /* Main Layout */
@@ -764,7 +766,7 @@
             width: 28px;
             height: 28px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            background: linear-gradient(135deg, #00d4ff, #00b4d8); box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
         }
 
         .pitch-date {
@@ -933,7 +935,7 @@
         .app-icon {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            background: linear-gradient(135deg, #00d4ff, #00b4d8); box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
             border-radius: 16px;
             display: flex;
             align-items: center;
@@ -991,7 +993,7 @@
         .demo-btn {
             width: 100%;
             padding: 0.875rem;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            background: linear-gradient(135deg, #00d4ff, #00b4d8); box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
             border: none;
             border-radius: 10px;
             color: white;
@@ -1244,9 +1246,9 @@
             Build Me
         </a>
         <div class="nav-links">
-            <a href="index.html">Markets</a>
+            
             <a href="browse.html">Browse Ideas</a>
-            <a href="submit.html">Submit Idea</a>
+            <a href="card1.html">My Predictions</a>
             <div class="nav-balance">
                 <span>Balance:</span>
                 <span class="nav-balance-amount">$1,247.00</span>
